@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;">
-<title>M-AI Pro·</title>
+<title>M-AI Pro </title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -34,6 +34,10 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{height:100%;height:-webkit-fill-available}
+
+/* =====================================================
+   BODY — ROOT FIX: use flex column, no fixed positioning
+   ===================================================== */
 body{
   font-family:var(--font-main);
   background:var(--bg);
@@ -44,9 +48,8 @@ body{
   height:-webkit-fill-available;
   overflow:hidden;
   transition:background .3s,color .3s;
-  /* Fix for iOS keyboard push */
-  position:fixed;
   width:100%;
+  /* REMOVED position:fixed — it breaks scrolling on mobile */
 }
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 15% 20%,rgba(79,209,197,0.06) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(129,140,248,0.06) 0%,transparent 50%);pointer-events:none;z-index:0}
 
@@ -83,7 +86,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .mode-tab[data-mode="pdf"].active{background:linear-gradient(135deg,#ef4444,#f97316)}
 .mode-tab i{font-size:10px}
 
-/* CHAT WRAP — CRITICAL for mobile */
+/* =====================================================
+   CHAT WRAP — CRITICAL LAYOUT FIX
+   ===================================================== */
 .chat-wrap{
   flex:1;
   overflow:hidden;
@@ -91,7 +96,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   z-index:1;
   display:flex;
   flex-direction:column;
-  min-height:0; /* crucial for flex children to scroll */
+  min-height:0;
 }
 #chatMode{
   flex:1;
@@ -99,6 +104,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   flex-direction:column;
   min-height:0;
   height:100%;
+  overflow:hidden;
 }
 .chat-container{
   flex:1;
@@ -110,6 +116,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   gap:12px;
   scroll-behavior:smooth;
   overscroll-behavior-y:contain;
+  /* CRITICAL: allow content to scroll */
+  min-height:0;
 }
 .chat-container::-webkit-scrollbar{width:3px}
 .chat-container::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
@@ -178,7 +186,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .chip:hover,.chip:active{border-color:var(--border2);color:var(--accent);background:rgba(79,209,197,0.07);transform:translateY(-1px)}
 
 /* IMAGE GENERATION */
-.img-gen-panel{padding:14px;display:flex;flex-direction:column;gap:11px;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.img-gen-panel{padding:14px;display:flex;flex-direction:column;gap:11px;height:100%;overflow-y:auto}
 .ig-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px}
 .ig-title i{color:var(--accent4)}
 .ig-prompt-wrap{display:flex;flex-direction:column;gap:7px}
@@ -305,7 +313,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .remove-preview-btn{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:var(--danger);width:24px;height:24px;border-radius:7px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto}
 
 /* =====================================================
-   INPUT — MOBILE CRITICAL FIX
+   INPUT SHELL — CRITICAL FIX FOR VISIBILITY & LAYOUT
    ===================================================== */
 .input-shell{
   background:var(--header-bg);
@@ -317,10 +325,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   z-index:10;
   flex-shrink:0;
   width:100%;
+  /* REMOVED display:none default — always show for chat */
 }
 .input-row{
   display:flex;
-  align-items:flex-end; /* align to bottom for multiline */
+  align-items:flex-end;
   gap:6px;
   background:var(--input-bg);
   border:1.5px solid var(--border);
@@ -353,29 +362,49 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .input-tool-btn:hover{color:var(--accent);background:rgba(79,209,197,.08)}
 .voice-btn:hover{color:var(--danger)!important;background:rgba(239,68,68,.08)!important}
 .voice-btn.active{color:var(--danger)!important;background:rgba(239,68,68,.1)!important}
+
+/* =====================================================
+   TEXTAREA — CRITICAL FIX: text must be visible
+   ===================================================== */
 #userInput{
   flex:1;
-  background:none;
-  border:none;
-  outline:none;
-  color:var(--text);
+  background:transparent !important;
+  border:none !important;
+  outline:none !important;
+  /* CRITICAL: explicit color so text is always visible */
+  color:var(--text) !important;
+  -webkit-text-fill-color:var(--text) !important;
   font-family:var(--font-main);
-  font-size:14px; /* slightly larger for mobile readability */
+  font-size:14px;
   resize:none;
   max-height:120px;
   min-height:36px;
   line-height:1.5;
   padding:6px 0;
-  /* prevent iOS zoom on focus */
   -webkit-text-size-adjust:100%;
   align-self:center;
   width:100%;
+  /* Remove any webkit autofill coloring */
+  caret-color:var(--accent);
 }
-#userInput::placeholder{color:var(--muted);font-size:13px}
-/* Prevent iOS from zooming on input focus — font-size must be ≥16px OR we set explicitly */
+#userInput::placeholder{
+  color:var(--muted) !important;
+  -webkit-text-fill-color:var(--muted) !important;
+  font-size:13px;
+  opacity:1;
+}
+/* iOS autofill fix */
+#userInput:-webkit-autofill,
+#userInput:-webkit-autofill:hover,
+#userInput:-webkit-autofill:focus{
+  -webkit-text-fill-color:var(--text) !important;
+  -webkit-box-shadow:0 0 0px 1000px var(--input-bg) inset !important;
+  caret-color:var(--accent);
+}
 @media (max-width: 768px) {
   #userInput{font-size:16px} /* prevents iOS auto-zoom */
 }
+
 .send-btn{
   width:36px;
   height:36px;
@@ -489,7 +518,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
    ===================================================== */
 @media (max-width: 480px) {
   .header{height:50px;padding:0 11px}
-  .brand-text span{display:none} /* hide subtitle on small screens */
+  .brand-text span{display:none}
   .mode-bar{padding:0 10px;gap:4px;height:38px}
   .mode-tab{padding:4px 9px;font-size:9.5px}
   .chat-container{padding:12px 10px 6px;gap:10px}
@@ -797,6 +826,8 @@ Coding guidelines:
 - Use proper markdown code blocks with language specified
 - Include all necessary imports and setup
 - Add explanatory comments in Bengali when helpful
+- For large projects write the full complete code in one file or multiple files as needed
+- Never truncate or shorten code — always write 100% complete working code
 
 Language: Respond in Bengali (বাংলা) unless user writes in another language.
 Formatting: Use markdown properly (headers, lists, bold, tables, code blocks).
@@ -851,13 +882,17 @@ const voiceBtn      = document.getElementById('voiceBtn');
 const voiceIndicator= document.getElementById('voiceIndicator');
 const tokenInfoEl   = document.getElementById('tokenInfo');
 
-// ===== MOBILE: handle virtual keyboard resize =====
-// On iOS/Android the viewport shrinks when keyboard opens.
-// We listen for visualViewport changes if available.
+// ===== MOBILE: handle virtual keyboard =====
+// Use visualViewport API to handle keyboard open/close
 if (window.visualViewport) {
+  let lastHeight = window.visualViewport.height;
   window.visualViewport.addEventListener('resize', () => {
-    // scroll chat to bottom when keyboard opens
-    setTimeout(scrollDown, 100);
+    const newHeight = window.visualViewport.height;
+    if (newHeight < lastHeight) {
+      // Keyboard opened — scroll to bottom
+      setTimeout(scrollDown, 150);
+    }
+    lastHeight = newHeight;
   });
 }
 
@@ -923,13 +958,15 @@ function switchMode(mode) {
     if (el) el.style.display = 'none';
   });
   const activeEl = document.getElementById(mode + 'Mode');
-  if (activeEl) activeEl.style.display = 'block';
+  if (activeEl) activeEl.style.display = mode === 'chat' ? 'flex' : 'block';
+  // Show/hide input shell
   document.getElementById('inputShell').style.display = mode === 'chat' ? 'block' : 'none';
   previewBar.classList.remove('show');
+  if (mode === 'chat') {
+    setTimeout(scrollDown, 100);
+    setTimeout(() => inputEl.focus(), 200);
+  }
 }
-
-// Fix: set chatMode flex layout (overrides display:block from switchMode)
-document.getElementById('chatMode').style.cssText = 'flex:1;display:flex;flex-direction:column;min-height:0;height:100%;overflow:hidden;';
 
 // ===== IMAGE PREVIEW =====
 imgInput.addEventListener('change', e => {
@@ -970,7 +1007,7 @@ inputEl.addEventListener('keydown', e => {
 });
 sendEl.addEventListener('click', sendMessage);
 
-// Mobile: focus input scrolls chat to bottom
+// Focus → scroll chat down (mobile keyboard pushes content)
 inputEl.addEventListener('focus', () => {
   setTimeout(scrollDown, 350);
 });
@@ -1071,7 +1108,7 @@ async function fetchAI() {
       body: JSON.stringify({
         model: OR_MODEL,
         messages: [{ role: "system", content: SYSTEM_PROMPT }, ...conversationHistory],
-        max_tokens: 3000,
+        max_tokens: 8000,
         temperature: 0.85,
         stream: true
       })
@@ -1361,7 +1398,6 @@ async function doWebSearch() {
   out.innerHTML = `<div class="ws-loading"><div class="ws-spinner"></div><span>সার্চ করছি...</span></div>`;
 
   try {
-    // Use allorigins CORS proxy to access DuckDuckGo API
     const apiUrl = 'https://api.duckduckgo.com/?q=' + encodeURIComponent(q) + '&format=json&no_html=1&skip_disambig=1';
     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
     const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(9000) });
@@ -1791,11 +1827,6 @@ function submitPayment() {
   } catch (e) { console.warn('Firebase write failed:', e); }
   goTo(4);
 }
-
-// ===== GITHUB PAGES: no .htaccess needed, single HTML file =====
-// All APIs used (OpenRouter, Open-Meteo, Pollinations, allorigins) support CORS from any origin.
-// Firebase Realtime Database also works from browser.
-// No server-side config needed for static hosting.
 </script>
 </body>
 </html>
