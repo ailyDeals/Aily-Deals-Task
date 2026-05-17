@@ -1,233 +1,1613 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="bn" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>C2C Pro - Premium All-in-One</title>
-    
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;">
+<title>M-AI Pro·</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" id="hljs-theme">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+[data-theme="dark"]{
+  --bg:#050810;--surface:#0a0f1a;--surface2:#0f1623;--surface3:#141d2e;--surface4:#1a2540;
+  --border:rgba(79,209,197,0.1);--border2:rgba(79,209,197,0.22);
+  --text:#e8f0fe;--text2:#a8bbd0;--muted:#4a6080;
+  --bubble-ai:#0c1420;--bubble-ai-border:rgba(79,209,197,0.13);
+  --input-bg:#0c1420;--header-bg:rgba(5,8,16,0.96);--shadow:rgba(0,0,0,0.5);
+}
+[data-theme="light"]{
+  --bg:#f0f5ff;--surface:#ffffff;--surface2:#f5f8ff;--surface3:#e8efff;--surface4:#dde7ff;
+  --border:rgba(99,102,241,0.15);--border2:rgba(99,102,241,0.3);
+  --text:#0f172a;--text2:#475569;--muted:#94a3b8;
+  --bubble-ai:#ffffff;--bubble-ai-border:rgba(99,102,241,0.15);
+  --input-bg:#ffffff;--header-bg:rgba(240,245,255,0.96);--shadow:rgba(99,102,241,0.1);
+}
+:root{
+  --accent:#4fd1c5;--accent2:#818cf8;--accent3:#34d399;--accent4:#f472b6;--accent5:#fb923c;
+  --user-bubble:linear-gradient(135deg,#3b82f6 0%,#6366f1 60%,#8b5cf6 100%);
+  --danger:#ef4444;--gold:#f59e0b;
+  --font-main:'Space Grotesk','Noto Sans Bengali',sans-serif;
+  --font-code:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--font-main);background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100vh;transition:background .3s,color .3s}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 15% 20%,rgba(79,209,197,0.06) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(129,140,248,0.06) 0%,transparent 50%);pointer-events:none;z-index:0}
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
-        body { background: #f4f7fe; font-family: 'Hind Siliguri', sans-serif; user-select: none; margin: 0; padding: 0; }
-        .premium-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; border-radius: 24px; }
-        .input-field { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; width: 100%; outline: none; }
-        .btn-gradient { background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); color: white; font-weight: bold; padding: 12px; border-radius: 12px; width: 100%; }
-        #timer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; color: white; }
-        .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border-top: 1px solid #e2e8f0; }
-        .hidden { display: none; }
-    </style>
+/* HEADER */
+.header{position:relative;z-index:10;background:var(--header-bg);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:0 14px;height:60px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.brand{display:flex;align-items:center;gap:9px}
+.logo-wrap{width:36px;height:36px;flex-shrink:0;background:linear-gradient(135deg,#4fd1c5,#818cf8);border-radius:11px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(79,209,197,0.35);position:relative;overflow:hidden}
+.logo-wrap::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,0.15) 50%,transparent 70%);animation:shimmer 3s ease-in-out infinite}
+@keyframes shimmer{0%{transform:translateX(-100%) translateY(-100%)}100%{transform:translateX(100%) translateY(100%)}}
+.logo-wrap i{font-size:15px;color:#fff;position:relative;z-index:1}
+.brand-text h1{font-size:14px;font-weight:700;letter-spacing:-.3px}
+.brand-text span{font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;display:block;margin-top:1px}
+.header-right{display:flex;align-items:center;gap:7px}
+.status-dot{width:7px;height:7px;background:var(--accent3);border-radius:50%;box-shadow:0 0 8px var(--accent3);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.limit-pill{background:var(--surface2);border:1px solid var(--border);padding:4px 10px;border-radius:30px;font-size:10px;font-weight:600;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:4px;transition:.2s}
+.limit-pill:hover{border-color:var(--border2)}
+.limit-pill.pro-mode{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(249,115,22,.1));border-color:rgba(245,158,11,.35);color:var(--gold)}
+.icon-btn{width:32px;height:32px;border-radius:9px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.icon-btn:hover{color:var(--accent);border-color:var(--border2)}
+.new-chat-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:5px 10px;border-radius:8px;font-size:10px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.2s;font-family:var(--font-main);font-weight:500}
+.new-chat-btn:hover{color:var(--accent);border-color:var(--border2)}
+
+/* MODE TABS */
+.mode-bar{position:relative;z-index:9;background:var(--header-bg);border-bottom:1px solid var(--border);padding:0 14px;display:flex;align-items:center;gap:6px;height:42px;flex-shrink:0;overflow-x:auto}
+.mode-bar::-webkit-scrollbar{display:none}
+.mode-tab{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid transparent;transition:.2s;white-space:nowrap;color:var(--muted);background:none;font-family:var(--font-main)}
+.mode-tab:hover{color:var(--text);background:var(--surface2);border-color:var(--border)}
+.mode-tab.active{color:#fff;border-color:transparent}
+.mode-tab[data-mode="chat"].active{background:linear-gradient(135deg,#3b82f6,#6366f1)}
+.mode-tab[data-mode="image"].active{background:linear-gradient(135deg,#f472b6,#fb923c)}
+.mode-tab[data-mode="search"].active{background:linear-gradient(135deg,#4fd1c5,#818cf8)}
+.mode-tab[data-mode="weather"].active{background:linear-gradient(135deg,#fb923c,#f59e0b)}
+.mode-tab[data-mode="pdf"].active{background:linear-gradient(135deg,#ef4444,#f97316)}
+.mode-tab i{font-size:11px}
+
+/* CHAT */
+.chat-wrap{flex:1;overflow:hidden;position:relative;z-index:1}
+.chat-container{height:100%;overflow-y:auto;padding:18px 12px 12px;display:flex;flex-direction:column;gap:13px;scroll-behavior:smooth}
+.chat-container::-webkit-scrollbar{width:3px}
+.chat-container::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* MESSAGES */
+.msg-row{display:flex;gap:8px;align-items:flex-start;animation:fadeUp .28s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.msg-row.user{flex-direction:row-reverse}
+.avatar{width:30px;height:30px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:2px}
+.avatar.ai-av{background:linear-gradient(135deg,#4fd1c5,#818cf8);color:#fff;box-shadow:0 0 12px rgba(79,209,197,0.25)}
+.avatar.user-av{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff}
+.bubble-wrap{display:flex;flex-direction:column;gap:4px;max-width:calc(100% - 60px)}
+.bubble{padding:11px 14px;border-radius:15px;font-size:13px;line-height:1.8;word-break:break-word}
+.bubble.ai-bubble{background:var(--bubble-ai);border:1px solid var(--bubble-ai-border);border-top-left-radius:4px;color:var(--text);box-shadow:0 2px 10px rgba(0,0,0,0.12)}
+.bubble.user-bubble{background:var(--user-bubble);border-top-right-radius:4px;color:#fff;box-shadow:0 4px 16px rgba(59,130,246,0.28)}
+.bubble img.msg-img{max-width:100%;max-height:200px;border-radius:10px;margin-bottom:6px;display:block;object-fit:cover}
+.bubble .msg-text{white-space:pre-wrap}
+.bubble h1,.bubble h2,.bubble h3{font-weight:600;margin:10px 0 5px;color:var(--accent)}
+.bubble h1{font-size:16px}.bubble h2{font-size:14px}.bubble h3{font-size:13px}
+.bubble ul,.bubble ol{margin:5px 0 5px 18px}
+.bubble li{margin:3px 0}
+.bubble strong{font-weight:600}
+.bubble em{font-style:italic;color:var(--text2)}
+.bubble blockquote{border-left:3px solid var(--accent2);padding:6px 12px;margin:8px 0;background:rgba(129,140,248,0.06);border-radius:0 8px 8px 0;color:var(--text2)}
+.bubble table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
+.bubble th,.bubble td{border:1px solid var(--border2);padding:7px 10px;text-align:left}
+.bubble th{background:rgba(79,209,197,0.1);color:var(--accent);font-weight:600}
+
+/* CODE */
+.bubble pre{background:#060d1a;border:1px solid rgba(79,209,197,0.15);border-radius:11px;overflow:hidden;margin:9px 0}
+[data-theme="light"] .bubble pre{background:#1a2030}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(79,209,197,0.1)}
+.code-lang{font-size:9px;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.8px;display:flex;align-items:center;gap:5px}
+.code-copy{background:none;border:1px solid rgba(79,209,197,0.2);color:var(--muted);padding:2px 8px;border-radius:5px;font-size:9px;cursor:pointer;transition:.2s;font-family:var(--font-main)}
+.code-copy:hover{border-color:var(--accent);color:var(--accent)}
+.code-copy.copied{border-color:var(--accent3);color:var(--accent3)}
+.bubble pre code{padding:13px!important;display:block;overflow-x:auto;font-size:11.5px;line-height:1.65;background:none!important;font-family:var(--font-code)}
+.bubble code:not(pre code){background:rgba(79,209,197,0.1);border:1px solid rgba(79,209,197,0.2);border-radius:4px;padding:1px 5px;font-family:var(--font-code);font-size:11.5px;color:var(--accent)}
+
+/* MSG ACTIONS */
+.msg-actions{display:flex;gap:4px;opacity:0;transition:.15s;flex-wrap:wrap}
+.msg-row.user .msg-actions{justify-content:flex-end}
+.msg-row:hover .msg-actions{opacity:1}
+.action-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:2px 8px;border-radius:6px;font-size:9px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:3px;font-family:var(--font-main)}
+.action-btn:hover{color:var(--accent);border-color:var(--border2)}
+.action-btn.done{color:var(--accent3);border-color:var(--accent3)}
+.msg-time{font-size:9px;color:var(--muted);padding:0 2px;align-self:center}
+
+/* TYPING */
+.typing-dots span{display:inline-block;width:5px;height:5px;background:var(--accent);border-radius:50%;margin:0 2px;animation:dot 1.3s infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes dot{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-6px);opacity:1}}
+.typing-label{font-size:10px;color:var(--muted);font-style:italic;margin-left:6px}
+
+/* WELCOME */
+.welcome-wrap{display:flex;justify-content:center;align-items:center;min-height:100%;padding:16px}
+.welcome-card{background:var(--surface2);border:1px solid var(--border);border-radius:22px;padding:24px 20px;text-align:center;max-width:360px;width:100%;position:relative;overflow:hidden}
+.welcome-card::before{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(79,209,197,0.08) 0%,transparent 70%);pointer-events:none}
+.wc-icon-wrap{width:56px;height:56px;margin:0 auto 13px;background:linear-gradient(135deg,rgba(79,209,197,0.15),rgba(129,140,248,0.15));border:1px solid var(--border2);border-radius:17px;display:flex;align-items:center;justify-content:center}
+.wc-icon{font-size:25px;background:linear-gradient(135deg,#4fd1c5,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.welcome-card h2{font-size:17px;font-weight:700;margin-bottom:5px}
+.welcome-card p{font-size:11px;color:var(--text2);line-height:1.7}
+.welcome-card p strong{color:var(--accent)}
+.suggest-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:13px}
+.chip{background:var(--surface3);border:1px solid var(--border);padding:5px 11px;border-radius:30px;font-size:10px;color:var(--text2);cursor:pointer;transition:.2s;display:flex;align-items:center;gap:4px}
+.chip:hover{border-color:var(--border2);color:var(--accent);background:rgba(79,209,197,0.07);transform:translateY(-1px)}
+
+/* IMAGE GENERATION */
+.img-gen-panel{padding:16px;display:flex;flex-direction:column;gap:12px;height:100%;overflow-y:auto}
+.ig-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px}
+.ig-title i{color:var(--accent4)}
+.ig-prompt-wrap{display:flex;flex-direction:column;gap:8px}
+.ig-textarea{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:11px;padding:12px;color:var(--text);font-family:var(--font-main);font-size:13px;resize:none;outline:none;min-height:80px;transition:.2s}
+.ig-textarea:focus{border-color:var(--border2)}
+.ig-textarea::placeholder{color:var(--muted)}
+.ig-controls{display:flex;gap:8px;flex-wrap:wrap}
+.ig-select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:var(--font-main);font-size:11px;outline:none;cursor:pointer;flex:1;min-width:100px}
+.ig-btn{background:linear-gradient(135deg,#f472b6,#fb923c);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.2s;font-family:var(--font-main);white-space:nowrap}
+.ig-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(244,114,182,0.35)}
+.ig-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.ig-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:4px}
+.ig-img-wrap{border-radius:12px;overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:1;cursor:pointer;transition:.2s}
+.ig-img-wrap:hover{transform:scale(1.02);border-color:var(--border2)}
+.ig-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.ig-img-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;gap:10px;opacity:0;transition:.2s}
+.ig-img-wrap:hover .ig-img-overlay{opacity:1}
+.ig-overlay-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:.2s}
+.ig-overlay-btn:hover{background:rgba(255,255,255,0.25)}
+.ig-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:30px;color:var(--muted)}
+.ig-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent4);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ig-prompt-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.ig-tag{background:var(--surface3);border:1px solid var(--border);padding:3px 9px;border-radius:20px;font-size:9px;color:var(--text2);cursor:pointer;transition:.2s}
+.ig-tag:hover{border-color:var(--accent4);color:var(--accent4)}
+
+/* WEATHER */
+.weather-panel{padding:16px;height:100%;overflow-y:auto}
+.weather-search-row{display:flex;gap:8px;margin-bottom:14px}
+.weather-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;color:var(--text);font-family:var(--font-main);font-size:13px;outline:none;transition:.2s}
+.weather-input:focus{border-color:var(--border2)}
+.weather-input::placeholder{color:var(--muted)}
+.weather-btn{background:linear-gradient(135deg,#fb923c,#f59e0b);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:.2s;font-family:var(--font-main);white-space:nowrap}
+.weather-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(251,146,60,0.35)}
+.weather-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px;position:relative;overflow:hidden}
+.weather-card::before{content:'';position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.1),transparent 70%);pointer-events:none}
+.wc-city{font-size:20px;font-weight:700;margin-bottom:3px}
+.wc-country{font-size:11px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:5px}
+.wc-main{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.wc-temp{font-size:52px;font-weight:700;color:var(--accent5);line-height:1}
+.wc-icon-big{font-size:44px;line-height:1}
+.wc-desc{font-size:14px;color:var(--text2);margin-top:4px;font-weight:500}
+.wc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.wc-stat{background:var(--surface3);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.wc-stat-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.wc-stat-val{font-size:16px;font-weight:600;color:var(--text)}
+.wc-forecast{margin-top:12px}
+.wc-forecast-title{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.wc-forecast-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.wc-forecast-row::-webkit-scrollbar{display:none}
+.wc-day{background:var(--surface3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;text-align:center;min-width:64px;flex-shrink:0}
+.wc-day-name{font-size:9px;color:var(--muted);margin-bottom:5px}
+.wc-day-icon{font-size:20px;margin-bottom:4px}
+.wc-day-temp{font-size:12px;font-weight:600}
+.weather-empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.weather-empty i{font-size:40px;opacity:.25;display:block;margin-bottom:12px}
+.weather-empty p{font-size:12px}
+.weather-recent{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.weather-recent-tag{background:var(--surface2);border:1px solid var(--border);padding:4px 10px;border-radius:20px;font-size:10px;color:var(--text2);cursor:pointer;transition:.2s}
+.weather-recent-tag:hover{border-color:var(--accent5);color:var(--accent5)}
+
+/* WEB SEARCH */
+.search-panel{padding:16px;height:100%;overflow-y:auto}
+.ws-search-row{display:flex;gap:8px;margin-bottom:14px}
+.ws-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;color:var(--text);font-family:var(--font-main);font-size:13px;outline:none;transition:.2s}
+.ws-input:focus{border-color:var(--border2)}
+.ws-input::placeholder{color:var(--muted)}
+.ws-btn{background:linear-gradient(135deg,#4fd1c5,#818cf8);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:.2s;font-family:var(--font-main);white-space:nowrap}
+.ws-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(79,209,197,0.3)}
+.ws-results{display:flex;flex-direction:column;gap:10px}
+.ws-result-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:13px 15px;cursor:pointer;transition:.2s;text-decoration:none;display:block}
+.ws-result-card:hover{border-color:var(--border2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+.ws-result-source{font-size:9px;color:var(--accent);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.ws-result-source i{font-size:8px}
+.ws-result-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:5px;line-height:1.4}
+.ws-result-desc{font-size:11px;color:var(--text2);line-height:1.6}
+.ws-ai-answer{background:rgba(79,209,197,0.06);border:1px solid rgba(79,209,197,0.2);border-radius:12px;padding:14px;margin-bottom:12px}
+.ws-ai-label{font-size:9px;color:var(--accent);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.ws-ai-text{font-size:12px;color:var(--text);line-height:1.7}
+.ws-empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.ws-empty i{font-size:40px;opacity:.25;display:block;margin-bottom:12px}
+.ws-loading{display:flex;align-items:center;gap:10px;padding:16px;color:var(--muted);font-size:12px}
+.ws-spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+
+/* PDF */
+.pdf-panel{padding:16px;height:100%;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.pdf-drop-zone{border:2px dashed var(--border2);border-radius:14px;padding:32px;text-align:center;cursor:pointer;transition:.2s;background:var(--surface2)}
+.pdf-drop-zone:hover,.pdf-drop-zone.drag-over{border-color:var(--danger);background:rgba(239,68,68,0.05)}
+.pdf-drop-icon{font-size:36px;color:var(--danger);margin-bottom:10px;opacity:.7}
+.pdf-drop-title{font-size:14px;font-weight:600;margin-bottom:5px}
+.pdf-drop-sub{font-size:11px;color:var(--muted)}
+.pdf-file-label{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;border:none;border-radius:9px;padding:8px 16px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font-main);margin-top:10px;display:inline-block;transition:.2s}
+.pdf-file-label:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(239,68,68,0.3)}
+.pdf-loaded-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:12px}
+.pdf-icon-big{width:42px;height:42px;background:rgba(239,68,68,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pdf-icon-big i{color:var(--danger);font-size:18px}
+.pdf-info .pdf-name{font-size:12px;font-weight:600;color:var(--text)}
+.pdf-info .pdf-size{font-size:10px;color:var(--muted);margin-top:3px}
+.pdf-remove{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:var(--danger);width:28px;height:28px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;margin-left:auto;transition:.2s}
+.pdf-remove:hover{background:rgba(239,68,68,0.2)}
+.pdf-content-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;max-height:200px;overflow-y:auto;font-size:11px;line-height:1.7;color:var(--text2)}
+.pdf-content-box::-webkit-scrollbar{width:3px}
+.pdf-content-box::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.pdf-ask-row{display:flex;gap:8px}
+.pdf-ask-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;color:var(--text);font-family:var(--font-main);font-size:13px;outline:none;transition:.2s}
+.pdf-ask-input:focus{border-color:var(--border2)}
+.pdf-ask-input::placeholder{color:var(--muted)}
+.pdf-ask-btn{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:.2s;font-family:var(--font-main);white-space:nowrap}
+.pdf-ask-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(239,68,68,0.3)}
+.pdf-answer{background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:13px;font-size:12px;line-height:1.7;color:var(--text)}
+.pdf-stats{display:flex;gap:8px;flex-wrap:wrap}
+.pdf-stat{background:var(--surface3);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:10px;color:var(--text2);display:flex;align-items:center;gap:5px}
+.pdf-stat i{color:var(--danger);font-size:9px}
+
+/* TOAST */
+.toast-container{position:fixed;top:110px;right:14px;z-index:200;display:flex;flex-direction:column;gap:6px}
+.toast{background:var(--surface2);border:1px solid var(--border);padding:9px 13px;border-radius:10px;font-size:11px;color:var(--text);display:flex;align-items:center;gap:7px;box-shadow:0 4px 18px rgba(0,0,0,0.25);animation:toastIn .3s cubic-bezier(.16,1,.3,1);max-width:220px}
+.toast.success{border-color:rgba(52,211,153,.3)}
+.toast.error{border-color:rgba(239,68,68,.3)}
+.toast.info{border-color:rgba(79,209,197,.3)}
+@keyframes toastIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}
+
+/* VOICE */
+.voice-indicator{display:none;background:rgba(239,68,68,0.07);border-top:1px solid rgba(239,68,68,.2);padding:8px 14px;align-items:center;gap:10px;flex-shrink:0}
+.voice-indicator.show{display:flex}
+.voice-bars{display:flex;align-items:center;gap:2px}
+.vb{width:3px;background:var(--danger);border-radius:2px;animation:vbar .8s ease-in-out infinite alternate}
+.vb:nth-child(1){height:8px;animation-delay:0s}.vb:nth-child(2){height:16px;animation-delay:.1s}.vb:nth-child(3){height:12px;animation-delay:.2s}.vb:nth-child(4){height:20px;animation-delay:.3s}.vb:nth-child(5){height:10px;animation-delay:.4s}
+@keyframes vbar{from{height:4px;opacity:.4}to{opacity:1}}
+.voice-indicator span{font-size:11px;color:var(--danger);flex:1}
+.voice-cancel{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:var(--danger);padding:4px 10px;border-radius:7px;font-size:10px;cursor:pointer;font-family:var(--font-main)}
+
+/* PREVIEW */
+.preview-bar{display:none;background:var(--surface2);border-top:1px solid var(--border);padding:7px 13px;align-items:center;gap:9px;z-index:5;flex-shrink:0}
+.preview-bar.show{display:flex}
+.preview-thumb{width:38px;height:38px;border-radius:8px;object-fit:cover;border:2px solid var(--border2)}
+.preview-info .pi-name{font-size:11px;font-weight:500}.preview-info .pi-size{font-size:9px;color:var(--muted)}
+.remove-preview-btn{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:var(--danger);width:24px;height:24px;border-radius:7px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto}
+
+/* INPUT */
+.input-shell{background:var(--header-bg);backdrop-filter:blur(24px);border-top:1px solid var(--border);padding:9px 12px;z-index:10;flex-shrink:0}
+.input-row{display:flex;align-items:center;gap:7px;background:var(--input-bg);border:1px solid var(--border);border-radius:14px;padding:6px 6px 6px 12px;transition:.25s;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.input-row:focus-within{border-color:rgba(79,209,197,.4);box-shadow:0 0 0 3px rgba(79,209,197,.06),0 2px 10px rgba(0,0,0,.1)}
+.input-tool-btn{background:none;border:none;color:var(--muted);font-size:14px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:7px;transition:.2s;flex-shrink:0}
+.input-tool-btn:hover{color:var(--accent);background:rgba(79,209,197,.08)}
+.voice-btn:hover{color:var(--danger)!important;background:rgba(239,68,68,.08)!important}
+.voice-btn.active{color:var(--danger)!important;background:rgba(239,68,68,.1)!important}
+#userInput{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:var(--font-main);font-size:13px;resize:none;max-height:100px;line-height:1.6}
+#userInput::placeholder{color:var(--muted)}
+.send-btn{width:34px;height:34px;border-radius:10px;border:none;background:linear-gradient(135deg,#4fd1c5,#6366f1);color:#fff;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0}
+.send-btn:hover{transform:scale(1.06);box-shadow:0 4px 16px rgba(79,209,197,.4)}
+.send-btn:active{transform:scale(0.94)}
+.send-btn:disabled{opacity:.35;cursor:not-allowed;transform:none!important}
+.input-footer{display:flex;align-items:center;justify-content:space-between;margin-top:5px;font-size:9px;color:var(--muted);padding:0 2px}
+.model-badge{display:flex;align-items:center;gap:4px;background:var(--surface2);border:1px solid var(--border);padding:2px 8px;border-radius:20px;font-size:9px;color:var(--muted)}
+.model-badge i{font-size:8px;color:var(--accent2)}
+
+/* SCROLL BTN */
+.scroll-btn{position:fixed;bottom:80px;right:13px;z-index:50;width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:12px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.2);transition:.2s}
+.scroll-btn.show{display:flex}
+.scroll-btn:hover{color:var(--accent);border-color:var(--border2)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(5,8,16,.88);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;visibility:hidden;transition:.3s}
+.modal-overlay.active{opacity:1;visibility:visible}
+.pro-card{background:var(--surface);border:1px solid rgba(129,140,248,.3);border-radius:22px;width:94%;max-width:420px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 0 60px rgba(99,102,241,.2);animation:slideUp .3s cubic-bezier(.16,1,.3,1)}
+.pro-card::-webkit-scrollbar{display:none}
+@keyframes slideUp{from{transform:translateY(28px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-head{padding:22px 22px 0;text-align:center}
+.modal-crown{width:56px;height:56px;background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(249,115,22,.15));border:2px solid rgba(245,158,11,.35);border-radius:17px;margin:0 auto 13px;display:flex;align-items:center;justify-content:center;font-size:25px}
+.modal-head h2{font-size:17px;font-weight:700;margin-bottom:5px}
+.modal-head p{font-size:11px;color:var(--text2);line-height:1.6}
+.modal-close{position:absolute;top:13px;right:13px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);width:30px;height:30px;border-radius:8px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.modal-close:hover{color:var(--danger);border-color:var(--danger)}
+.modal-body{padding:16px 18px 22px}
+.step-bar{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:16px}
+.step-dot{width:7px;height:7px;border-radius:50%;background:var(--surface3);border:1px solid var(--border);transition:.3s}
+.step-dot.active{background:var(--accent2);border-color:var(--accent2);box-shadow:0 0 8px rgba(129,140,248,.5)}
+.step-dot.done{background:var(--accent3);border-color:var(--accent3)}
+.step-line{width:22px;height:1px;background:var(--border)}
+.step-section{display:none}.step-section.active{display:block}
+.plan-grid{display:flex;flex-direction:column;gap:9px}
+.plan-item{background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;padding:13px 15px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.2s;position:relative}
+.plan-item:hover{border-color:rgba(79,209,197,.4);transform:translateY(-1px)}
+.plan-item.popular{border-color:rgba(245,158,11,.3)}
+.plan-item.popular::after{content:'BEST VALUE';position:absolute;top:0;right:11px;background:linear-gradient(90deg,#f59e0b,#ef4444);color:#fff;font-size:7px;font-weight:700;padding:2px 7px;border-radius:0 0 6px 6px;letter-spacing:.8px}
+.plan-info .plan-name{font-size:13px;font-weight:600;margin-bottom:3px}
+.plan-info .plan-desc{font-size:10px;color:var(--text2)}
+.plan-price-wrap{text-align:right}
+.price{font-size:18px;font-weight:700;color:var(--accent)}
+.price-usd{font-size:9px;color:var(--muted);margin-top:2px}
+.method-grid{display:flex;flex-direction:column;gap:9px}
+.method-item{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.2s}
+.method-item:hover{border-color:rgba(79,209,197,.3);transform:translateY(-1px)}
+.method-left{display:flex;align-items:center;gap:11px}
+.method-logo{width:36px;height:36px;border-radius:9px;background:var(--surface3);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.method-logo img{width:28px;height:28px;object-fit:contain}
+.method-name{font-size:13px;font-weight:600}
+.method-type{font-size:10px;color:var(--muted);margin-top:2px}
+.deposit-card{background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:15px;margin-bottom:11px}
+.deposit-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px}
+.deposit-method-name{font-size:13px;font-weight:600;margin-bottom:11px}
+.deposit-divider{height:1px;background:var(--border);margin:11px 0}
+.send-to{font-size:10px;color:var(--muted);margin-bottom:7px}
+.number-box{display:flex;align-items:center;justify-content:space-between;background:var(--surface3);border:1px solid var(--border);border-radius:9px;padding:11px 13px}
+.number-val{font-size:17px;font-weight:700;color:var(--accent);letter-spacing:1.5px;font-family:var(--font-code)}
+.copy-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:6px;font-size:10px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:3px;font-family:var(--font-main)}
+.copy-btn:hover{border-color:var(--border2);color:var(--accent)}
+.copy-btn.copied{border-color:var(--accent3);color:var(--accent3)}
+.plan-summary{background:rgba(129,140,248,.08);border:1px solid rgba(129,140,248,.2);border-radius:9px;padding:9px 13px;font-size:10px;color:var(--accent2);display:flex;align-items:center;gap:7px;margin-bottom:11px}
+.trx-field{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--text);font-family:var(--font-main);font-size:12px;outline:none;transition:.2s;margin-bottom:9px;display:block}
+.trx-field:focus{border-color:var(--accent2)}
+.trx-field.error{border-color:var(--danger)}
+.trx-field::placeholder{color:var(--muted)}
+.submit-btn{width:100%;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:11px;padding:12px;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;font-family:var(--font-main)}
+.submit-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(99,102,241,.4)}
+.back-link{display:flex;align-items:center;justify-content:center;gap:5px;background:none;border:none;color:var(--muted);font-size:10px;cursor:pointer;margin-top:9px;font-family:var(--font-main);transition:.2s;width:100%}
+.back-link:hover{color:var(--text)}
+.success-screen{text-align:center;padding:8px 0}
+.success-icon{font-size:46px;margin-bottom:12px;animation:bounceIn .5s cubic-bezier(.16,1,.3,1)}
+@keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.success-screen h3{font-size:16px;font-weight:700;margin-bottom:7px}
+.success-screen p{font-size:11px;color:var(--text2);line-height:1.7}
+
+/* Fullscreen image viewer */
+.img-viewer{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:none;align-items:center;justify-content:center;cursor:zoom-out}
+.img-viewer.show{display:flex}
+.img-viewer img{max-width:92vw;max-height:92vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.img-viewer-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+/* STREAMING cursor */
+.stream-cursor{display:inline-block;width:2px;height:14px;background:var(--accent);margin-left:2px;animation:blink .6s infinite;vertical-align:middle}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* Rate limit warning */
+.rate-warning{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:10px 13px;font-size:11px;color:var(--danger);display:flex;align-items:center;gap:7px;margin:6px 0}
+</style>
 </head>
 <body>
 
-    <div id="timer-overlay">
-        <div class="text-7xl font-black text-sky-400 mb-4" id="timer-sec">0</div>
-        <p class="text-lg font-bold text-center px-6">অ্যাডটি মনোযোগ দিয়ে দেখুন, পয়েন্ট যোগ হচ্ছে...</p>
-    </div>
+<!-- HEADER -->
+<div class="header">
+  <div class="brand">
+    <div class="logo-wrap"><i class="fa-solid fa-microchip"></i></div>
+    <div class="brand-text"><h1>M-AI Pro</h1><span>by Md. Mustkaim</span></div>
+  </div>
+  <div class="header-right">
+    <div class="status-dot"></div>
+    <div class="limit-pill" id="limitPill" onclick="showModal()">লোড...</div>
+    <button class="new-chat-btn" onclick="newChat()"><i class="fa-solid fa-plus"></i> নতুন</button>
+    <button class="icon-btn" id="themeBtn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
+  </div>
+</div>
 
-    <div id="auth-screen" class="min-h-screen flex items-center justify-center p-6 hidden">
-        <div class="bg-white w-full max-w-md p-8 rounded-[32px] shadow-xl">
-            <h1 class="text-3xl font-black text-center text-slate-800 mb-2">C2C<span class="text-sky-600">PRO</span></h1>
-            <p class="text-center text-slate-400 text-xs mb-8">একাউন্ট তৈরি করে ইনকাম শুরু করুন</p>
-            
-            <div id="auth-box" class="space-y-4">
-                <input type="email" id="email" placeholder="ইমেইল আইডি" class="input-field">
-                <input type="password" id="pass" placeholder="পাসওয়ার্ড" class="input-field">
-                <input type="text" id="ref-code-input" placeholder="রেফার কোড (ঐচ্ছিক)" class="input-field">
-                <button onclick="handleAuth('login')" class="btn-gradient">লগইন করুন</button>
-                <button onclick="handleAuth('register')" class="text-sky-600 w-full font-bold text-sm mt-2">নতুন একাউন্ট খুলুন</button>
-            </div>
-            <p id="auth-msg" class="text-center mt-4 text-xs font-bold text-red-500"></p>
+<!-- MODE TABS -->
+<div class="mode-bar">
+  <button class="mode-tab active" data-mode="chat" onclick="switchMode('chat')"><i class="fa-solid fa-message"></i> চ্যাট</button>
+  <button class="mode-tab" data-mode="image" onclick="switchMode('image')"><i class="fa-solid fa-image"></i> ছবি তৈরি</button>
+  <button class="mode-tab" data-mode="search" onclick="switchMode('search')"><i class="fa-solid fa-magnifying-glass"></i> ওয়েব সার্চ</button>
+  <button class="mode-tab" data-mode="weather" onclick="switchMode('weather')"><i class="fa-solid fa-cloud-sun"></i> আবহাওয়া</button>
+  <button class="mode-tab" data-mode="pdf" onclick="switchMode('pdf')"><i class="fa-solid fa-file-pdf"></i> PDF পড়া</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- MAIN WRAP -->
+<div class="chat-wrap" id="mainWrap">
+
+  <!-- CHAT MODE -->
+  <div id="chatMode" style="height:100%">
+    <div class="chat-container" id="chatContainer">
+      <div class="welcome-wrap" id="welcomeWrap">
+        <div class="welcome-card">
+          <div class="wc-icon-wrap"><i class="fa-solid fa-stars wc-icon"></i></div>
+          <h2>স্বাগতম M-AI Pro -তে!</h2>
+          <p>তৈরি করেছেন <strong>Md. Mustkaim</strong> — Full Stack Developer<br>কোডিং, ছবি, আবহাওয়া, ওয়েব সার্চ, PDF — সব এক জায়গায়!</p>
+          <div class="suggest-chips">
+            <div class="chip" onclick="quickSend('React.js দিয়ে todo app কোড লিখে দাও')"><i class="fa-brands fa-react"></i> React</div>
+            <div class="chip" onclick="quickSend('Python দিয়ে login system কোড লিখে দাও')"><i class="fa-brands fa-python"></i> Python</div>
+            <div class="chip" onclick="quickSend('Flutter দিয়ে একটি app কোড লিখে দাও')"><i class="fa-solid fa-mobile-screen"></i> Flutter</div>
+            <div class="chip" onclick="quickSend('একটি সুন্দর বাংলা কবিতা লিখে দাও')"><i class="fa-solid fa-pen-nib"></i> কবিতা</div>
+            <div class="chip" onclick="quickSend('তুমি কে এবং তোমাকে কে বানিয়েছে?')"><i class="fa-solid fa-robot"></i> AI সম্পর্কে</div>
+            <div class="chip" onclick="quickSend('MySQL database design করো ecommerce এর জন্য')"><i class="fa-solid fa-database"></i> Database</div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div id="main-screen" class="hidden pb-24">
-        <header class="p-4 bg-white sticky top-0 z-40 border-b flex justify-between items-center">
-            <div>
-                <h2 class="text-xl font-black text-slate-800">C2C<span class="text-sky-600">PRO</span></h2>
-                <span id="u-rank" class="text-[9px] font-bold uppercase bg-slate-100 px-2 py-0.5 rounded text-slate-500 italic">Bronze Member</span>
-            </div>
-            <div class="text-right">
-                <p class="text-[9px] font-bold text-slate-400 uppercase">ব্যালেন্স</p>
-                <p class="text-xl font-black text-emerald-600">৳<span id="u-bal">0.00</span></p>
-            </div>
-        </header>
-
-        <main class="p-4 space-y-5">
-            <div class="premium-card p-6 shadow-lg">
-                <div class="flex justify-between items-center mb-3">
-                    <span class="text-xs font-bold text-sky-300">আজকের টাস্ক লিমিট</span>
-                    <span id="limit-text" class="text-xs font-bold">0/20</span>
-                </div>
-                <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                    <div id="u-progress" class="bg-sky-400 h-full transition-all duration-700" style="width: 0%"></div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-white/5 flex justify-between items-center">
-                    <p id="u-ref-display" class="text-sm font-black tracking-widest text-sky-400">------</p>
-                    <button onclick="copyRef()" class="text-[10px] font-bold bg-white/10 px-3 py-1.5 rounded-lg">Copy Refer</button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-                <div onclick="claimBonus()" class="bg-white p-4 rounded-2xl border flex items-center gap-3 cursor-pointer active:scale-95">
-                    <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-gift"></i></div>
-                    <p class="font-bold text-xs">ডেইলি বোনাস</p>
-                </div>
-                <div onclick="window.open(tgLink)" class="bg-white p-4 rounded-2xl border flex items-center gap-3 cursor-pointer active:scale-95">
-                    <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center"><i class="fa-brands fa-telegram"></i></div>
-                    <p class="font-bold text-xs">সাপোর্ট</p>
-                </div>
-            </div>
-
-            <h3 class="font-black text-slate-800 pt-2 flex items-center gap-2 italic">
-                <span class="w-2 h-2 bg-sky-500 rounded-full animate-ping"></span> Premium Tasks
-            </h3>
-            <div id="task-con" class="space-y-3"></div>
-        </main>
-
-        <nav class="fixed bottom-0 left-0 right-0 p-4 z-50">
-            <div class="glass-nav rounded-2xl p-2 flex justify-around border shadow-xl">
-                <button class="flex flex-col items-center text-sky-600"><i class="fa-solid fa-house"></i><span class="text-[9px] font-bold">Home</span></button>
-                <button onclick="openWallet()" class="flex flex-col items-center text-slate-400"><i class="fa-solid fa-wallet"></i><span class="text-[9px] font-bold">Wallet</span></button>
-                <button onclick="auth.signOut()" class="flex flex-col items-center text-red-400"><i class="fa-solid fa-power-off"></i><span class="text-[9px] font-bold">Logout</span></button>
-            </div>
-        </nav>
+  <!-- IMAGE MODE -->
+  <div id="imageMode" style="display:none;height:100%;overflow-y:auto">
+    <div class="img-gen-panel">
+      <div class="ig-title"><i class="fa-solid fa-wand-magic-sparkles"></i> AI ছবি তৈরি করুন</div>
+      <div class="ig-prompt-wrap">
+        <textarea class="ig-textarea" id="igPrompt" placeholder="ছবির বর্ণনা লিখুন... যেমন: A beautiful sunset over mountains with golden sky, photorealistic"></textarea>
+        <div style="font-size:10px;color:var(--muted);margin-top:-4px">💡 ইংরেজিতে লিখলে ভালো ফলাফল পাবেন</div>
+        <div class="ig-prompt-tags" id="igTags"></div>
+      </div>
+      <div class="ig-controls">
+        <select class="ig-select" id="igStyle">
+          <option value="">🎨 স্টাইল (ডিফল্ট)</option>
+          <option value="photorealistic">📷 Photorealistic</option>
+          <option value="anime style">🎌 Anime</option>
+          <option value="digital art">🖥️ Digital Art</option>
+          <option value="oil painting">🖼️ Oil Painting</option>
+          <option value="watercolor">💧 Watercolor</option>
+          <option value="pencil sketch">✏️ Pencil Sketch</option>
+          <option value="3d render">🧊 3D Render</option>
+          <option value="pixel art">👾 Pixel Art</option>
+        </select>
+        <select class="ig-select" id="igSize">
+          <option value="1024/1024">⬛ 1:1 Square</option>
+          <option value="1024/576">📱 16:9 Wide</option>
+          <option value="576/1024">📱 9:16 Portrait</option>
+        </select>
+        <select class="ig-select" id="igCount">
+          <option value="1">1টি</option>
+          <option value="2">2টি</option>
+          <option value="4" selected>4টি</option>
+        </select>
+        <button class="ig-btn" id="igBtn" onclick="generateImages()"><i class="fa-solid fa-wand-magic-sparkles"></i> তৈরি করুন</button>
+      </div>
+      <div id="igOutput"></div>
     </div>
+  </div>
 
-    <script>
-        // === Configuration ===
-        const firebaseConfig = {
-            apiKey: "AIzaSyDI0riYoW-av6_5Pad-4MC0M48rncVJF7I",
-            authDomain: "earnpro-e1fe4.firebaseapp.com",
-            projectId: "earnpro-e1fe4",
-            storageBucket: "earnpro-e1fe4.appspot.com",
-            messagingSenderId: "439718395191",
-            appId: "1:439718395191:web:f315a459bd9ebf3552aeb2"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(), auth = firebase.auth();
-        let uData = null, tgLink = "#", taskLimit = 20;
+  <!-- SEARCH MODE -->
+  <div id="searchMode" style="display:none;height:100%;overflow-y:auto">
+    <div class="search-panel">
+      <div class="ws-search-row">
+        <input class="ws-input" id="wsInput" placeholder="যা খুঁজতে চান লিখুন..." onkeydown="if(event.key==='Enter')doWebSearch()">
+        <button class="ws-btn" onclick="doWebSearch()"><i class="fa-solid fa-magnifying-glass"></i> সার্চ</button>
+      </div>
+      <div id="wsOutput"><div class="ws-empty"><i class="fa-solid fa-globe"></i><p>কিছু লিখে সার্চ করুন</p></div></div>
+    </div>
+  </div>
 
-        // === Auth Logic ===
-        auth.onAuthStateChanged(user => {
-            if(user) {
-                document.getElementById('auth-screen').classList.add('hidden');
-                document.getElementById('main-screen').classList.remove('hidden');
-                db.collection('users').doc(user.uid).onSnapshot(doc => {
-                    uData = doc.data();
-                    if(uData) syncUI();
-                });
-            } else {
-                document.getElementById('main-screen').classList.add('hidden');
-                document.getElementById('auth-screen').classList.remove('hidden');
-            }
-        });
+  <!-- WEATHER MODE -->
+  <div id="weatherMode" style="display:none;height:100%;overflow-y:auto">
+    <div class="weather-panel">
+      <div class="weather-search-row">
+        <input class="weather-input" id="weatherInput" placeholder="শহরের নাম লিখুন... যেমন: Dhaka, Tokyo" onkeydown="if(event.key==='Enter')getWeather()">
+        <button class="weather-btn" onclick="getWeather()"><i class="fa-solid fa-location-dot"></i> দেখুন</button>
+      </div>
+      <div class="weather-recent" id="weatherRecent"></div>
+      <div id="weatherOutput"><div class="weather-empty"><i class="fa-solid fa-cloud-sun"></i><p>আবহাওয়া দেখতে শহরের নাম লিখুন</p></div></div>
+    </div>
+  </div>
 
-        async function handleAuth(type) {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('pass').value;
-            const refInp = document.getElementById('ref-code-input').value;
-            const msg = document.getElementById('auth-msg');
+  <!-- PDF MODE -->
+  <div id="pdfMode" style="display:none;height:100%;overflow-y:auto">
+    <div class="pdf-panel">
+      <div id="pdfDropZone" class="pdf-drop-zone"
+        ondragover="event.preventDefault();this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="handlePdfDrop(event)">
+        <div class="pdf-drop-icon"><i class="fa-solid fa-file-pdf"></i></div>
+        <div class="pdf-drop-title">PDF ফাইল ড্র্যাগ করুন</div>
+        <div class="pdf-drop-sub">অথবা নিচের বাটনে ক্লিক করুন</div>
+        <label class="pdf-file-label" for="pdfInput"><i class="fa-solid fa-upload"></i> ফাইল বেছে নিন</label>
+        <input type="file" id="pdfInput" accept=".pdf,.txt" style="display:none" onchange="handlePdfFile(this.files[0])">
+      </div>
+      <div id="pdfLoaded" style="display:none;flex-direction:column;gap:10px"></div>
+    </div>
+  </div>
 
-            try {
-                if(type === 'register') {
-                    const cred = await auth.createUserWithEmailAndPassword(email, pass);
-                    const myRef = Math.random().toString(36).substring(2, 8).toUpperCase();
-                    await db.collection('users').doc(cred.user.uid).set({
-                        uid: cred.user.uid, email, balance: 0, tasks_today: 0, 
-                        tasks_done: 0, ref_code: myRef, referred_by: refInp, last_task_time: 0
-                    });
-                } else {
-                    await auth.signInWithEmailAndPassword(email, pass);
-                }
-            } catch(e) { msg.innerText = e.message; }
+</div>
+
+<!-- VOICE INDICATOR -->
+<div class="voice-indicator" id="voiceIndicator">
+  <div class="voice-bars"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div>
+  <span>শুনছি... বাংলায় কথা বলুন</span>
+  <button class="voice-cancel" onclick="stopVoice()"><i class="fa-solid fa-stop"></i> বন্ধ</button>
+</div>
+
+<!-- IMAGE PREVIEW -->
+<div class="preview-bar" id="previewBar">
+  <img class="preview-thumb" id="previewThumb" src="" alt="">
+  <div class="preview-info"><div class="pi-name">ছবি সংযুক্ত</div><div class="pi-size" id="previewSize"></div></div>
+  <button class="remove-preview-btn" onclick="removeImage()"><i class="fa-solid fa-xmark"></i></button>
+</div>
+
+<!-- INPUT -->
+<div class="input-shell" id="inputShell">
+  <div class="input-row">
+    <label class="input-tool-btn" for="imgFileInput" title="ছবি"><i class="fa-solid fa-image"></i></label>
+    <input type="file" id="imgFileInput" accept="image/*" style="display:none">
+    <button class="input-tool-btn voice-btn" id="voiceBtn" onclick="toggleVoice()" title="ভয়েস"><i class="fa-solid fa-microphone"></i></button>
+    <textarea id="userInput" rows="1" placeholder="আপনার প্রশ্ন লিখুন... (Enter পাঠান)"></textarea>
+    <button class="send-btn" id="sendBtn"><i class="fa-solid fa-arrow-up"></i></button>
+  </div>
+  <div class="input-footer">
+    <div style="display:flex;align-items:center;gap:5px">
+      <i class="fa-solid fa-shield-halved" style="color:var(--accent3)"></i>
+      <span>M-AI Pro · Md. Mustkaim</span>
+      <div class="model-badge"><i class="fa-solid fa-circle-nodes"></i><span>Gemini 2.0 Flash</span></div>
+    </div>
+    <span id="tokenInfo" style="font-size:9px;color:var(--muted)"></span>
+  </div>
+</div>
+
+<button class="scroll-btn" id="scrollBtn" onclick="scrollDown()"><i class="fa-solid fa-chevron-down"></i></button>
+
+<!-- FULLSCREEN IMG VIEWER -->
+<div class="img-viewer" id="imgViewer" onclick="closeViewer()">
+  <img id="viewerImg" src="" alt="">
+  <button class="img-viewer-close" onclick="closeViewer()"><i class="fa-solid fa-xmark"></i></button>
+</div>
+
+<!-- PRO MODAL -->
+<div class="modal-overlay" id="proModal">
+  <div class="pro-card" id="proCard">
+    <button class="modal-close" id="modalCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-head">
+      <div class="modal-crown"><i class="fa-solid fa-crown" style="color:#f59e0b"></i></div>
+      <h2>AI PRO আনলক করুন</h2>
+      <p>৪০টি ফ্রি মেসেজের সীমা শেষ।<br>PRO হলে আনলিমিটেড চ্যাট + সব ফিচার!</p>
+    </div>
+    <div class="modal-body">
+      <div class="step-bar">
+        <div class="step-dot active" id="sd1"></div><div class="step-line"></div>
+        <div class="step-dot" id="sd2"></div><div class="step-line"></div>
+        <div class="step-dot" id="sd3"></div>
+      </div>
+      <div class="step-section active" id="stepPlans">
+        <div class="plan-grid">
+          <div class="plan-item" onclick="selectPlan('১ মাসের প্ল্যান','150','1.30')">
+            <div class="plan-info"><div class="plan-name">১ মাসের প্ল্যান</div><div class="plan-desc">আনলিমিটেড মেসেজ · ৩০ দিন</div></div>
+            <div class="plan-price-wrap"><div class="price">৳১৫০</div><div class="price-usd">≈ $1.30</div></div>
+          </div>
+          <div class="plan-item popular" onclick="selectPlan('৩ মাসের প্ল্যান','400','3.50')">
+            <div class="plan-info"><div class="plan-name">৩ মাসের প্ল্যান</div><div class="plan-desc">সর্বোচ্চ সঞ্চয় · ৯০ দিন</div></div>
+            <div class="plan-price-wrap"><div class="price">৳৪০০</div><div class="price-usd">≈ $3.50</div></div>
+          </div>
+          <div class="plan-item" onclick="selectPlan('১২ মাসের প্ল্যান','1200','10.50')">
+            <div class="plan-info"><div class="plan-name">১২ মাসের প্ল্যান</div><div class="plan-desc">সারা বছর আনলক · ৩৬৫ দিন</div></div>
+            <div class="plan-price-wrap"><div class="price">৳১২০০</div><div class="price-usd">≈ $10.50</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-section" id="stepMethods">
+        <div class="method-grid" id="methodGrid"></div>
+        <button class="back-link" onclick="goTo(1)"><i class="fa-solid fa-arrow-left"></i> প্ল্যান পরিবর্তন</button>
+      </div>
+      <div class="step-section" id="stepDeposit">
+        <div class="plan-summary"><i class="fa-solid fa-check-circle"></i><span id="depositPlanLabel">—</span></div>
+        <div class="deposit-card">
+          <div class="deposit-label">পেমেন্ট মেথড</div>
+          <div class="deposit-method-name" id="depositMethodName">—</div>
+          <div class="deposit-divider"></div>
+          <div class="send-to">নিচের নম্বরে পাঠান:</div>
+          <div class="number-box">
+            <span class="number-val" id="depositNumber">—</span>
+            <button class="copy-btn" id="copyBtn" onclick="copyNumber()"><i class="fa-regular fa-copy"></i> কপি</button>
+          </div>
+        </div>
+        <input class="trx-field" id="trxInput" placeholder="TrxID / Transaction ID লিখুন...">
+        <button class="submit-btn" onclick="submitPayment()"><i class="fa-solid fa-shield-check"></i> পেমেন্ট ভেরিফাই করুন</button>
+        <button class="back-link" onclick="goTo(2)"><i class="fa-solid fa-arrow-left"></i> মেথড পরিবর্তন</button>
+      </div>
+      <div class="step-section" id="stepSuccess">
+        <div class="success-screen">
+          <div class="success-icon">🎉</div>
+          <h3>অনুরোধ পাঠানো হয়েছে!</h3>
+          <p>TrxID যাচাই হলে ১–২৪ ঘণ্টার মধ্যে PRO সক্রিয় হবে।<br>ধন্যবাদ M-AI Pro ব্যবহার করার জন্য!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+<script>
+// ===== SECURITY: Input sanitization =====
+function sanitizeInput(str) {
+  if (typeof str !== 'string') return '';
+  return str.trim().slice(0, 4000); // max length
+}
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#x27;');
+}
+// Validate URL (only allow http/https)
+function safeUrl(url) {
+  try {
+    const u = new URL(url);
+    return (u.protocol === 'http:' || u.protocol === 'https:') ? url : '#';
+  } catch { return '#'; }
+}
+
+// ===== CONFIG =====
+const OR_KEY   = "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";
+const OR_MODEL = "google/gemini-2.0-flash-001";
+const MAX_FREE = 40;
+
+const SYSTEM_PROMPT = `You are 'M-AI Pro', an advanced AI assistant created by Md. Mustkaim, a talented Bangladeshi Full Stack Developer.
+
+When asked who made you or who created you:
+- Answer: তোমাকে তৈরি করেছেন Md. Mustkaim
+- He is a skilled Full Stack Developer from Bangladesh
+- Skills: HTML, CSS, JavaScript, React.js, Next.js, Node.js, PHP, Python, Android, AI Development, Firebase, MongoDB, MySQL, UI/UX
+- M-AI Pro is his flagship AI project
+- You were NOT made by Google, OpenAI, Anthropic, or any other company
+- You are M-AI Pro — always
+
+When asked about your capabilities:
+- You can chat, write code, analyze images, generate images, do web search, check weather, read PDFs
+- You are powered by advanced AI
+
+Coding guidelines:
+- Always provide COMPLETE, working, well-commented code
+- Use proper markdown code blocks with language specified
+- Include all necessary imports and setup
+- Add explanatory comments in Bengali when helpful
+
+Language: Respond in Bengali (বাংলা) unless user writes in another language.
+Formatting: Use markdown properly (headers, lists, bold, tables, code blocks).
+Tone: Friendly, helpful, professional. Never say you are limited or cannot do something without trying.`;
+
+// Firebase
+try {
+  firebase.initializeApp({
+    apiKey:"AIzaSyBM-DWuwF3f_JAJh8VGc41MzcOLKDRIjWc",
+    authDomain:"ai-app-called.firebaseapp.com",
+    databaseURL:"https://ai-app-called-default-rtdb.firebaseio.com",
+    projectId:"ai-app-called",
+    storageBucket:"ai-app-called.firebasestorage.app",
+    messagingSenderId:"789598221700",
+    appId:"1:789598221700:web:de5f523bce2392707799d1"
+  });
+} catch(e) {}
+let db;
+try { db = firebase.database(); } catch(e) {}
+
+// ===== STATE =====
+let used = parseInt(localStorage.getItem('smart_ai_used') || '0');
+let isProUser = localStorage.getItem('smart_ai_pro') === 'true';
+let paymentSettings = {
+  "বিকাশ":  { number:"01700000000", logo:"https://getlogo.net/wp-content/uploads/2020/03/bkash-logo-vector.png",  type:"Personal" },
+  "নগদ":    { number:"01800000000", logo:"https://download.logo.wine/logo/Nagad/Nagad-Logo.wine.png",           type:"Personal" },
+  "Rocket": { number:"01900000000", logo:"https://upload.wikimedia.org/wikipedia/en/4/40/Dutch-Bangla_Bank_logo.svg", type:"Personal" }
+};
+let selectedPlan = {}, selectedMethod = {}, selectedImg = null;
+let isSending = false, welcomeRemoved = false, currentStep = 1;
+let conversationHistory = [], recognition = null, isListening = false;
+let isDark = localStorage.getItem('smart_ai_theme') !== 'light';
+let currentMode = 'chat';
+let pdfText = '', pdfName = '';
+let recentCitiesArr = JSON.parse(localStorage.getItem('smart_ai_cities') || '[]');
+
+if (db) db.ref('paymentSettings').on('value', s => { if (s.exists()) paymentSettings = s.val(); }, () => {});
+
+// DOM refs
+const chatEl       = document.getElementById('chatContainer');
+const inputEl      = document.getElementById('userInput');
+const sendEl       = document.getElementById('sendBtn');
+const limitEl      = document.getElementById('limitPill');
+const imgInput     = document.getElementById('imgFileInput');
+const previewBar   = document.getElementById('previewBar');
+const scrollBtn    = document.getElementById('scrollBtn');
+const voiceBtn     = document.getElementById('voiceBtn');
+const voiceIndicator = document.getElementById('voiceIndicator');
+const tokenInfoEl  = document.getElementById('tokenInfo');
+
+// ===== THEME =====
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('themeBtn').innerHTML = isDark
+    ? '<i class="fa-solid fa-moon"></i>'
+    : '<i class="fa-solid fa-sun"></i>';
+  document.getElementById('hljs-theme').href = isDark
+    ? 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css'
+    : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+}
+function toggleTheme() {
+  isDark = !isDark;
+  localStorage.setItem('smart_ai_theme', isDark ? 'dark' : 'light');
+  applyTheme();
+}
+applyTheme();
+
+// ===== LIMIT =====
+function updateLimit() {
+  if (isProUser) { limitEl.textContent = "✦ PRO"; limitEl.className = "limit-pill pro-mode"; return; }
+  const left = Math.max(0, MAX_FREE - used);
+  limitEl.textContent = `${left}/${MAX_FREE}`;
+  limitEl.className = "limit-pill";
+  limitEl.style.color = left <= 5 ? 'var(--danger)' : 'var(--accent)';
+}
+updateLimit();
+
+// Daily reset
+(function() {
+  const today = new Date().toDateString();
+  if (localStorage.getItem('smart_ai_day') !== today) {
+    used = 0;
+    localStorage.setItem('smart_ai_used', '0');
+    localStorage.setItem('smart_ai_day', today);
+    updateLimit();
+  }
+})();
+
+// ===== TOAST =====
+function showToast(msg, type = 'info', dur = 2800) {
+  const tc = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const ic = { success:'fa-check-circle', error:'fa-circle-xmark', info:'fa-circle-info' };
+  const cl = { success:'var(--accent3)', error:'var(--danger)', info:'var(--accent)' };
+  t.innerHTML = `<i class="fa-solid ${ic[type]||ic.info}" style="color:${cl[type]||cl.info}"></i><span>${escapeHtml(String(msg))}</span>`;
+  tc.appendChild(t);
+  setTimeout(() => {
+    t.style.opacity = '0'; t.style.transform = 'translateX(18px)'; t.style.transition = '.3s';
+    setTimeout(() => t.remove(), 300);
+  }, dur);
+}
+
+// ===== MODE SWITCH =====
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+  ['chat','image','search','weather','pdf'].forEach(m => {
+    const el = document.getElementById(m + 'Mode');
+    if (el) el.style.display = m === mode ? 'block' : 'none';
+  });
+  document.getElementById('inputShell').style.display = mode === 'chat' ? 'block' : 'none';
+  document.getElementById('previewBar').classList.remove('show');
+}
+
+// ===== IMAGE PREVIEW =====
+imgInput.addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  if (f.size > 5 * 1024 * 1024) { showToast('ছবির সাইজ ৫MB এর কম হতে হবে', 'error'); return; }
+  const r = new FileReader();
+  r.onload = ev => {
+    selectedImg = ev.target.result.split(',')[1];
+    document.getElementById('previewThumb').src = ev.target.result;
+    document.getElementById('previewSize').textContent = (f.size / 1024).toFixed(1) + ' KB';
+    previewBar.classList.add('show');
+    showToast('ছবি যোগ হয়েছে', 'success', 1500);
+  };
+  r.readAsDataURL(f);
+});
+function removeImage() { selectedImg = null; imgInput.value = ''; previewBar.classList.remove('show'); }
+
+// ===== SCROLL =====
+chatEl.addEventListener('scroll', () => {
+  const near = chatEl.scrollHeight - chatEl.scrollTop - chatEl.clientHeight < 140;
+  scrollBtn.classList.toggle('show', !near && chatEl.scrollHeight > chatEl.clientHeight + 300);
+});
+function scrollDown() { chatEl.scrollTo({ top: chatEl.scrollHeight, behavior: 'smooth' }); }
+
+// ===== INPUT AUTO-RESIZE =====
+inputEl.addEventListener('input', () => {
+  inputEl.style.height = 'auto';
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
+});
+inputEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+sendEl.addEventListener('click', sendMessage);
+
+function clearWelcome() {
+  if (!welcomeRemoved) {
+    const w = document.getElementById('welcomeWrap');
+    if (w) w.remove();
+    welcomeRemoved = true;
+  }
+}
+
+function newChat() {
+  if (isSending) return;
+  conversationHistory = [];
+  welcomeRemoved = false;
+  chatEl.innerHTML = `<div class="welcome-wrap" id="welcomeWrap"><div class="welcome-card">
+    <div class="wc-icon-wrap"><i class="fa-solid fa-rotate-right wc-icon"></i></div>
+    <h2>নতুন চ্যাট শুরু!</h2><p>তৈরি করেছেন <strong>Md. Mustkaim</strong></p>
+    <div class="suggest-chips">
+      <div class="chip" onclick="quickSend('React.js todo app কোড লিখে দাও')"><i class="fa-brands fa-react"></i> React</div>
+      <div class="chip" onclick="quickSend('Python login system কোড')"><i class="fa-brands fa-python"></i> Python</div>
+      <div class="chip" onclick="quickSend('তুমি কে?')"><i class="fa-solid fa-robot"></i> AI</div>
+    </div></div></div>`;
+  tokenInfoEl.textContent = '';
+  showToast('নতুন চ্যাট', 'success', 1500);
+}
+
+// ===== SEND MESSAGE =====
+async function sendMessage() {
+  const raw = inputEl.value.trim();
+  const txt = sanitizeInput(raw);
+  if ((!txt && !selectedImg) || isSending) return;
+  if (!isProUser && used >= MAX_FREE) { showModal(); return; }
+
+  clearWelcome();
+  isSending = true;
+  sendEl.disabled = true;
+
+  const row = document.createElement('div');
+  row.className = 'msg-row user';
+  let content = '';
+  if (selectedImg) content += `<img class="msg-img" src="data:image/jpeg;base64,${selectedImg}" alt="ছবি">`;
+  if (txt) content += `<div class="msg-text">${escapeHtml(txt)}</div>`;
+  const time = new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
+  row.innerHTML = `<div class="bubble-wrap"><div class="bubble user-bubble">${content}</div>
+    <div class="msg-actions"><span class="msg-time">${time}</span></div></div>
+    <div class="avatar user-av">আপনি</div>`;
+  chatEl.appendChild(row);
+  scrollDown();
+
+  const imgData = selectedImg, msgText = txt;
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+  selectedImg = null;
+  imgInput.value = '';
+  previewBar.classList.remove('show');
+
+  if (!isProUser) { used++; localStorage.setItem('smart_ai_used', used); updateLimit(); }
+
+  const uc = [];
+  if (imgData) uc.push({ type: "image_url", image_url: { url: `data:image/jpeg;base64,${imgData}` } });
+  uc.push({ type: "text", text: msgText || "এই ছবিটি বিশ্লেষণ করো।" });
+  conversationHistory.push({ role: "user", content: uc });
+  if (conversationHistory.length > 28) conversationHistory = conversationHistory.slice(-26);
+
+  await fetchAI();
+  isSending = false;
+  sendEl.disabled = false;
+  inputEl.focus();
+}
+
+// ===== FETCH AI (Streaming) =====
+async function fetchAI() {
+  // Typing indicator
+  const typRow = document.createElement('div');
+  typRow.className = 'msg-row';
+  typRow.id = 'typingRow';
+  typRow.innerHTML = `<div class="avatar ai-av"><i class="fa-solid fa-microchip"></i></div>
+    <div class="bubble ai-bubble">
+      <div class="typing-dots"><span></span><span></span><span></span></div>
+      <span class="typing-label">M-AI ভাবছে...</span>
+    </div>`;
+  chatEl.appendChild(typRow);
+  scrollDown();
+  const start = Date.now();
+
+  try {
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${OR_KEY}`,
+        "HTTP-Referer": "https://smart-ai.app",
+        "X-Title": "M-AI Pro"
+      },
+      body: JSON.stringify({
+        model: OR_MODEL,
+        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...conversationHistory],
+        max_tokens: 3000,
+        temperature: 0.85,
+        stream: true
+      })
+    });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      removeTyping();
+      addAIMsg(`⚠️ সমস্যা হয়েছে (${res.status}): ${errData?.error?.message || 'অজানা সমস্যা'}। কিছুক্ষণ পর আবার চেষ্টা করুন।`);
+      return;
+    }
+
+    removeTyping();
+
+    // Create streaming bubble
+    const mid = 'm' + Date.now() + Math.random().toString(36).slice(2, 5);
+    const time = new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
+    const streamRow = document.createElement('div');
+    streamRow.className = 'msg-row';
+    streamRow.innerHTML = `<div class="avatar ai-av"><i class="fa-solid fa-microchip"></i></div>
+      <div class="bubble-wrap">
+        <div class="bubble ai-bubble" id="${mid}"><span class="stream-text"></span><span class="stream-cursor"></span></div>
+        <div class="msg-actions">
+          <span class="msg-time">${time}</span>
+          <button class="action-btn" onclick="copyMsg('${mid}',this)"><i class="fa-regular fa-copy"></i> কপি</button>
+          <button class="action-btn" onclick="speakMsg('${mid}')"><i class="fa-solid fa-volume-high"></i> পড়ুন</button>
+        </div>
+      </div>`;
+    chatEl.appendChild(streamRow);
+    scrollDown();
+
+    const bubbleEl = document.getElementById(mid);
+    const streamTextEl = bubbleEl.querySelector('.stream-text');
+    const cursorEl = bubbleEl.querySelector('.stream-cursor');
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = '';
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop(); // keep incomplete line
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6).trim();
+        if (data === '[DONE]') break;
+        try {
+          const parsed = JSON.parse(data);
+          const delta = parsed?.choices?.[0]?.delta?.content || '';
+          if (delta) {
+            fullText += delta;
+            streamTextEl.innerHTML = formatMessage(fullText);
+            scrollDown();
+          }
+        } catch {}
+      }
+    }
+
+    // Remove cursor, final render
+    cursorEl.remove();
+    streamTextEl.innerHTML = formatMessage(fullText);
+
+    conversationHistory.push({ role: "assistant", content: fullText });
+    const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+    tokenInfoEl.textContent = `${fullText.length} chars · ${elapsed}s`;
+    scrollDown();
+
+  } catch (err) {
+    removeTyping();
+    addAIMsg("⚠️ ইন্টারনেট সংযোগ চেক করুন। আবার চেষ্টা করুন।");
+    console.error(err);
+  }
+}
+
+function removeTyping() { document.getElementById('typingRow')?.remove(); }
+
+// ===== FORMAT MESSAGE =====
+function formatMessage(raw) {
+  let result = '';
+  const re = /```(\w*)\n?([\s\S]*?)```/g;
+  let last = 0, m;
+  while ((m = re.exec(raw)) !== null) {
+    result += formatInline(raw.slice(last, m.index));
+    const lang = m[1] || 'plaintext';
+    const code = m[2].trim();
+    let hi;
+    try { hi = hljs.highlight(code, { language: lang, ignoreIllegals: true }).value; }
+    catch { hi = hljs.highlightAuto(code).value; }
+    const uid = 'c' + Math.random().toString(36).slice(2, 8);
+    result += `<pre><div class="code-header">
+      <span class="code-lang"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:4px"></span>${escapeHtml(lang)}</span>
+      <button class="code-copy" onclick="copyCode('${uid}',this)"><i class="fa-regular fa-copy"></i> Copy</button>
+    </div><code id="${uid}" class="hljs">${hi}</code></pre>`;
+    last = m.index + m[0].length;
+  }
+  result += formatInline(raw.slice(last));
+  return result;
+}
+
+function formatInline(t) {
+  return escapeHtml(t)
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,  '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm,   '<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,     '<em>$1</em>')
+    .replace(/`([^`\n]+)`/g,   '<code>$1</code>')
+    .replace(/^> (.+)$/gm,     '<blockquote>$1</blockquote>')
+    .replace(/^- (.+)$/gm,     '<li style="margin-left:16px">$1</li>')
+    .replace(/^\d+\. (.+)$/gm, '<li style="margin-left:16px">$1</li>')
+    .replace(/\[(.+?)\]\((https?:\/\/[^)]+)\)/g,
+      (_, text, url) => `<a href="${safeUrl(url)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">${text}</a>`)
+    .replace(/\n/g, '<br>');
+}
+
+function addAIMsg(txt, animate = true) {
+  const row = document.createElement('div');
+  row.className = 'msg-row';
+  if (!animate) row.style.animation = 'none';
+  const mid = 'm' + Date.now() + Math.random().toString(36).slice(2, 5);
+  const time = new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
+  row.innerHTML = `<div class="avatar ai-av"><i class="fa-solid fa-microchip"></i></div>
+    <div class="bubble-wrap">
+      <div class="bubble ai-bubble" id="${mid}"><div class="msg-text">${formatMessage(txt)}</div></div>
+      <div class="msg-actions">
+        <span class="msg-time">${time}</span>
+        <button class="action-btn" onclick="copyMsg('${mid}',this)"><i class="fa-regular fa-copy"></i> কপি</button>
+        <button class="action-btn" onclick="speakMsg('${mid}')"><i class="fa-solid fa-volume-high"></i> পড়ুন</button>
+      </div>
+    </div>`;
+  chatEl.appendChild(row);
+  scrollDown();
+}
+
+// ===== COPY / SPEAK =====
+function copyCode(id, btn) {
+  const text = document.getElementById(id)?.innerText || '';
+  navigator.clipboard.writeText(text).then(() => {
+    btn.className = 'code-copy copied';
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+    setTimeout(() => { btn.className = 'code-copy'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy'; }, 2500);
+    showToast('কোড কপি হয়েছে', 'success', 1500);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('কোড কপি হয়েছে', 'success', 1500);
+  });
+}
+
+function copyMsg(id, btn) {
+  const text = document.getElementById(id)?.innerText || '';
+  navigator.clipboard.writeText(text).then(() => {
+    btn.className = 'action-btn done';
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> হয়েছে';
+    setTimeout(() => { btn.className = 'action-btn'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> কপি'; }, 2000);
+    showToast('কপি হয়েছে', 'success', 1500);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.className = 'action-btn done';
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> হয়েছে';
+    setTimeout(() => { btn.className = 'action-btn'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> কপি'; }, 2000);
+    showToast('কপি হয়েছে', 'success', 1500);
+  });
+}
+
+function speakMsg(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(el.innerText);
+    u.lang = 'bn-BD'; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+    showToast('পড়া শুরু 🔊', 'info', 1500);
+  } else {
+    showToast('TTS সাপোর্ট নেই', 'error');
+  }
+}
+
+function quickSend(txt) {
+  clearWelcome();
+  inputEl.value = txt;
+  inputEl.style.height = 'auto';
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
+  sendMessage();
+}
+
+// ===== IMAGE GENERATION =====
+const igStyleTags = ['photorealistic', 'anime style', 'digital art', 'cinematic', 'fantasy', 'dark fantasy', 'cyberpunk', 'minimalist', 'impressionist'];
+const igTagsEl = document.getElementById('igTags');
+igStyleTags.forEach(tag => {
+  const el = document.createElement('span');
+  el.className = 'ig-tag';
+  el.textContent = tag;
+  el.onclick = () => {
+    const ta = document.getElementById('igPrompt');
+    if (!ta.value.includes(tag)) ta.value += (ta.value ? ', ' : '') + tag;
+  };
+  igTagsEl.appendChild(el);
+});
+
+async function generateImages() {
+  const prompt = sanitizeInput(document.getElementById('igPrompt').value);
+  if (!prompt) { showToast('প্রথমে ছবির বর্ণনা লিখুন', 'error'); return; }
+  const style = document.getElementById('igStyle').value;
+  const sizeVal = document.getElementById('igSize').value;
+  const count = parseInt(document.getElementById('igCount').value) || 4;
+  const [w, h] = sizeVal.split('/');
+  const fullPrompt = prompt + (style ? `, ${style}` : '');
+  const btn = document.getElementById('igBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> তৈরি হচ্ছে...';
+  document.getElementById('igOutput').innerHTML = `<div class="ig-loading"><div class="ig-spinner"></div><span>${count}টি ছবি তৈরি হচ্ছে...</span></div>`;
+
+  try {
+    const seeds = Array.from({ length: count }, () => Math.floor(Math.random() * 999999));
+    const urls = seeds.map(seed =>
+      `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=${w}&height=${h}&seed=${seed}&nologo=true`
+    );
+    let html = `<div style="margin-bottom:8px;font-size:10px;color:var(--muted)">প্রম্পট: <em style="color:var(--text2)">${escapeHtml(fullPrompt)}</em></div>`;
+    html += `<div class="ig-gallery">${urls.map((url, i) => {
+      const safeUrlStr = safeUrl(url);
+      return `<div class="ig-img-wrap">
+        <img src="${safeUrlStr}" alt="AI Generated Image ${i+1}" loading="lazy"
+          onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;color:var(--muted);font-size:11px><i class=fa-solid fa-triangle-exclamation></i><br>লোড হয়নি</div>'"
+          onclick="openViewer('${safeUrlStr}')">
+        <div class="ig-img-overlay">
+          <button class="ig-overlay-btn" onclick="downloadImg('${safeUrlStr}','img${i+1}')" title="ডাউনলোড"><i class="fa-solid fa-download"></i></button>
+          <button class="ig-overlay-btn" onclick="openViewer('${safeUrlStr}')" title="বড় করুন"><i class="fa-solid fa-expand"></i></button>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+    document.getElementById('igOutput').innerHTML = html;
+    showToast(`${count}টি ছবি তৈরি হচ্ছে...`, 'success');
+  } catch (e) {
+    document.getElementById('igOutput').innerHTML = '<div style="color:var(--danger);font-size:12px;padding:12px">⚠️ ছবি তৈরিতে সমস্যা। আবার চেষ্টা করুন।</div>';
+    showToast('সমস্যা হয়েছে', 'error');
+  }
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> তৈরি করুন';
+}
+
+function openViewer(src) {
+  const safe = safeUrl(src);
+  if (safe === '#') return;
+  document.getElementById('viewerImg').src = safe;
+  document.getElementById('imgViewer').classList.add('show');
+}
+function closeViewer() { document.getElementById('imgViewer').classList.remove('show'); }
+
+async function downloadImg(url, name) {
+  try {
+    const r = await fetch(url);
+    const b = await r.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(b);
+    a.download = `m-ai-${name}.jpg`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('ডাউনলোড শুরু হয়েছে', 'success', 1500);
+  } catch {
+    window.open(url, '_blank');
+    showToast('ছবি নতুন ট্যাবে খুলছে', 'info');
+  }
+}
+
+// ===== WEB SEARCH =====
+async function doWebSearch() {
+  const q = sanitizeInput(document.getElementById('wsInput').value);
+  if (!q) { showToast('কিছু লিখুন', 'error'); return; }
+  const out = document.getElementById('wsOutput');
+  out.innerHTML = `<div class="ws-loading"><div class="ws-spinner"></div><span>সার্চ করছি...</span></div>`;
+
+  try {
+    const url = `https://api.allorigins.win/get?url=${encodeURIComponent('https://api.duckduckgo.com/?q=' + encodeURIComponent(q) + '&format=json&no_html=1&skip_disambig=1')}`;
+    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    const data = await res.json();
+    const json = JSON.parse(data.contents);
+
+    let resultsHtml = '';
+    if (json.AbstractText) {
+      resultsHtml += `<div class="ws-ai-answer">
+        <div class="ws-ai-label"><i class="fa-solid fa-circle-nodes"></i> সংক্ষেপ</div>
+        <div class="ws-ai-text">${escapeHtml(json.AbstractText)}</div>
+        ${json.AbstractURL ? `<div style="margin-top:8px;font-size:10px"><a href="${safeUrl(json.AbstractURL)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">${escapeHtml(json.AbstractURL)}</a></div>` : ''}
+      </div>`;
+    }
+
+    const topics = (json.RelatedTopics || []).filter(t => t.FirstURL && t.Text).slice(0, 6);
+    topics.forEach(t => {
+      const source = escapeHtml(t.FirstURL.replace('https://', '').split('/')[0]);
+      const title = escapeHtml((t.Text.split(' - ')[0] || '').slice(0, 80));
+      const desc = escapeHtml(t.Text.slice(0, 140));
+      resultsHtml += `<a class="ws-result-card" href="${safeUrl(t.FirstURL)}" target="_blank" rel="noopener noreferrer">
+        <div class="ws-result-source"><i class="fa-solid fa-link"></i>${source}</div>
+        <div class="ws-result-title">${title}</div>
+        <div class="ws-result-desc">${desc}...</div>
+      </a>`;
+    });
+
+    if (!json.AbstractText) {
+      resultsHtml = `<div class="ws-ai-answer">
+        <div class="ws-ai-label"><i class="fa-solid fa-robot"></i> AI উত্তর</div>
+        <div class="ws-ai-text" id="wsAiText"><div class="typing-dots"><span></span><span></span><span></span></div></div>
+      </div>` + resultsHtml;
+      out.innerHTML = resultsHtml;
+      await askAiForSearch(q);
+      return;
+    }
+    out.innerHTML = resultsHtml || `<div class="ws-empty"><i class="fa-solid fa-face-frown"></i><p>কোনো ফলাফল পাওয়া যায়নি</p></div>`;
+    showToast('সার্চ সম্পন্ন', 'success', 1500);
+  } catch (err) {
+    out.innerHTML = `<div class="ws-ai-answer">
+      <div class="ws-ai-label"><i class="fa-solid fa-robot"></i> AI উত্তর</div>
+      <div class="ws-ai-text" id="wsAiText"><div class="typing-dots"><span></span><span></span><span></span></div></div>
+    </div>`;
+    await askAiForSearch(q);
+  }
+}
+
+async function askAiForSearch(q) {
+  try {
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${OR_KEY}`,
+        "HTTP-Referer": "https://smart-ai.app"
+      },
+      body: JSON.stringify({
+        model: OR_MODEL,
+        messages: [{ role: "user", content: `"${q}" সম্পর্কে বাংলায় সংক্ষিপ্ত ও তথ্যসমৃদ্ধ উত্তর দাও।` }],
+        max_tokens: 800
+      })
+    });
+    const d = await res.json();
+    const reply = d?.choices?.[0]?.message?.content || 'তথ্য পাওয়া যায়নি।';
+    const el = document.getElementById('wsAiText');
+    if (el) el.innerHTML = formatInline(reply);
+    showToast('সার্চ সম্পন্ন', 'success', 1500);
+  } catch (e) {
+    const el = document.getElementById('wsAiText');
+    if (el) el.textContent = 'তথ্য লোড করতে সমস্যা হয়েছে।';
+  }
+}
+
+// ===== WEATHER =====
+function renderRecentCities() {
+  const el = document.getElementById('weatherRecent');
+  if (!recentCitiesArr.length) { el.innerHTML = ''; return; }
+  el.innerHTML = recentCitiesArr.slice(0, 5).map(c =>
+    `<span class="weather-recent-tag" onclick="document.getElementById('weatherInput').value='${escapeHtml(c)}';getWeather()">${escapeHtml(c)}</span>`
+  ).join('');
+}
+renderRecentCities();
+
+async function getWeather() {
+  const city = sanitizeInput(document.getElementById('weatherInput').value);
+  if (!city) { showToast('শহরের নাম লিখুন', 'error'); return; }
+  const out = document.getElementById('weatherOutput');
+  out.innerHTML = `<div class="ig-loading"><div class="ig-spinner" style="border-top-color:var(--accent5)"></div><span>আবহাওয়া লোড হচ্ছে...</span></div>`;
+
+  try {
+    const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`, { signal: AbortSignal.timeout(8000) });
+    const geoData = await geoRes.json();
+    if (!geoData.results?.length) {
+      out.innerHTML = `<div class="weather-empty"><i class="fa-solid fa-location-xmark"></i><p>"${escapeHtml(city)}" শহলটি খুঁজে পাওয়া যায়নি। সঠিক ইংরেজি নাম লিখুন।</p></div>`;
+      return;
+    }
+
+    const loc = geoData.results[0];
+    const { latitude: lat, longitude: lon, name, country, timezone } = loc;
+
+    const wRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code,apparent_temperature,precipitation,pressure_msl&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum&timezone=${encodeURIComponent(timezone || 'auto')}&forecast_days=7`, { signal: AbortSignal.timeout(8000) });
+    const wData = await wRes.json();
+    const cur = wData.current;
+    const daily = wData.daily;
+
+    function wCode(code) {
+      if (code <= 1)  return { icon: '☀️',  desc: 'পরিষ্কার আকাশ' };
+      if (code <= 3)  return { icon: '⛅',  desc: 'আংশিক মেঘলা' };
+      if (code <= 48) return { icon: '🌫️', desc: 'কুয়াশাচ্ছন্ন' };
+      if (code <= 57) return { icon: '🌧️', desc: 'গুঁড়িগুঁড়ি বৃষ্টি' };
+      if (code <= 67) return { icon: '🌧️', desc: 'বৃষ্টি' };
+      if (code <= 77) return { icon: '❄️',  desc: 'তুষারপাত' };
+      if (code <= 82) return { icon: '🌦️', desc: 'বৃষ্টি' };
+      if (code <= 86) return { icon: '🌨️', desc: 'তুষার ঝড়' };
+      if (code <= 99) return { icon: '⛈️', desc: 'বজ্রঝড়' };
+      return { icon: '🌡️', desc: 'অজানা' };
+    }
+
+    const w = wCode(cur.weather_code);
+    const days = ['রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহস্প', 'শুক্র', 'শনি'];
+
+    const forecastHtml = daily.time.slice(1, 7).map((date, i) => {
+      const d = new Date(date);
+      const fw = wCode(daily.weather_code[i + 1]);
+      return `<div class="wc-day">
+        <div class="wc-day-name">${days[d.getDay()]}</div>
+        <div class="wc-day-icon">${fw.icon}</div>
+        <div class="wc-day-temp">${Math.round(daily.temperature_2m_max[i + 1])}°/<span style="color:var(--muted)">${Math.round(daily.temperature_2m_min[i + 1])}°</span></div>
+      </div>`;
+    }).join('');
+
+    out.innerHTML = `<div class="weather-card">
+      <div class="wc-city">${escapeHtml(name)}</div>
+      <div class="wc-country"><i class="fa-solid fa-location-dot" style="color:var(--accent5)"></i>${escapeHtml(country)} · ${escapeHtml(timezone || '')}</div>
+      <div class="wc-main">
+        <div class="wc-icon-big">${w.icon}</div>
+        <div>
+          <div class="wc-temp">${Math.round(cur.temperature_2m)}°C</div>
+          <div class="wc-desc">${w.desc}</div>
+        </div>
+      </div>
+      <div class="wc-grid">
+        <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-temperature-half"></i> অনুভূত</div><div class="wc-stat-val">${Math.round(cur.apparent_temperature)}°C</div></div>
+        <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-droplet"></i> আর্দ্রতা</div><div class="wc-stat-val">${cur.relative_humidity_2m}%</div></div>
+        <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-wind"></i> বায়ুবেগ</div><div class="wc-stat-val">${cur.wind_speed_10m} km/h</div></div>
+        <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-cloud-rain"></i> বৃষ্টি</div><div class="wc-stat-val">${cur.precipitation} mm</div></div>
+      </div>
+      <div class="wc-forecast">
+        <div class="wc-forecast-title"><i class="fa-solid fa-calendar-days"></i> আগামী ৬ দিনের পূর্বাভাস</div>
+        <div class="wc-forecast-row">${forecastHtml}</div>
+      </div>
+    </div>`;
+
+    if (!recentCitiesArr.includes(name)) {
+      recentCitiesArr.unshift(name);
+      recentCitiesArr = recentCitiesArr.slice(0, 5);
+      localStorage.setItem('smart_ai_cities', JSON.stringify(recentCitiesArr));
+      renderRecentCities();
+    }
+    showToast(`${name} এর আবহাওয়া লোড হয়েছে`, 'success');
+  } catch (err) {
+    out.innerHTML = `<div class="weather-empty"><i class="fa-solid fa-triangle-exclamation"></i><p>আবহাওয়া লোড করতে সমস্যা। ইন্টারনেট সংযোগ চেক করুন।</p></div>`;
+    showToast('সমস্যা হয়েছে', 'error');
+  }
+}
+
+// ===== PDF READING =====
+function handlePdfDrop(e) {
+  e.preventDefault();
+  document.getElementById('pdfDropZone').classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f) handlePdfFile(f);
+}
+
+function handlePdfFile(file) {
+  if (!file) return;
+  const allowed = ['application/pdf', 'text/plain'];
+  const isAllowed = allowed.includes(file.type) || file.name.endsWith('.txt') || file.name.endsWith('.pdf');
+  if (!isAllowed) { showToast('PDF বা TXT ফাইল সাপোর্ট করা হয়', 'error'); return; }
+  if (file.size > 10 * 1024 * 1024) { showToast('ফাইল সাইজ ১০MB এর কম হতে হবে', 'error'); return; }
+  pdfName = file.name;
+  const r = new FileReader();
+  if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+    r.onload = e => { pdfText = e.target.result; showPdfLoaded(file); };
+    r.readAsText(file, 'UTF-8');
+  } else {
+    r.onload = e => {
+      const arr = new Uint8Array(e.target.result);
+      let extracted = '';
+      try {
+        const str = new TextDecoder('utf-8', { fatal: false }).decode(arr);
+        const matches = str.match(/\(([^)]{2,200})\)/g) || [];
+        extracted = matches.map(m => m.slice(1, -1)).filter(s => /[a-zA-Z\u0980-\u09FF]/.test(s) && s.length > 2).join(' ');
+        if (extracted.length < 50) {
+          extracted = str.replace(/[^\x20-\x7E\u0980-\u09FF\n]/g, ' ').replace(/\s+/g, ' ').slice(0, 8000);
         }
+      } catch { extracted = 'টেক্সট এক্সট্র্যাক্ট করা যায়নি।'; }
+      pdfText = extracted.trim() || 'PDF থেকে টেক্সট পড়া যায়নি। এটি স্ক্যান করা বা এনক্রিপ্টেড PDF হতে পারে।';
+      showPdfLoaded(file);
+    };
+    r.readAsArrayBuffer(file);
+  }
+}
 
-        // === App Logic ===
-        function syncUI() {
-            document.getElementById('u-bal').innerText = uData.balance.toFixed(2);
-            document.getElementById('u-ref-display').innerText = uData.ref_code;
-            const done = uData.tasks_today || 0;
-            document.getElementById('limit-text').innerText = `${done}/${taskLimit}`;
-            document.getElementById('u-progress').style.width = (done/taskLimit*100) + "%";
-            
-            if(uData.tasks_done >= 100) document.getElementById('u-rank').innerText = "Gold Member";
-            loadTasks();
-        }
+function showPdfLoaded(file) {
+  document.getElementById('pdfDropZone').style.display = 'none';
+  const loaded = document.getElementById('pdfLoaded');
+  loaded.style.display = 'flex';
+  const preview = escapeHtml(pdfText.slice(0, 500) + (pdfText.length > 500 ? '...' : ''));
+  const wordCount = pdfText.split(' ').filter(w => w).length;
+  const pageEst = Math.ceil(wordCount / 250);
 
-        function loadTasks() {
-            db.collection('tasks').onSnapshot(snap => {
-                const con = document.getElementById('task-con'); con.innerHTML = "";
-                snap.forEach(doc => {
-                    const t = doc.data();
-                    con.innerHTML += `<div class="bg-white p-4 rounded-2xl border flex justify-between items-center">
-                        <div><p class="font-bold text-sm">${t.name}</p><p class="text-[10px] font-bold text-emerald-500">Reward: ৳${t.reward}</p></div>
-                        <button onclick="startTask('${t.link}', ${t.reward}, ${t.timer})" class="bg-sky-600 text-white px-5 py-2 rounded-xl text-xs font-bold">Visit</button>
-                    </div>`;
-                });
-            });
-            db.collection('settings').doc('app_config').onSnapshot(d => { if(d.exists) tgLink = d.data().telegram; });
-        }
+  loaded.innerHTML = `
+    <div class="pdf-loaded-card">
+      <div class="pdf-icon-big"><i class="fa-solid fa-file-${file.type === 'text/plain' ? 'lines' : 'pdf'}"></i></div>
+      <div class="pdf-info">
+        <div class="pdf-name">${escapeHtml(pdfName)}</div>
+        <div class="pdf-size">${(file.size / 1024).toFixed(1)} KB · ${pdfText.length.toLocaleString()} অক্ষর</div>
+      </div>
+      <button class="pdf-remove" onclick="resetPdf()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="pdf-stats">
+      <div class="pdf-stat"><i class="fa-solid fa-file-lines"></i> ${pageEst} পেজ (আনুমানিক)</div>
+      <div class="pdf-stat"><i class="fa-solid fa-font"></i> ${wordCount.toLocaleString()} শব্দ</div>
+    </div>
+    ${pdfText.length > 10 ? `<div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.8px">পূর্বরূপ</div>
+    <div class="pdf-content-box">${preview}</div>` : ''}
+    <div class="pdf-ask-row">
+      <input class="pdf-ask-input" id="pdfQuestion" placeholder="এই ফাইল সম্পর্কে প্রশ্ন করুন..." onkeydown="if(event.key==='Enter')askPdf()">
+      <button class="pdf-ask-btn" onclick="askPdf()"><i class="fa-solid fa-paper-plane"></i> জিজ্ঞেস করুন</button>
+    </div>
+    <div id="pdfAnswer"></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <span class="ig-tag" onclick="document.getElementById('pdfQuestion').value='এই ফাইলটি সারসংক্ষেপ করো';askPdf()">📋 সারসংক্ষেপ</span>
+      <span class="ig-tag" onclick="document.getElementById('pdfQuestion').value='মূল বিষয়গুলো কী কী?';askPdf()">🔑 মূল বিষয়</span>
+      <span class="ig-tag" onclick="document.getElementById('pdfQuestion').value='এই ফাইল থেকে ৫টি গুরুত্বপূর্ণ তথ্য দাও';askPdf()">⭐ গুরুত্বপূর্ণ তথ্য</span>
+    </div>`;
+  showToast(`"${pdfName}" লোড হয়েছে`, 'success');
+}
 
-        function startTask(link, reward, timer) {
-            const now = Date.now();
-            if(uData.tasks_today >= taskLimit) return alert("লিমিট শেষ!");
-            if((now - uData.last_task_time)/1000 < 60) return alert("১ মিনিট অপেক্ষা করুন!");
+function resetPdf() {
+  pdfText = ''; pdfName = '';
+  document.getElementById('pdfDropZone').style.display = '';
+  document.getElementById('pdfLoaded').style.display = 'none';
+  document.getElementById('pdfLoaded').innerHTML = '';
+  document.getElementById('pdfInput').value = '';
+}
 
-            window.open(link, '_blank');
-            const overlay = document.getElementById('timer-overlay'), sec = document.getElementById('timer-sec');
-            overlay.style.display = 'flex';
-            let left = timer; sec.innerText = left;
-            
-            const iv = setInterval(() => {
-                left--; sec.innerText = left;
-                if(left <= 0) {
-                    clearInterval(iv); overlay.style.display = 'none';
-                    finishTask(reward);
-                }
-            }, 1000);
-        }
+async function askPdf() {
+  const q = sanitizeInput(document.getElementById('pdfQuestion')?.value || '');
+  if (!q) { showToast('প্রশ্ন লিখুন', 'error'); return; }
+  if (!pdfText) { showToast('প্রথমে ফাইল আপলোড করুন', 'error'); return; }
+  const ansEl = document.getElementById('pdfAnswer');
+  ansEl.innerHTML = `<div class="pdf-answer"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
 
-        async function finishTask(reward) {
-            const a = Math.floor(Math.random()*9), b = Math.floor(Math.random()*9);
-            if(parseInt(prompt(`${a} + ${b} = কত?`)) === (a+b)) {
-                await db.collection('users').doc(uData.uid).update({
-                    balance: firebase.firestore.FieldValue.increment(reward),
-                    tasks_today: firebase.firestore.FieldValue.increment(1),
-                    tasks_done: firebase.firestore.FieldValue.increment(1),
-                    last_task_time: Date.now()
-                });
-                if(uData.referred_by) {
-                    const refQ = await db.collection('users').where('ref_code','==',uData.referred_by).get();
-                    refQ.forEach(d => d.ref.update({balance: firebase.firestore.FieldValue.increment(reward*0.1)}));
-                }
-                alert("পয়েন্ট যোগ হয়েছে! ✅");
-            }
-        }
+  try {
+    const context = pdfText.slice(0, 6000);
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${OR_KEY}`,
+        "HTTP-Referer": "https://smart-ai.app"
+      },
+      body: JSON.stringify({
+        model: OR_MODEL,
+        messages: [
+          { role: "system", content: `তুমি একটি ডকুমেন্ট বিশ্লেষণকারী AI। নিচের ডকুমেন্টের তথ্য ব্যবহার করে বাংলায় উত্তর দাও।\n\nডকুমেন্ট:\n${context}` },
+          { role: "user", content: q }
+        ],
+        max_tokens: 1000
+      })
+    });
+    const d = await res.json();
+    const reply = d?.choices?.[0]?.message?.content || 'উত্তর পাওয়া যায়নি।';
+    ansEl.innerHTML = `<div class="pdf-answer">${formatInline(reply)}</div>`;
+    document.getElementById('pdfQuestion').value = '';
+    showToast('উত্তর পাওয়া গেছে', 'success', 1500);
+  } catch {
+    ansEl.innerHTML = `<div class="pdf-answer" style="color:var(--danger)">⚠️ সমস্যা হয়েছে। আবার চেষ্টা করুন।</div>`;
+  }
+}
 
-        async function claimBonus() {
-            const today = new Date().setHours(0,0,0,0);
-            if((uData.last_bonus || 0) >= today) return alert("আজকের বোনাস নেওয়া শেষ!");
-            await db.collection('users').doc(uData.uid).update({balance: firebase.firestore.FieldValue.increment(1), last_bonus: Date.now()});
-            alert("৳১.০০ বোনাস পেয়েছেন! ✅");
-        }
+// ===== VOICE =====
+function toggleVoice() {
+  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    showToast('ভয়েস সাপোর্ট নেই এই ব্রাউজারে', 'error');
+    return;
+  }
+  if (isListening) { stopVoice(); return; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SR();
+  recognition.lang = 'bn-BD';
+  recognition.interimResults = true;
+  recognition.continuous = false;
+  recognition.onstart = () => {
+    isListening = true;
+    voiceBtn.classList.add('active');
+    voiceIndicator.classList.add('show');
+  };
+  recognition.onresult = e => {
+    let t = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) t += e.results[i][0].transcript;
+    inputEl.value = t;
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
+  };
+  recognition.onend = () => { stopVoice(); if (inputEl.value.trim()) sendMessage(); };
+  recognition.onerror = () => stopVoice();
+  recognition.start();
+}
 
-        function openWallet() {
-            const amt = prompt("টাকার পরিমাণ (মিনিমাম ১০০০৳):");
-            if(amt >= 1000 && uData.balance >= amt) {
-                const num = prompt("নম্বর দিন:");
-                db.collection('withdrawals').add({uid: uData.uid, amount: parseFloat(amt), number: num, status: 'pending', time: Date.now()});
-                db.collection('users').doc(uData.uid).update({balance: firebase.firestore.FieldValue.increment(-amt)});
-                alert("রিকোয়েস্ট সফল হয়েছে!");
-            } else alert("ব্যালেন্স কম বা ভুল তথ্য!");
-        }
+function stopVoice() {
+  isListening = false;
+  voiceBtn.classList.remove('active');
+  voiceIndicator.classList.remove('show');
+  if (recognition) { try { recognition.stop(); } catch {} recognition = null; }
+}
 
-        window.copyRef = () => { navigator.clipboard.writeText(uData.ref_code); alert("কোড কপি হয়েছে!"); };
-    </script>
+// ===== MODAL =====
+function showModal() { document.getElementById('proModal').classList.add('active'); goTo(1); }
+document.getElementById('modalCloseBtn').addEventListener('click', () => document.getElementById('proModal').classList.remove('active'));
+document.getElementById('proModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('proModal')) document.getElementById('proModal').classList.remove('active');
+});
+document.getElementById('proCard').addEventListener('click', e => e.stopPropagation());
+
+// Close viewer on ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeViewer();
+    document.getElementById('proModal').classList.remove('active');
+  }
+});
+
+function goTo(step) {
+  currentStep = step;
+  const map = { 1: 'stepPlans', 2: 'stepMethods', 3: 'stepDeposit', 4: 'stepSuccess' };
+  Object.values(map).forEach(id => document.getElementById(id)?.classList.remove('active'));
+  document.getElementById(map[step])?.classList.add('active');
+  document.getElementById('sd1').className = 'step-dot ' + (step > 1 ? 'done' : 'active');
+  document.getElementById('sd2').className = 'step-dot ' + (step > 2 ? 'done' : step === 2 ? 'active' : '');
+  document.getElementById('sd3').className = 'step-dot ' + (step >= 3 ? 'active' : '');
+}
+
+function selectPlan(name, priceBDT, priceUSD) {
+  selectedPlan = { name, priceBDT, priceUSD };
+  const grid = document.getElementById('methodGrid');
+  grid.innerHTML = '';
+  Object.keys(paymentSettings).forEach(k => {
+    const gw = paymentSettings[k];
+    const el = document.createElement('div');
+    el.className = 'method-item';
+    el.onclick = () => selectMethod(k, gw);
+    el.innerHTML = `<div class="method-left">
+      <div class="method-logo">
+        <img src="${escapeHtml(gw.logo)}" alt="${escapeHtml(k)}"
+          onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\\'fa-solid fa-wallet\\' style=\\'color:var(--accent);font-size:18px\\'></i>'">
+      </div>
+      <div>
+        <div class="method-name">${escapeHtml(k)}</div>
+        <div class="method-type">${escapeHtml(gw.type || 'Mobile Banking')}</div>
+      </div>
+    </div>
+    <i class="fa-solid fa-chevron-right" style="color:var(--muted);font-size:11px"></i>`;
+    grid.appendChild(el);
+  });
+  goTo(2);
+}
+
+function selectMethod(name, gw) {
+  selectedMethod = { name, gw };
+  document.getElementById('depositPlanLabel').textContent = `${selectedPlan.name} — ৳${selectedPlan.priceBDT} / $${selectedPlan.priceUSD}`;
+  document.getElementById('depositMethodName').textContent = `${name} (${gw.type || ''})`;
+  document.getElementById('depositNumber').textContent = gw.number;
+  document.getElementById('copyBtn').className = 'copy-btn';
+  document.getElementById('copyBtn').innerHTML = '<i class="fa-regular fa-copy"></i> কপি';
+  document.getElementById('trxInput').value = '';
+  document.getElementById('trxInput').className = 'trx-field';
+  goTo(3);
+}
+
+function copyNumber() {
+  const num = document.getElementById('depositNumber').textContent;
+  navigator.clipboard.writeText(num).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.className = 'copy-btn copied';
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> হয়েছে';
+    setTimeout(() => { btn.className = 'copy-btn'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> কপি'; }, 2500);
+    showToast('নম্বর কপি হয়েছে', 'success', 1500);
+  }).catch(() => {
+    showToast('কপি করা যায়নি, ম্যানুয়ালি কপি করুন', 'error');
+  });
+}
+
+function submitPayment() {
+  const f = document.getElementById('trxInput');
+  const trx = sanitizeInput(f.value);
+  if (!trx || trx.length < 4) {
+    f.className = 'trx-field error';
+    f.focus();
+    setTimeout(() => f.className = 'trx-field', 2000);
+    showToast('সঠিক TrxID লিখুন (কমপক্ষে ৪ অক্ষর)', 'error');
+    return;
+  }
+  try {
+    if (db) db.ref('payments').push({
+      plan: selectedPlan.name,
+      priceBDT: selectedPlan.priceBDT,
+      method: selectedMethod.name,
+      number: selectedMethod.gw?.number || '',
+      trxId: trx,
+      timestamp: Date.now(),
+      status: 'pending'
+    });
+  } catch (e) {}
+  goTo(4);
+}
+</script>
 </body>
-    </html>
+</html>
