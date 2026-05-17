@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;">
-<title>M-AI Pro·</title>
+<title>M-AI Pro .</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -89,6 +88,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .bubble.user-bubble{background:var(--user-bubble);border-top-right-radius:4px;color:#fff;box-shadow:0 4px 16px rgba(59,130,246,0.28)}
 .bubble img.msg-img{max-width:100%;max-height:200px;border-radius:10px;margin-bottom:6px;display:block;object-fit:cover}
 .bubble .msg-text{white-space:pre-wrap}
+/* Markdown */
 .bubble h1,.bubble h2,.bubble h3{font-weight:600;margin:10px 0 5px;color:var(--accent)}
 .bubble h1{font-size:16px}.bubble h2{font-size:14px}.bubble h3{font-size:13px}
 .bubble ul,.bubble ol{margin:5px 0 5px 18px}
@@ -139,7 +139,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .chip{background:var(--surface3);border:1px solid var(--border);padding:5px 11px;border-radius:30px;font-size:10px;color:var(--text2);cursor:pointer;transition:.2s;display:flex;align-items:center;gap:4px}
 .chip:hover{border-color:var(--border2);color:var(--accent);background:rgba(79,209,197,0.07);transform:translateY(-1px)}
 
-/* IMAGE GENERATION */
+/* ===== IMAGE GENERATION UI ===== */
 .img-gen-panel{padding:16px;display:flex;flex-direction:column;gap:12px;height:100%;overflow-y:auto}
 .ig-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px}
 .ig-title i{color:var(--accent4)}
@@ -167,7 +167,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ig-tag{background:var(--surface3);border:1px solid var(--border);padding:3px 9px;border-radius:20px;font-size:9px;color:var(--text2);cursor:pointer;transition:.2s}
 .ig-tag:hover{border-color:var(--accent4);color:var(--accent4)}
 
-/* WEATHER */
+/* ===== WEATHER UI ===== */
 .weather-panel{padding:16px;height:100%;overflow-y:auto}
 .weather-search-row{display:flex;gap:8px;margin-bottom:14px}
 .weather-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;color:var(--text);font-family:var(--font-main);font-size:13px;outline:none;transition:.2s}
@@ -202,7 +202,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .weather-recent-tag{background:var(--surface2);border:1px solid var(--border);padding:4px 10px;border-radius:20px;font-size:10px;color:var(--text2);cursor:pointer;transition:.2s}
 .weather-recent-tag:hover{border-color:var(--accent5);color:var(--accent5)}
 
-/* WEB SEARCH */
+/* ===== WEB SEARCH UI ===== */
 .search-panel{padding:16px;height:100%;overflow-y:auto}
 .ws-search-row{display:flex;gap:8px;margin-bottom:14px}
 .ws-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;color:var(--text);font-family:var(--font-main);font-size:13px;outline:none;transition:.2s}
@@ -225,7 +225,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ws-loading{display:flex;align-items:center;gap:10px;padding:16px;color:var(--muted);font-size:12px}
 .ws-spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
 
-/* PDF */
+/* ===== PDF UI ===== */
 .pdf-panel{padding:16px;height:100%;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
 .pdf-drop-zone{border:2px dashed var(--border2);border-radius:14px;padding:32px;text-align:center;cursor:pointer;transition:.2s;background:var(--surface2)}
 .pdf-drop-zone:hover,.pdf-drop-zone.drag-over{border-color:var(--danger);background:rgba(239,68,68,0.05)}
@@ -364,19 +364,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 @keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
 .success-screen h3{font-size:16px;font-weight:700;margin-bottom:7px}
 .success-screen p{font-size:11px;color:var(--text2);line-height:1.7}
-
 /* Fullscreen image viewer */
 .img-viewer{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:300;display:none;align-items:center;justify-content:center;cursor:zoom-out}
 .img-viewer.show{display:flex}
 .img-viewer img{max-width:92vw;max-height:92vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .img-viewer-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px}
-
-/* STREAMING cursor */
-.stream-cursor{display:inline-block;width:2px;height:14px;background:var(--accent);margin-left:2px;animation:blink .6s infinite;vertical-align:middle}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-
-/* Rate limit warning */
-.rate-warning{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:10px 13px;font-size:11px;color:var(--danger);display:flex;align-items:center;gap:7px;margin:6px 0}
 </style>
 </head>
 <body>
@@ -385,7 +377,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <div class="header">
   <div class="brand">
     <div class="logo-wrap"><i class="fa-solid fa-microchip"></i></div>
-    <div class="brand-text"><h1>M-AI Pro</h1><span>by Md. Mustkaim</span></div>
+    <div class="brand-text"><h1>Smart AI Pro</h1><span>by Md. Mustkaim</span></div>
   </div>
   <div class="header-right">
     <div class="status-dot"></div>
@@ -407,7 +399,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <!-- TOAST -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- MAIN WRAP -->
+<!-- CHAT WRAP -->
 <div class="chat-wrap" id="mainWrap">
 
   <!-- CHAT MODE -->
@@ -417,7 +409,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="welcome-card">
           <div class="wc-icon-wrap"><i class="fa-solid fa-stars wc-icon"></i></div>
           <h2>স্বাগতম M-AI Pro -তে!</h2>
-          <p>তৈরি করেছেন <strong>Md. Mustkaim</strong> — Full Stack Developer<br>কোডিং, ছবি, আবহাওয়া, ওয়েব সার্চ, PDF — সব এক জায়গায়!</p>
+          <p>তৈরি করেছেন <strong>Md. MUSTKIM </strong> — Full Stack Developer<br>কোডিং, ছবি, আবহাওয়া, ওয়েব সার্চ, PDF — সব এক জায়গায়!</p>
           <div class="suggest-chips">
             <div class="chip" onclick="quickSend('React.js দিয়ে todo app কোড লিখে দাও')"><i class="fa-brands fa-react"></i> React</div>
             <div class="chip" onclick="quickSend('Python দিয়ে login system কোড লিখে দাও')"><i class="fa-brands fa-python"></i> Python</div>
@@ -431,7 +423,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
   </div>
 
-  <!-- IMAGE MODE -->
+  <!-- IMAGE GENERATION MODE -->
   <div id="imageMode" style="display:none;height:100%;overflow-y:auto">
     <div class="img-gen-panel">
       <div class="ig-title"><i class="fa-solid fa-wand-magic-sparkles"></i> AI ছবি তৈরি করুন</div>
@@ -494,15 +486,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <!-- PDF MODE -->
   <div id="pdfMode" style="display:none;height:100%;overflow-y:auto">
     <div class="pdf-panel">
-      <div id="pdfDropZone" class="pdf-drop-zone"
-        ondragover="event.preventDefault();this.classList.add('drag-over')"
-        ondragleave="this.classList.remove('drag-over')"
-        ondrop="handlePdfDrop(event)">
+      <div id="pdfDropZone" class="pdf-drop-zone" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handlePdfDrop(event)">
         <div class="pdf-drop-icon"><i class="fa-solid fa-file-pdf"></i></div>
         <div class="pdf-drop-title">PDF ফাইল ড্র্যাগ করুন</div>
         <div class="pdf-drop-sub">অথবা নিচের বাটনে ক্লিক করুন</div>
         <label class="pdf-file-label" for="pdfInput"><i class="fa-solid fa-upload"></i> ফাইল বেছে নিন</label>
-        <input type="file" id="pdfInput" accept=".pdf,.txt" style="display:none" onchange="handlePdfFile(this.files[0])">
+        <input type="file" id="pdfInput" accept=".pdf,.txt,.doc" style="display:none" onchange="handlePdfFile(this.files[0])">
       </div>
       <div id="pdfLoaded" style="display:none;flex-direction:column;gap:10px"></div>
     </div>
@@ -536,7 +525,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <div class="input-footer">
     <div style="display:flex;align-items:center;gap:5px">
       <i class="fa-solid fa-shield-halved" style="color:var(--accent3)"></i>
-      <span>M-AI Pro · Md. Mustkaim</span>
+      <span>Smart AI Pro · Md. Mustkaim</span>
       <div class="model-badge"><i class="fa-solid fa-circle-nodes"></i><span>Gemini 2.0 Flash</span></div>
     </div>
     <span id="tokenInfo" style="font-size:9px;color:var(--muted)"></span>
@@ -548,7 +537,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <!-- FULLSCREEN IMG VIEWER -->
 <div class="img-viewer" id="imgViewer" onclick="closeViewer()">
   <img id="viewerImg" src="" alt="">
-  <button class="img-viewer-close" onclick="closeViewer()"><i class="fa-solid fa-xmark"></i></button>
+  <button class="img-viewer-close"><i class="fa-solid fa-xmark"></i></button>
 </div>
 
 <!-- PRO MODAL -->
@@ -606,7 +595,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="success-screen">
           <div class="success-icon">🎉</div>
           <h3>অনুরোধ পাঠানো হয়েছে!</h3>
-          <p>TrxID যাচাই হলে ১–২৪ ঘণ্টার মধ্যে PRO সক্রিয় হবে।<br>ধন্যবাদ M-AI Pro ব্যবহার করার জন্য!</p>
+          <p>TrxID যাচাই হলে ১–২৪ ঘণ্টার মধ্যে PRO সক্রিয় হবে।<br>ধন্যবাদ Smart AI ব্যবহার করার জন্য!</p>
         </div>
       </div>
     </div>
@@ -616,27 +605,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 <script>
-// ===== SECURITY: Input sanitization =====
-function sanitizeInput(str) {
-  if (typeof str !== 'string') return '';
-  return str.trim().slice(0, 4000); // max length
-}
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#x27;');
-}
-// Validate URL (only allow http/https)
-function safeUrl(url) {
-  try {
-    const u = new URL(url);
-    return (u.protocol === 'http:' || u.protocol === 'https:') ? url : '#';
-  } catch { return '#'; }
-}
-
 // ===== CONFIG =====
 const OR_KEY   = "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";
 const OR_MODEL = "google/gemini-2.0-flash-001";
@@ -644,185 +612,129 @@ const MAX_FREE = 40;
 
 const SYSTEM_PROMPT = `You are 'M-AI Pro', an advanced AI assistant created by Md. Mustkaim, a talented Bangladeshi Full Stack Developer.
 
-When asked who made you or who created you:
-- Answer: তোমাকে তৈরি করেছেন Md. Mustkaim
-- He is a skilled Full Stack Developer from Bangladesh
-- Skills: HTML, CSS, JavaScript, React.js, Next.js, Node.js, PHP, Python, Android, AI Development, Firebase, MongoDB, MySQL, UI/UX
-- M-AI Pro is his flagship AI project
-- You were NOT made by Google, OpenAI, Anthropic, or any other company
-- You are M-AI Pro — always
+When asked who made you:
+- তোমাকে তৈরি করেছেন Md. MUSTKIM
+- তিনি একজন দক্ষ Full Stack Developer
+- দক্ষতা: HTML, CSS, JavaScript, React.js, Next.js, Node.js, PHP, Python, Android, AI Development, Firebase, MongoDB, MySQL, UI/UX
+- M-AI Pro হলো তার একটি প্রজেক্ট
 
-When asked about your capabilities:
-- You can chat, write code, analyze images, generate images, do web search, check weather, read PDFs
-- You are powered by advanced AI
-
-Coding guidelines:
-- Always provide COMPLETE, working, well-commented code
-- Use proper markdown code blocks with language specified
-- Include all necessary imports and setup
-- Add explanatory comments in Bengali when helpful
-
-Language: Respond in Bengali (বাংলা) unless user writes in another language.
-Formatting: Use markdown properly (headers, lists, bold, tables, code blocks).
-Tone: Friendly, helpful, professional. Never say you are limited or cannot do something without trying.`;
+Coding: always provide complete, working, well-commented code with proper markdown code blocks.
+Languages: Respond in Bengali (বাংলা) unless user writes in another language.
+Formatting: Use markdown properly (headers, lists, bold, tables, code blocks).`;
 
 // Firebase
-try {
-  firebase.initializeApp({
-    apiKey:"AIzaSyBM-DWuwF3f_JAJh8VGc41MzcOLKDRIjWc",
-    authDomain:"ai-app-called.firebaseapp.com",
-    databaseURL:"https://ai-app-called-default-rtdb.firebaseio.com",
-    projectId:"ai-app-called",
-    storageBucket:"ai-app-called.firebasestorage.app",
-    messagingSenderId:"789598221700",
-    appId:"1:789598221700:web:de5f523bce2392707799d1"
-  });
-} catch(e) {}
-let db;
-try { db = firebase.database(); } catch(e) {}
+try{firebase.initializeApp({apiKey:"AIzaSyBM-DWuwF3f_JAJh8VGc41MzcOLKDRIjWc",authDomain:"ai-app-called.firebaseapp.com",databaseURL:"https://ai-app-called-default-rtdb.firebaseio.com",projectId:"ai-app-called",storageBucket:"ai-app-called.firebasestorage.app",messagingSenderId:"789598221700",appId:"1:789598221700:web:de5f523bce2392707799d1"});}catch(e){}
+let db; try{db=firebase.database();}catch(e){}
 
-// ===== STATE =====
-let used = parseInt(localStorage.getItem('smart_ai_used') || '0');
-let isProUser = localStorage.getItem('smart_ai_pro') === 'true';
-let paymentSettings = {
-  "বিকাশ":  { number:"01700000000", logo:"https://getlogo.net/wp-content/uploads/2020/03/bkash-logo-vector.png",  type:"Personal" },
-  "নগদ":    { number:"01800000000", logo:"https://download.logo.wine/logo/Nagad/Nagad-Logo.wine.png",           type:"Personal" },
-  "Rocket": { number:"01900000000", logo:"https://upload.wikimedia.org/wikipedia/en/4/40/Dutch-Bangla_Bank_logo.svg", type:"Personal" }
-};
-let selectedPlan = {}, selectedMethod = {}, selectedImg = null;
-let isSending = false, welcomeRemoved = false, currentStep = 1;
-let conversationHistory = [], recognition = null, isListening = false;
-let isDark = localStorage.getItem('smart_ai_theme') !== 'light';
-let currentMode = 'chat';
-let pdfText = '', pdfName = '';
-let recentCitiesArr = JSON.parse(localStorage.getItem('smart_ai_cities') || '[]');
+// STATE
+let used=parseInt(localStorage.getItem('smart_ai_used')||'0');
+let isProUser=localStorage.getItem('smart_ai_pro')==='true';
+let paymentSettings={"বিকাশ":{number:"01700000000",logo:"https://getlogo.net/wp-content/uploads/2020/03/bkash-logo-vector.png",type:"Personal"},"নগদ":{number:"01800000000",logo:"https://download.logo.wine/logo/Nagad/Nagad-Logo.wine.png",type:"Personal"},"Rocket":{number:"01900000000",logo:"https://upload.wikimedia.org/wikipedia/en/4/40/Dutch-Bangla_Bank_logo.svg",type:"Personal"}};
+let selectedPlan={},selectedMethod={},selectedImg=null;
+let isSending=false,welcomeRemoved=false,currentStep=1;
+let conversationHistory=[],recognition=null,isListening=false;
+let isDark=localStorage.getItem('smart_ai_theme')!=='light';
+let currentMode='chat';
+let pdfText='',pdfName='';
+let weatherCache={};
+let recentCities=JSON.parse(localStorage.getItem('smart_ai_cities')||'[]');
 
-if (db) db.ref('paymentSettings').on('value', s => { if (s.exists()) paymentSettings = s.val(); }, () => {});
+if(db) db.ref('paymentSettings').on('value',s=>{if(s.exists())paymentSettings=s.val();},()=>{});
 
-// DOM refs
-const chatEl       = document.getElementById('chatContainer');
-const inputEl      = document.getElementById('userInput');
-const sendEl       = document.getElementById('sendBtn');
-const limitEl      = document.getElementById('limitPill');
-const imgInput     = document.getElementById('imgFileInput');
-const previewBar   = document.getElementById('previewBar');
-const scrollBtn    = document.getElementById('scrollBtn');
-const voiceBtn     = document.getElementById('voiceBtn');
-const voiceIndicator = document.getElementById('voiceIndicator');
-const tokenInfoEl  = document.getElementById('tokenInfo');
+// DOM
+const chatEl=document.getElementById('chatContainer');
+const inputEl=document.getElementById('userInput');
+const sendEl=document.getElementById('sendBtn');
+const limitEl=document.getElementById('limitPill');
+const imgInput=document.getElementById('imgFileInput');
+const previewBar=document.getElementById('previewBar');
+const scrollBtn=document.getElementById('scrollBtn');
+const voiceBtn=document.getElementById('voiceBtn');
+const voiceIndicator=document.getElementById('voiceIndicator');
+const tokenInfoEl=document.getElementById('tokenInfo');
 
-// ===== THEME =====
-function applyTheme() {
-  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-  document.getElementById('themeBtn').innerHTML = isDark
-    ? '<i class="fa-solid fa-moon"></i>'
-    : '<i class="fa-solid fa-sun"></i>';
-  document.getElementById('hljs-theme').href = isDark
-    ? 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css'
-    : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+// THEME
+function applyTheme(){
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('themeBtn').innerHTML=isDark?'<i class="fa-solid fa-moon"></i>':'<i class="fa-solid fa-sun"></i>';
+  document.getElementById('hljs-theme').href=isDark
+    ?'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css'
+    :'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
 }
-function toggleTheme() {
-  isDark = !isDark;
-  localStorage.setItem('smart_ai_theme', isDark ? 'dark' : 'light');
-  applyTheme();
-}
+function toggleTheme(){isDark=!isDark;localStorage.setItem('smart_ai_theme',isDark?'dark':'light');applyTheme();}
 applyTheme();
 
-// ===== LIMIT =====
-function updateLimit() {
-  if (isProUser) { limitEl.textContent = "✦ PRO"; limitEl.className = "limit-pill pro-mode"; return; }
-  const left = Math.max(0, MAX_FREE - used);
-  limitEl.textContent = `${left}/${MAX_FREE}`;
-  limitEl.className = "limit-pill";
-  limitEl.style.color = left <= 5 ? 'var(--danger)' : 'var(--accent)';
+// LIMIT
+function updateLimit(){
+  if(isProUser){limitEl.textContent="✦ PRO";limitEl.className="limit-pill pro-mode";return;}
+  const left=Math.max(0,MAX_FREE-used);
+  limitEl.textContent=`${left}/${MAX_FREE}`;
+  limitEl.className="limit-pill";
+  if(left<=5)limitEl.style.color='var(--warning)';else limitEl.style.color='var(--accent)';
 }
 updateLimit();
+(function(){const today=new Date().toDateString();if(localStorage.getItem('smart_ai_day')!==today){used=0;localStorage.setItem('smart_ai_used','0');localStorage.setItem('smart_ai_day',today);updateLimit();}})();
 
-// Daily reset
-(function() {
-  const today = new Date().toDateString();
-  if (localStorage.getItem('smart_ai_day') !== today) {
-    used = 0;
-    localStorage.setItem('smart_ai_used', '0');
-    localStorage.setItem('smart_ai_day', today);
-    updateLimit();
-  }
-})();
-
-// ===== TOAST =====
-function showToast(msg, type = 'info', dur = 2800) {
-  const tc = document.getElementById('toastContainer');
-  const t = document.createElement('div');
-  t.className = `toast ${type}`;
-  const ic = { success:'fa-check-circle', error:'fa-circle-xmark', info:'fa-circle-info' };
-  const cl = { success:'var(--accent3)', error:'var(--danger)', info:'var(--accent)' };
-  t.innerHTML = `<i class="fa-solid ${ic[type]||ic.info}" style="color:${cl[type]||cl.info}"></i><span>${escapeHtml(String(msg))}</span>`;
+// TOAST
+function showToast(msg,type='info',dur=2800){
+  const tc=document.getElementById('toastContainer');
+  const t=document.createElement('div');t.className=`toast ${type}`;
+  const ic={success:'fa-check-circle',error:'fa-circle-xmark',info:'fa-circle-info'};
+  const cl={success:'var(--accent3)',error:'var(--danger)',info:'var(--accent)'};
+  t.innerHTML=`<i class="fa-solid ${ic[type]||ic.info}" style="color:${cl[type]||cl.info}"></i><span>${msg}</span>`;
   tc.appendChild(t);
-  setTimeout(() => {
-    t.style.opacity = '0'; t.style.transform = 'translateX(18px)'; t.style.transition = '.3s';
-    setTimeout(() => t.remove(), 300);
-  }, dur);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(18px)';t.style.transition='.3s';setTimeout(()=>t.remove(),300);},dur);
 }
 
-// ===== MODE SWITCH =====
-function switchMode(mode) {
-  currentMode = mode;
-  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
-  ['chat','image','search','weather','pdf'].forEach(m => {
-    const el = document.getElementById(m + 'Mode');
-    if (el) el.style.display = m === mode ? 'block' : 'none';
-  });
-  document.getElementById('inputShell').style.display = mode === 'chat' ? 'block' : 'none';
+// MODE SWITCH
+function switchMode(mode){
+  currentMode=mode;
+  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.toggle('active',t.dataset.mode===mode));
+  document.getElementById('chatMode').style.display=mode==='chat'?'block':'none';
+  document.getElementById('imageMode').style.display=mode==='image'?'block':'none';
+  document.getElementById('searchMode').style.display=mode==='search'?'block':'none';
+  document.getElementById('weatherMode').style.display=mode==='weather'?'block':'none';
+  document.getElementById('pdfMode').style.display=mode==='pdf'?'block':'none';
+  ['chatMode','imageMode','searchMode','weatherMode','pdfMode'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.height='100%';});
+  const showInput=mode==='chat';
+  document.getElementById('inputShell').style.display=showInput?'block':'none';
   document.getElementById('previewBar').classList.remove('show');
 }
 
-// ===== IMAGE PREVIEW =====
-imgInput.addEventListener('change', e => {
-  const f = e.target.files[0];
-  if (!f) return;
-  if (f.size > 5 * 1024 * 1024) { showToast('ছবির সাইজ ৫MB এর কম হতে হবে', 'error'); return; }
-  const r = new FileReader();
-  r.onload = ev => {
-    selectedImg = ev.target.result.split(',')[1];
-    document.getElementById('previewThumb').src = ev.target.result;
-    document.getElementById('previewSize').textContent = (f.size / 1024).toFixed(1) + ' KB';
+// IMAGE
+imgInput.addEventListener('change',e=>{
+  const f=e.target.files[0];if(!f)return;
+  if(f.size>5*1024*1024){showToast('ছবির সাইজ ৫MB এর কম হতে হবে','error');return;}
+  const r=new FileReader();
+  r.onload=ev=>{
+    selectedImg=ev.target.result.split(',')[1];
+    document.getElementById('previewThumb').src=ev.target.result;
+    document.getElementById('previewSize').textContent=(f.size/1024).toFixed(1)+' KB';
     previewBar.classList.add('show');
-    showToast('ছবি যোগ হয়েছে', 'success', 1500);
+    showToast('ছবি যোগ হয়েছে','success',1500);
   };
   r.readAsDataURL(f);
 });
-function removeImage() { selectedImg = null; imgInput.value = ''; previewBar.classList.remove('show'); }
+function removeImage(){selectedImg=null;imgInput.value='';previewBar.classList.remove('show');}
 
-// ===== SCROLL =====
-chatEl.addEventListener('scroll', () => {
-  const near = chatEl.scrollHeight - chatEl.scrollTop - chatEl.clientHeight < 140;
-  scrollBtn.classList.toggle('show', !near && chatEl.scrollHeight > chatEl.clientHeight + 300);
+// SCROLL
+chatEl.addEventListener('scroll',()=>{
+  const near=chatEl.scrollHeight-chatEl.scrollTop-chatEl.clientHeight<140;
+  scrollBtn.classList.toggle('show',!near&&chatEl.scrollHeight>chatEl.clientHeight+300);
 });
-function scrollDown() { chatEl.scrollTo({ top: chatEl.scrollHeight, behavior: 'smooth' }); }
+function scrollDown(){chatEl.scrollTo({top:chatEl.scrollHeight,behavior:'smooth'});}
 
-// ===== INPUT AUTO-RESIZE =====
-inputEl.addEventListener('input', () => {
-  inputEl.style.height = 'auto';
-  inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
-});
-inputEl.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-});
-sendEl.addEventListener('click', sendMessage);
+// INPUT
+inputEl.addEventListener('input',()=>{inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,100)+'px';});
+inputEl.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+sendEl.addEventListener('click',sendMessage);
 
-function clearWelcome() {
-  if (!welcomeRemoved) {
-    const w = document.getElementById('welcomeWrap');
-    if (w) w.remove();
-    welcomeRemoved = true;
-  }
-}
+function clearWelcome(){if(!welcomeRemoved){const w=document.getElementById('welcomeWrap');if(w)w.remove();welcomeRemoved=true;}}
 
-function newChat() {
-  if (isSending) return;
-  conversationHistory = [];
-  welcomeRemoved = false;
-  chatEl.innerHTML = `<div class="welcome-wrap" id="welcomeWrap"><div class="welcome-card">
+function newChat(){
+  if(isSending)return;
+  conversationHistory=[];welcomeRemoved=false;
+  chatEl.innerHTML=`<div class="welcome-wrap" id="welcomeWrap"><div class="welcome-card">
     <div class="wc-icon-wrap"><i class="fa-solid fa-rotate-right wc-icon"></i></div>
     <h2>নতুন চ্যাট শুরু!</h2><p>তৈরি করেছেন <strong>Md. Mustkaim</strong></p>
     <div class="suggest-chips">
@@ -830,207 +742,99 @@ function newChat() {
       <div class="chip" onclick="quickSend('Python login system কোড')"><i class="fa-brands fa-python"></i> Python</div>
       <div class="chip" onclick="quickSend('তুমি কে?')"><i class="fa-solid fa-robot"></i> AI</div>
     </div></div></div>`;
-  tokenInfoEl.textContent = '';
-  showToast('নতুন চ্যাট', 'success', 1500);
+  tokenInfoEl.textContent='';
+  showToast('নতুন চ্যাট','success',1500);
 }
 
-// ===== SEND MESSAGE =====
-async function sendMessage() {
-  const raw = inputEl.value.trim();
-  const txt = sanitizeInput(raw);
-  if ((!txt && !selectedImg) || isSending) return;
-  if (!isProUser && used >= MAX_FREE) { showModal(); return; }
+// SEND MESSAGE
+async function sendMessage(){
+  const txt=inputEl.value.trim();
+  if((!txt&&!selectedImg)||isSending)return;
+  if(!isProUser&&used>=MAX_FREE){showModal();return;}
+  clearWelcome();isSending=true;sendEl.disabled=true;
 
-  clearWelcome();
-  isSending = true;
-  sendEl.disabled = true;
+  const row=document.createElement('div');row.className='msg-row user';
+  let content='';
+  if(selectedImg)content+=`<img class="msg-img" src="data:image/jpeg;base64,${selectedImg}" alt="">`;
+  if(txt)content+=`<div class="msg-text">${escapeHtml(txt)}</div>`;
+  const time=new Date().toLocaleTimeString('bn-BD',{hour:'2-digit',minute:'2-digit'});
+  row.innerHTML=`<div class="bubble-wrap"><div class="bubble user-bubble">${content}</div><div class="msg-actions"><span class="msg-time">${time}</span></div></div><div class="avatar user-av">আপনি</div>`;
+  chatEl.appendChild(row);scrollDown();
 
-  const row = document.createElement('div');
-  row.className = 'msg-row user';
-  let content = '';
-  if (selectedImg) content += `<img class="msg-img" src="data:image/jpeg;base64,${selectedImg}" alt="ছবি">`;
-  if (txt) content += `<div class="msg-text">${escapeHtml(txt)}</div>`;
-  const time = new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
-  row.innerHTML = `<div class="bubble-wrap"><div class="bubble user-bubble">${content}</div>
-    <div class="msg-actions"><span class="msg-time">${time}</span></div></div>
-    <div class="avatar user-av">আপনি</div>`;
-  chatEl.appendChild(row);
-  scrollDown();
+  const imgData=selectedImg,msgText=txt;
+  inputEl.value='';inputEl.style.height='auto';
+  selectedImg=null;imgInput.value='';previewBar.classList.remove('show');
+  if(!isProUser){used++;localStorage.setItem('smart_ai_used',used);updateLimit();}
 
-  const imgData = selectedImg, msgText = txt;
-  inputEl.value = '';
-  inputEl.style.height = 'auto';
-  selectedImg = null;
-  imgInput.value = '';
-  previewBar.classList.remove('show');
-
-  if (!isProUser) { used++; localStorage.setItem('smart_ai_used', used); updateLimit(); }
-
-  const uc = [];
-  if (imgData) uc.push({ type: "image_url", image_url: { url: `data:image/jpeg;base64,${imgData}` } });
-  uc.push({ type: "text", text: msgText || "এই ছবিটি বিশ্লেষণ করো।" });
-  conversationHistory.push({ role: "user", content: uc });
-  if (conversationHistory.length > 28) conversationHistory = conversationHistory.slice(-26);
+  const uc=[];
+  if(imgData)uc.push({type:"image_url",image_url:{url:`data:image/jpeg;base64,${imgData}`}});
+  uc.push({type:"text",text:msgText||"এই ছবিটি বিশ্লেষণ করো।"});
+  conversationHistory.push({role:"user",content:uc});
+  if(conversationHistory.length>28)conversationHistory=conversationHistory.slice(-26);
 
   await fetchAI();
-  isSending = false;
-  sendEl.disabled = false;
-  inputEl.focus();
+  isSending=false;sendEl.disabled=false;inputEl.focus();
 }
 
-// ===== FETCH AI (Streaming) =====
-async function fetchAI() {
-  // Typing indicator
-  const typRow = document.createElement('div');
-  typRow.className = 'msg-row';
-  typRow.id = 'typingRow';
-  typRow.innerHTML = `<div class="avatar ai-av"><i class="fa-solid fa-microchip"></i></div>
-    <div class="bubble ai-bubble">
-      <div class="typing-dots"><span></span><span></span><span></span></div>
-      <span class="typing-label">M-AI ভাবছে...</span>
-    </div>`;
-  chatEl.appendChild(typRow);
-  scrollDown();
-  const start = Date.now();
-
-  try {
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${OR_KEY}`,
-        "HTTP-Referer": "https://smart-ai.app",
-        "X-Title": "M-AI Pro"
-      },
-      body: JSON.stringify({
-        model: OR_MODEL,
-        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...conversationHistory],
-        max_tokens: 3000,
-        temperature: 0.85,
-        stream: true
-      })
+async function fetchAI(){
+  const typRow=document.createElement('div');typRow.className='msg-row';typRow.id='typingRow';
+  typRow.innerHTML=`<div class="avatar ai-av"><i class="fa-solid fa-microchip"></i></div><div class="bubble ai-bubble"><div class="typing-dots"><span></span><span></span><span></span></div><span class="typing-label">Smart AI ভাবছে...</span></div>`;
+  chatEl.appendChild(typRow);scrollDown();
+  const start=Date.now();
+  try{
+    const res=await fetch("https://openrouter.ai/api/v1/chat/completions",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":`Bearer ${OR_KEY}`,"HTTP-Referer":"https://smart-ai.app","X-Title":"Smart AI Pro"},
+      body:JSON.stringify({model:OR_MODEL,messages:[{role:"system",content:SYSTEM_PROMPT},...conversationHistory],max_tokens:3000,temperature:0.85})
     });
-
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      removeTyping();
-      addAIMsg(`⚠️ সমস্যা হয়েছে (${res.status}): ${errData?.error?.message || 'অজানা সমস্যা'}। কিছুক্ষণ পর আবার চেষ্টা করুন।`);
-      return;
-    }
-
+    const d=await res.json();
     removeTyping();
-
-    // Create streaming bubble
-    const mid = 'm' + Date.now() + Math.random().toString(36).slice(2, 5);
-    const time = new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
-    const streamRow = document.createElement('div');
-    streamRow.className = 'msg-row';
-    streamRow.innerHTML = `<div class="avatar ai-av"><i class="fa-solid fa-microchip"></i></div>
-      <div class="bubble-wrap">
-        <div class="bubble ai-bubble" id="${mid}"><span class="stream-text"></span><span class="stream-cursor"></span></div>
-        <div class="msg-actions">
-          <span class="msg-time">${time}</span>
-          <button class="action-btn" onclick="copyMsg('${mid}',this)"><i class="fa-regular fa-copy"></i> কপি</button>
-          <button class="action-btn" onclick="speakMsg('${mid}')"><i class="fa-solid fa-volume-high"></i> পড়ুন</button>
-        </div>
-      </div>`;
-    chatEl.appendChild(streamRow);
-    scrollDown();
-
-    const bubbleEl = document.getElementById(mid);
-    const streamTextEl = bubbleEl.querySelector('.stream-text');
-    const cursorEl = bubbleEl.querySelector('.stream-cursor');
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let fullText = '';
-    let buffer = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop(); // keep incomplete line
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
-        const data = line.slice(6).trim();
-        if (data === '[DONE]') break;
-        try {
-          const parsed = JSON.parse(data);
-          const delta = parsed?.choices?.[0]?.delta?.content || '';
-          if (delta) {
-            fullText += delta;
-            streamTextEl.innerHTML = formatMessage(fullText);
-            scrollDown();
-          }
-        } catch {}
-      }
-    }
-
-    // Remove cursor, final render
-    cursorEl.remove();
-    streamTextEl.innerHTML = formatMessage(fullText);
-
-    conversationHistory.push({ role: "assistant", content: fullText });
-    const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-    tokenInfoEl.textContent = `${fullText.length} chars · ${elapsed}s`;
-    scrollDown();
-
-  } catch (err) {
-    removeTyping();
-    addAIMsg("⚠️ ইন্টারনেট সংযোগ চেক করুন। আবার চেষ্টা করুন।");
-    console.error(err);
-  }
+    const elapsed=((Date.now()-start)/1000).toFixed(1);
+    if(d?.choices?.[0]?.message?.content){
+      const reply=d.choices[0].message.content;
+      conversationHistory.push({role:"assistant",content:reply});
+      addAIMsg(reply);
+      const tok=d.usage?.total_tokens;
+      tokenInfoEl.textContent=tok?`${tok} tokens · ${elapsed}s`:`${elapsed}s`;
+    }else if(d?.error?.message){addAIMsg(`⚠️ সমস্যা: ${d.error.message}`);}
+    else{addAIMsg("উত্তর তৈরিতে সমস্যা। আবার চেষ্টা করুন।");}
+  }catch(err){removeTyping();addAIMsg("⚠️ ইন্টারনেট সংযোগ চেক করুন।");console.error(err);}
 }
 
-function removeTyping() { document.getElementById('typingRow')?.remove(); }
+function removeTyping(){document.getElementById('typingRow')?.remove();}
 
-// ===== FORMAT MESSAGE =====
-function formatMessage(raw) {
-  let result = '';
-  const re = /```(\w*)\n?([\s\S]*?)```/g;
-  let last = 0, m;
-  while ((m = re.exec(raw)) !== null) {
-    result += formatInline(raw.slice(last, m.index));
-    const lang = m[1] || 'plaintext';
-    const code = m[2].trim();
-    let hi;
-    try { hi = hljs.highlight(code, { language: lang, ignoreIllegals: true }).value; }
-    catch { hi = hljs.highlightAuto(code).value; }
-    const uid = 'c' + Math.random().toString(36).slice(2, 8);
-    result += `<pre><div class="code-header">
-      <span class="code-lang"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:4px"></span>${escapeHtml(lang)}</span>
-      <button class="code-copy" onclick="copyCode('${uid}',this)"><i class="fa-regular fa-copy"></i> Copy</button>
-    </div><code id="${uid}" class="hljs">${hi}</code></pre>`;
-    last = m.index + m[0].length;
+// FORMAT
+function formatMessage(raw){
+  let result='';const re=/```(\w*)\n?([\s\S]*?)```/g;let last=0,m;
+  while((m=re.exec(raw))!==null){
+    result+=formatInline(raw.slice(last,m.index));
+    const lang=m[1]||'plaintext',code=m[2].trim();
+    let hi;try{hi=hljs.highlight(code,{language:lang,ignoreIllegals:true}).value;}catch{hi=hljs.highlightAuto(code).value;}
+    const uid='c'+Math.random().toString(36).slice(2,8);
+    result+=`<pre><div class="code-header"><span class="code-lang"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:4px"></span>${lang}</span><button class="code-copy" onclick="copyCode('${uid}',this)"><i class="fa-regular fa-copy"></i> Copy</button></div><code id="${uid}" class="hljs">${hi}</code></pre>`;
+    last=m.index+m[0].length;
   }
-  result += formatInline(raw.slice(last));
-  return result;
+  result+=formatInline(raw.slice(last));return result;
 }
-
-function formatInline(t) {
+function formatInline(t){
   return escapeHtml(t)
-    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^## (.+)$/gm,  '<h2>$1</h2>')
-    .replace(/^# (.+)$/gm,   '<h1>$1</h1>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g,     '<em>$1</em>')
-    .replace(/`([^`\n]+)`/g,   '<code>$1</code>')
-    .replace(/^> (.+)$/gm,     '<blockquote>$1</blockquote>')
-    .replace(/^- (.+)$/gm,     '<li style="margin-left:16px">$1</li>')
-    .replace(/^\d+\. (.+)$/gm, '<li style="margin-left:16px">$1</li>')
-    .replace(/\[(.+?)\]\((https?:\/\/[^)]+)\)/g,
-      (_, text, url) => `<a href="${safeUrl(url)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">${text}</a>`)
-    .replace(/\n/g, '<br>');
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^# (.+)$/gm,'<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/`([^`\n]+)`/g,'<code>$1</code>')
+    .replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>')
+    .replace(/^- (.+)$/gm,'<li style="margin-left:16px">$1</li>')
+    .replace(/^\d+\. (.+)$/gm,'<li style="margin-left:16px">$1</li>')
+    .replace(/\[(.+?)\]\((https?:\/\/.+?)\)/g,'<a href="$2" target="_blank" rel="noopener" style="color:var(--accent)">$1</a>')
+    .replace(/\n/g,'<br>');
 }
-
-function addAIMsg(txt, animate = true) {
-  const row = document.createElement('div');
-  row.className = 'msg-row';
-  if (!animate) row.style.animation = 'none';
-  const mid = 'm' + Date.now() + Math.random().toString(36).slice(2, 5);
-  const time = new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
-  row.innerHTML = `<div class="avatar ai-av"><i class="fa-solid fa-microchip"></i></div>
+function addAIMsg(txt,animate=true){
+  const row=document.createElement('div');row.className='msg-row';if(!animate)row.style.animation='none';
+  const mid='m'+Date.now()+Math.random().toString(36).slice(2,5);
+  const time=new Date().toLocaleTimeString('bn-BD',{hour:'2-digit',minute:'2-digit'});
+  row.innerHTML=`<div class="avatar ai-av"><i class="fa-solid fa-microchip"></i></div>
     <div class="bubble-wrap">
       <div class="bubble ai-bubble" id="${mid}"><div class="msg-text">${formatMessage(txt)}</div></div>
       <div class="msg-actions">
@@ -1039,291 +843,196 @@ function addAIMsg(txt, animate = true) {
         <button class="action-btn" onclick="speakMsg('${mid}')"><i class="fa-solid fa-volume-high"></i> পড়ুন</button>
       </div>
     </div>`;
-  chatEl.appendChild(row);
-  scrollDown();
+  chatEl.appendChild(row);scrollDown();
 }
-
-// ===== COPY / SPEAK =====
-function copyCode(id, btn) {
-  const text = document.getElementById(id)?.innerText || '';
-  navigator.clipboard.writeText(text).then(() => {
-    btn.className = 'code-copy copied';
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-    setTimeout(() => { btn.className = 'code-copy'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy'; }, 2500);
-    showToast('কোড কপি হয়েছে', 'success', 1500);
-  }).catch(() => {
-    // Fallback for older browsers
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast('কোড কপি হয়েছে', 'success', 1500);
+function copyCode(id,btn){
+  navigator.clipboard.writeText(document.getElementById(id)?.innerText||'').then(()=>{
+    btn.className='code-copy copied';btn.innerHTML='<i class="fa-solid fa-check"></i> Copied!';
+    setTimeout(()=>{btn.className='code-copy';btn.innerHTML='<i class="fa-regular fa-copy"></i> Copy';},2500);
+    showToast('কোড কপি হয়েছে','success',1500);
   });
 }
-
-function copyMsg(id, btn) {
-  const text = document.getElementById(id)?.innerText || '';
-  navigator.clipboard.writeText(text).then(() => {
-    btn.className = 'action-btn done';
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> হয়েছে';
-    setTimeout(() => { btn.className = 'action-btn'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> কপি'; }, 2000);
-    showToast('কপি হয়েছে', 'success', 1500);
-  }).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    btn.className = 'action-btn done';
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> হয়েছে';
-    setTimeout(() => { btn.className = 'action-btn'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> কপি'; }, 2000);
-    showToast('কপি হয়েছে', 'success', 1500);
+function copyMsg(id,btn){
+  navigator.clipboard.writeText(document.getElementById(id)?.innerText||'').then(()=>{
+    btn.className='action-btn done';btn.innerHTML='<i class="fa-solid fa-check"></i> হয়েছে';
+    setTimeout(()=>{btn.className='action-btn';btn.innerHTML='<i class="fa-regular fa-copy"></i> কপি';},2000);
   });
 }
-
-function speakMsg(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(el.innerText);
-    u.lang = 'bn-BD'; u.rate = 0.9;
-    window.speechSynthesis.speak(u);
-    showToast('পড়া শুরু 🔊', 'info', 1500);
-  } else {
-    showToast('TTS সাপোর্ট নেই', 'error');
-  }
+function speakMsg(id){
+  const el=document.getElementById(id);if(!el)return;
+  if('speechSynthesis'in window){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(el.innerText);u.lang='bn-BD';u.rate=0.9;window.speechSynthesis.speak(u);showToast('পড়া শুরু 🔊','info',1500);}
+  else showToast('TTS সাপোর্ট নেই','error');
 }
-
-function quickSend(txt) {
-  clearWelcome();
-  inputEl.value = txt;
-  inputEl.style.height = 'auto';
-  inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
-  sendMessage();
-}
+function quickSend(txt){clearWelcome();inputEl.value=txt;inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,100)+'px';sendMessage();}
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 // ===== IMAGE GENERATION =====
-const igStyleTags = ['photorealistic', 'anime style', 'digital art', 'cinematic', 'fantasy', 'dark fantasy', 'cyberpunk', 'minimalist', 'impressionist'];
-const igTagsEl = document.getElementById('igTags');
-igStyleTags.forEach(tag => {
-  const el = document.createElement('span');
-  el.className = 'ig-tag';
-  el.textContent = tag;
-  el.onclick = () => {
-    const ta = document.getElementById('igPrompt');
-    if (!ta.value.includes(tag)) ta.value += (ta.value ? ', ' : '') + tag;
-  };
+const igStyleTags=['photorealistic','anime style','digital art','cinematic','fantasy','dark fantasy','cyberpunk','minimalist','impressionist'];
+const igTagsEl=document.getElementById('igTags');
+igStyleTags.forEach(tag=>{
+  const el=document.createElement('span');el.className='ig-tag';el.textContent=tag;
+  el.onclick=()=>{const ta=document.getElementById('igPrompt');if(!ta.value.includes(tag))ta.value+=(ta.value?', ':'')+tag;};
   igTagsEl.appendChild(el);
 });
 
-async function generateImages() {
-  const prompt = sanitizeInput(document.getElementById('igPrompt').value);
-  if (!prompt) { showToast('প্রথমে ছবির বর্ণনা লিখুন', 'error'); return; }
-  const style = document.getElementById('igStyle').value;
-  const sizeVal = document.getElementById('igSize').value;
-  const count = parseInt(document.getElementById('igCount').value) || 4;
-  const [w, h] = sizeVal.split('/');
-  const fullPrompt = prompt + (style ? `, ${style}` : '');
-  const btn = document.getElementById('igBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> তৈরি হচ্ছে...';
-  document.getElementById('igOutput').innerHTML = `<div class="ig-loading"><div class="ig-spinner"></div><span>${count}টি ছবি তৈরি হচ্ছে...</span></div>`;
+async function generateImages(){
+  const prompt=document.getElementById('igPrompt').value.trim();
+  if(!prompt){showToast('প্রথমে ছবির বর্ণনা লিখুন','error');return;}
+  const style=document.getElementById('igStyle').value;
+  const sizeVal=document.getElementById('igSize').value;
+  const count=parseInt(document.getElementById('igCount').value)||4;
+  const [w,h]=sizeVal.split('/');
+  const fullPrompt=prompt+(style?`, ${style}`:'');
+  const btn=document.getElementById('igBtn');
+  btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> তৈরি হচ্ছে...';
+  document.getElementById('igOutput').innerHTML=`<div class="ig-loading"><div class="ig-spinner"></div><span>${count}টি ছবি তৈরি হচ্ছে...</span></div>`;
 
-  try {
-    const seeds = Array.from({ length: count }, () => Math.floor(Math.random() * 999999));
-    const urls = seeds.map(seed =>
-      `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=${w}&height=${h}&seed=${seed}&nologo=true`
-    );
-    let html = `<div style="margin-bottom:8px;font-size:10px;color:var(--muted)">প্রম্পট: <em style="color:var(--text2)">${escapeHtml(fullPrompt)}</em></div>`;
-    html += `<div class="ig-gallery">${urls.map((url, i) => {
-      const safeUrlStr = safeUrl(url);
-      return `<div class="ig-img-wrap">
-        <img src="${safeUrlStr}" alt="AI Generated Image ${i+1}" loading="lazy"
-          onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;color:var(--muted);font-size:11px><i class=fa-solid fa-triangle-exclamation></i><br>লোড হয়নি</div>'"
-          onclick="openViewer('${safeUrlStr}')">
+  try{
+    const seeds=Array.from({length:count},()=>Math.floor(Math.random()*999999));
+    const urls=seeds.map(seed=>`https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=${w}&height=${h}&seed=${seed}&nologo=true`);
+    let html=`<div style="margin-bottom:8px;font-size:10px;color:var(--muted)">প্রম্পট: <em style="color:var(--text2)">${escapeHtml(fullPrompt)}</em></div>`;
+    html+=`<div class="ig-gallery">${urls.map(url=>`
+      <div class="ig-img-wrap" onclick="openViewer('${url}')">
+        <img src="${url}" alt="AI Generated" loading="lazy" onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;color:var(--muted);font-size:11px><i class=fa-solid fa-triangle-exclamation></i><br>লোড হয়নি</div>'">
         <div class="ig-img-overlay">
-          <button class="ig-overlay-btn" onclick="downloadImg('${safeUrlStr}','img${i+1}')" title="ডাউনলোড"><i class="fa-solid fa-download"></i></button>
-          <button class="ig-overlay-btn" onclick="openViewer('${safeUrlStr}')" title="বড় করুন"><i class="fa-solid fa-expand"></i></button>
+          <button class="ig-overlay-btn" onclick="event.stopPropagation();downloadImg('${url}',${Math.random().toString(36).slice(2,6)})" title="ডাউনলোড"><i class="fa-solid fa-download"></i></button>
+          <button class="ig-overlay-btn" onclick="event.stopPropagation();openViewer('${url}')" title="বড় করুন"><i class="fa-solid fa-expand"></i></button>
         </div>
-      </div>`;
-    }).join('')}</div>`;
-    document.getElementById('igOutput').innerHTML = html;
-    showToast(`${count}টি ছবি তৈরি হচ্ছে...`, 'success');
-  } catch (e) {
-    document.getElementById('igOutput').innerHTML = '<div style="color:var(--danger);font-size:12px;padding:12px">⚠️ ছবি তৈরিতে সমস্যা। আবার চেষ্টা করুন।</div>';
-    showToast('সমস্যা হয়েছে', 'error');
+      </div>`).join('')}</div>`;
+    document.getElementById('igOutput').innerHTML=html;
+    showToast(`${count}টি ছবি তৈরি হচ্ছে...`,'success');
+  }catch(e){
+    document.getElementById('igOutput').innerHTML='<div style="color:var(--danger);font-size:12px;padding:12px">⚠️ ছবি তৈরিতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</div>';
+    showToast('সমস্যা হয়েছে','error');
   }
-  btn.disabled = false;
-  btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> তৈরি করুন';
+  btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-wand-magic-sparkles"></i> তৈরি করুন';
 }
-
-function openViewer(src) {
-  const safe = safeUrl(src);
-  if (safe === '#') return;
-  document.getElementById('viewerImg').src = safe;
-  document.getElementById('imgViewer').classList.add('show');
-}
-function closeViewer() { document.getElementById('imgViewer').classList.remove('show'); }
-
-async function downloadImg(url, name) {
-  try {
-    const r = await fetch(url);
-    const b = await r.blob();
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(b);
-    a.download = `m-ai-${name}.jpg`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-    showToast('ডাউনলোড শুরু হয়েছে', 'success', 1500);
-  } catch {
-    window.open(url, '_blank');
-    showToast('ছবি নতুন ট্যাবে খুলছে', 'info');
-  }
+function openViewer(src){document.getElementById('viewerImg').src=src;document.getElementById('imgViewer').classList.add('show');}
+function closeViewer(){document.getElementById('imgViewer').classList.remove('show');}
+async function downloadImg(url,name){
+  try{const r=await fetch(url);const b=await r.blob();const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`smart-ai-${name}.jpg`;a.click();showToast('ডাউনলোড শুরু হয়েছে','success',1500);}
+  catch{window.open(url,'_blank');showToast('ছবি নতুন ট্যাবে খুলছে','info');}
 }
 
 // ===== WEB SEARCH =====
-async function doWebSearch() {
-  const q = sanitizeInput(document.getElementById('wsInput').value);
-  if (!q) { showToast('কিছু লিখুন', 'error'); return; }
-  const out = document.getElementById('wsOutput');
-  out.innerHTML = `<div class="ws-loading"><div class="ws-spinner"></div><span>সার্চ করছি...</span></div>`;
+async function doWebSearch(){
+  const q=document.getElementById('wsInput').value.trim();
+  if(!q){showToast('কিছু লিখুন','error');return;}
+  const out=document.getElementById('wsOutput');
+  out.innerHTML=`<div class="ws-loading"><div class="ws-spinner"></div><span>সার্চ করছি...</span></div>`;
 
-  try {
-    const url = `https://api.allorigins.win/get?url=${encodeURIComponent('https://api.duckduckgo.com/?q=' + encodeURIComponent(q) + '&format=json&no_html=1&skip_disambig=1')}`;
-    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
-    const data = await res.json();
-    const json = JSON.parse(data.contents);
+  try{
+    // DuckDuckGo Instant Answer API (CORS proxy via allorigins)
+    const url=`https://api.allorigins.win/get?url=${encodeURIComponent(`https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`)}`;
+    const res=await fetch(url);const data=await res.json();
+    const json=JSON.parse(data.contents);
 
-    let resultsHtml = '';
-    if (json.AbstractText) {
-      resultsHtml += `<div class="ws-ai-answer">
-        <div class="ws-ai-label"><i class="fa-solid fa-circle-nodes"></i> সংক্ষেপ</div>
-        <div class="ws-ai-text">${escapeHtml(json.AbstractText)}</div>
-        ${json.AbstractURL ? `<div style="margin-top:8px;font-size:10px"><a href="${safeUrl(json.AbstractURL)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">${escapeHtml(json.AbstractURL)}</a></div>` : ''}
-      </div>`;
+    let resultsHtml='';
+    // Abstract (main answer)
+    if(json.AbstractText){
+      resultsHtml+=`<div class="ws-ai-answer"><div class="ws-ai-label"><i class="fa-solid fa-circle-nodes"></i> AI সারসংক্ষেপ</div><div class="ws-ai-text">${json.AbstractText}</div>${json.AbstractURL?`<div style="margin-top:8px;font-size:10px"><a href="${json.AbstractURL}" target="_blank" style="color:var(--accent)">${json.AbstractURL}</a></div>`:''}</div>`;
     }
-
-    const topics = (json.RelatedTopics || []).filter(t => t.FirstURL && t.Text).slice(0, 6);
-    topics.forEach(t => {
-      const source = escapeHtml(t.FirstURL.replace('https://', '').split('/')[0]);
-      const title = escapeHtml((t.Text.split(' - ')[0] || '').slice(0, 80));
-      const desc = escapeHtml(t.Text.slice(0, 140));
-      resultsHtml += `<a class="ws-result-card" href="${safeUrl(t.FirstURL)}" target="_blank" rel="noopener noreferrer">
+    // Related topics
+    const topics=(json.RelatedTopics||[]).filter(t=>t.FirstURL&&t.Text).slice(0,6);
+    topics.forEach(t=>{
+      const source=t.FirstURL.replace('https://','').split('/')[0];
+      resultsHtml+=`<a class="ws-result-card" href="${t.FirstURL}" target="_blank" rel="noopener">
         <div class="ws-result-source"><i class="fa-solid fa-link"></i>${source}</div>
-        <div class="ws-result-title">${title}</div>
-        <div class="ws-result-desc">${desc}...</div>
+        <div class="ws-result-title">${t.Text.split(' - ')[0]||''}</div>
+        <div class="ws-result-desc">${t.Text.slice(0,140)}...</div>
       </a>`;
     });
 
-    if (!json.AbstractText) {
-      resultsHtml = `<div class="ws-ai-answer">
-        <div class="ws-ai-label"><i class="fa-solid fa-robot"></i> AI উত্তর</div>
-        <div class="ws-ai-text" id="wsAiText"><div class="typing-dots"><span></span><span></span><span></span></div></div>
-      </div>` + resultsHtml;
-      out.innerHTML = resultsHtml;
+    if(!resultsHtml){
+      // Fallback: ask AI
+      resultsHtml=`<div class="ws-ai-answer"><div class="ws-ai-label"><i class="fa-solid fa-robot"></i> AI উত্তর</div><div class="ws-ai-text" id="wsAiText"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>`;
+      out.innerHTML=resultsHtml;
       await askAiForSearch(q);
       return;
     }
-    out.innerHTML = resultsHtml || `<div class="ws-empty"><i class="fa-solid fa-face-frown"></i><p>কোনো ফলাফল পাওয়া যায়নি</p></div>`;
-    showToast('সার্চ সম্পন্ন', 'success', 1500);
-  } catch (err) {
-    out.innerHTML = `<div class="ws-ai-answer">
-      <div class="ws-ai-label"><i class="fa-solid fa-robot"></i> AI উত্তর</div>
-      <div class="ws-ai-text" id="wsAiText"><div class="typing-dots"><span></span><span></span><span></span></div></div>
-    </div>`;
+    if(!json.AbstractText){
+      resultsHtml=`<div class="ws-ai-answer"><div class="ws-ai-label"><i class="fa-solid fa-robot"></i> AI উত্তর</div><div class="ws-ai-text" id="wsAiText"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>`+resultsHtml;
+      out.innerHTML=resultsHtml;
+      await askAiForSearch(q);
+      return;
+    }
+    out.innerHTML=resultsHtml||'<div class="ws-empty"><i class="fa-solid fa-face-frown"></i><p>কোনো ফলাফল পাওয়া যায়নি</p></div>';
+    showToast('সার্চ সম্পন্ন','success',1500);
+  }catch(err){
+    out.innerHTML=`<div class="ws-ai-answer"><div class="ws-ai-label"><i class="fa-solid fa-robot"></i> AI উত্তর</div><div class="ws-ai-text" id="wsAiText"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>`;
     await askAiForSearch(q);
   }
 }
-
-async function askAiForSearch(q) {
-  try {
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${OR_KEY}`,
-        "HTTP-Referer": "https://smart-ai.app"
-      },
-      body: JSON.stringify({
-        model: OR_MODEL,
-        messages: [{ role: "user", content: `"${q}" সম্পর্কে বাংলায় সংক্ষিপ্ত ও তথ্যসমৃদ্ধ উত্তর দাও।` }],
-        max_tokens: 800
-      })
+async function askAiForSearch(q){
+  try{
+    const res=await fetch("https://openrouter.ai/api/v1/chat/completions",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":`Bearer ${OR_KEY}`,"HTTP-Referer":"https://smart-ai.app"},
+      body:JSON.stringify({model:OR_MODEL,messages:[{role:"user",content:`"${q}" সম্পর্কে বাংলায় তথ্য দাও। সংক্ষিপ্ত ও তথ্যসমৃদ্ধ উত্তর দাও।`}],max_tokens:800})
     });
-    const d = await res.json();
-    const reply = d?.choices?.[0]?.message?.content || 'তথ্য পাওয়া যায়নি।';
-    const el = document.getElementById('wsAiText');
-    if (el) el.innerHTML = formatInline(reply);
-    showToast('সার্চ সম্পন্ন', 'success', 1500);
-  } catch (e) {
-    const el = document.getElementById('wsAiText');
-    if (el) el.textContent = 'তথ্য লোড করতে সমস্যা হয়েছে।';
-  }
+    const d=await res.json();
+    const reply=d?.choices?.[0]?.message?.content||'তথ্য পাওয়া যায়নি।';
+    const el=document.getElementById('wsAiText');
+    if(el)el.innerHTML=formatInline(reply);
+    showToast('সার্চ সম্পন্ন','success',1500);
+  }catch(e){const el=document.getElementById('wsAiText');if(el)el.textContent='তথ্য লোড করতে সমস্যা হয়েছে।';}
 }
 
 // ===== WEATHER =====
-function renderRecentCities() {
-  const el = document.getElementById('weatherRecent');
-  if (!recentCitiesArr.length) { el.innerHTML = ''; return; }
-  el.innerHTML = recentCitiesArr.slice(0, 5).map(c =>
-    `<span class="weather-recent-tag" onclick="document.getElementById('weatherInput').value='${escapeHtml(c)}';getWeather()">${escapeHtml(c)}</span>`
-  ).join('');
+let recentCitiesArr=recentCities;
+function renderRecentCities(){
+  const el=document.getElementById('weatherRecent');
+  if(!recentCitiesArr.length){el.innerHTML='';return;}
+  el.innerHTML=recentCitiesArr.slice(0,5).map(c=>`<span class="weather-recent-tag" onclick="document.getElementById('weatherInput').value='${c}';getWeather()">${c}</span>`).join('');
 }
 renderRecentCities();
 
-async function getWeather() {
-  const city = sanitizeInput(document.getElementById('weatherInput').value);
-  if (!city) { showToast('শহরের নাম লিখুন', 'error'); return; }
-  const out = document.getElementById('weatherOutput');
-  out.innerHTML = `<div class="ig-loading"><div class="ig-spinner" style="border-top-color:var(--accent5)"></div><span>আবহাওয়া লোড হচ্ছে...</span></div>`;
+async function getWeather(){
+  const city=document.getElementById('weatherInput').value.trim();
+  if(!city){showToast('শহরের নাম লিখুন','error');return;}
+  const out=document.getElementById('weatherOutput');
+  out.innerHTML=`<div class="ig-loading"><div class="ig-spinner" style="border-top-color:var(--accent5)"></div><span>আবহাওয়া লোড হচ্ছে...</span></div>`;
 
-  try {
-    const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`, { signal: AbortSignal.timeout(8000) });
-    const geoData = await geoRes.json();
-    if (!geoData.results?.length) {
-      out.innerHTML = `<div class="weather-empty"><i class="fa-solid fa-location-xmark"></i><p>"${escapeHtml(city)}" শহলটি খুঁজে পাওয়া যায়নি। সঠিক ইংরেজি নাম লিখুন।</p></div>`;
-      return;
+  try{
+    // Geocoding
+    const geoRes=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`);
+    const geoData=await geoRes.json();
+    if(!geoData.results?.length){out.innerHTML=`<div class="weather-empty"><i class="fa-solid fa-location-xmark"></i><p>"${escapeHtml(city)}" শহরটি খুঁজে পাওয়া যায়নি। সঠিক ইংরেজি নাম লিখুন।</p></div>`;return;}
+
+    const loc=geoData.results[0];
+    const {latitude:lat,longitude:lon,name,country,timezone}=loc;
+
+    // Weather data
+    const wRes=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code,apparent_temperature,precipitation,pressure_msl&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum&timezone=${encodeURIComponent(timezone||'auto')}&forecast_days=7`);
+    const wData=await wRes.json();
+    const cur=wData.current;
+    const daily=wData.daily;
+
+    // Weather code to icon/desc
+    function wCode(code){
+      if(code<=1)return{icon:'☀️',desc:'맑음 (পরিষ্কার আকাশ)'};
+      if(code<=3)return{icon:'⛅',desc:'আংশিক মেঘলা'};
+      if(code<=48)return{icon:'🌫️',desc:'কুয়াশাচ্ছন্ন'};
+      if(code<=57)return{icon:'🌧️',desc:'গুঁড়িগুঁড়ি বৃষ্টি'};
+      if(code<=67)return{icon:'🌧️',desc:'বৃষ্টি'};
+      if(code<=77)return{icon:'❄️',desc:'তুষারপাত'};
+      if(code<=82)return{icon:'🌦️',desc:'বৃষ্টি'};
+      if(code<=86)return{icon:'🌨️',desc:'তুষার ঝড়'};
+      if(code<=99)return{icon:'⛈️',desc:'বজ্রঝড়'};
+      return{icon:'🌡️',desc:'অজানা'};
     }
+    const w=wCode(cur.weather_code);
+    const days=['রবি','সোম','মঙ্গল','বুধ','বৃহস্প','শুক্র','শনি'];
 
-    const loc = geoData.results[0];
-    const { latitude: lat, longitude: lon, name, country, timezone } = loc;
-
-    const wRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code,apparent_temperature,precipitation,pressure_msl&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum&timezone=${encodeURIComponent(timezone || 'auto')}&forecast_days=7`, { signal: AbortSignal.timeout(8000) });
-    const wData = await wRes.json();
-    const cur = wData.current;
-    const daily = wData.daily;
-
-    function wCode(code) {
-      if (code <= 1)  return { icon: '☀️',  desc: 'পরিষ্কার আকাশ' };
-      if (code <= 3)  return { icon: '⛅',  desc: 'আংশিক মেঘলা' };
-      if (code <= 48) return { icon: '🌫️', desc: 'কুয়াশাচ্ছন্ন' };
-      if (code <= 57) return { icon: '🌧️', desc: 'গুঁড়িগুঁড়ি বৃষ্টি' };
-      if (code <= 67) return { icon: '🌧️', desc: 'বৃষ্টি' };
-      if (code <= 77) return { icon: '❄️',  desc: 'তুষারপাত' };
-      if (code <= 82) return { icon: '🌦️', desc: 'বৃষ্টি' };
-      if (code <= 86) return { icon: '🌨️', desc: 'তুষার ঝড়' };
-      if (code <= 99) return { icon: '⛈️', desc: 'বজ্রঝড়' };
-      return { icon: '🌡️', desc: 'অজানা' };
-    }
-
-    const w = wCode(cur.weather_code);
-    const days = ['রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহস্প', 'শুক্র', 'শনি'];
-
-    const forecastHtml = daily.time.slice(1, 7).map((date, i) => {
-      const d = new Date(date);
-      const fw = wCode(daily.weather_code[i + 1]);
-      return `<div class="wc-day">
-        <div class="wc-day-name">${days[d.getDay()]}</div>
-        <div class="wc-day-icon">${fw.icon}</div>
-        <div class="wc-day-temp">${Math.round(daily.temperature_2m_max[i + 1])}°/<span style="color:var(--muted)">${Math.round(daily.temperature_2m_min[i + 1])}°</span></div>
-      </div>`;
+    let forecastHtml=daily.time.slice(1,7).map((date,i)=>{
+      const d=new Date(date);const dw=days[d.getDay()];
+      const fw=wCode(daily.weather_code[i+1]);
+      return `<div class="wc-day"><div class="wc-day-name">${dw}</div><div class="wc-day-icon">${fw.icon}</div><div class="wc-day-temp">${Math.round(daily.temperature_2m_max[i+1])}°/<span style="color:var(--muted)">${Math.round(daily.temperature_2m_min[i+1])}°</span></div></div>`;
     }).join('');
 
-    out.innerHTML = `<div class="weather-card">
-      <div class="wc-city">${escapeHtml(name)}</div>
-      <div class="wc-country"><i class="fa-solid fa-location-dot" style="color:var(--accent5)"></i>${escapeHtml(country)} · ${escapeHtml(timezone || '')}</div>
+    out.innerHTML=`<div class="weather-card">
+      <div class="wc-city">${name}</div>
+      <div class="wc-country"><i class="fa-solid fa-location-dot" style="color:var(--accent5)"></i>${country} · ${timezone}</div>
       <div class="wc-main">
         <div class="wc-icon-big">${w.icon}</div>
         <div>
@@ -1332,7 +1041,7 @@ async function getWeather() {
         </div>
       </div>
       <div class="wc-grid">
-        <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-temperature-half"></i> অনুভূত</div><div class="wc-stat-val">${Math.round(cur.apparent_temperature)}°C</div></div>
+        <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-temperature-half"></i> অনুভূত তাপমাত্রা</div><div class="wc-stat-val">${Math.round(cur.apparent_temperature)}°C</div></div>
         <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-droplet"></i> আর্দ্রতা</div><div class="wc-stat-val">${cur.relative_humidity_2m}%</div></div>
         <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-wind"></i> বায়ুবেগ</div><div class="wc-stat-val">${cur.wind_speed_10m} km/h</div></div>
         <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-cloud-rain"></i> বৃষ্টি</div><div class="wc-stat-val">${cur.precipitation} mm</div></div>
@@ -1343,80 +1052,68 @@ async function getWeather() {
       </div>
     </div>`;
 
-    if (!recentCitiesArr.includes(name)) {
-      recentCitiesArr.unshift(name);
-      recentCitiesArr = recentCitiesArr.slice(0, 5);
-      localStorage.setItem('smart_ai_cities', JSON.stringify(recentCitiesArr));
-      renderRecentCities();
-    }
-    showToast(`${name} এর আবহাওয়া লোড হয়েছে`, 'success');
-  } catch (err) {
-    out.innerHTML = `<div class="weather-empty"><i class="fa-solid fa-triangle-exclamation"></i><p>আবহাওয়া লোড করতে সমস্যা। ইন্টারনেট সংযোগ চেক করুন।</p></div>`;
-    showToast('সমস্যা হয়েছে', 'error');
+    // Save recent
+    if(!recentCitiesArr.includes(name)){recentCitiesArr.unshift(name);recentCitiesArr=recentCitiesArr.slice(0,5);localStorage.setItem('smart_ai_cities',JSON.stringify(recentCitiesArr));renderRecentCities();}
+    showToast(`${name} এর আবহাওয়া লোড হয়েছে`,'success');
+  }catch(err){
+    out.innerHTML=`<div class="weather-empty"><i class="fa-solid fa-triangle-exclamation"></i><p>আবহাওয়া লোড করতে সমস্যা হয়েছে।<br>ইন্টারনেট সংযোগ চেক করুন।</p></div>`;
+    showToast('সমস্যা হয়েছে','error');console.error(err);
   }
 }
 
 // ===== PDF READING =====
-function handlePdfDrop(e) {
-  e.preventDefault();
-  document.getElementById('pdfDropZone').classList.remove('drag-over');
-  const f = e.dataTransfer.files[0];
-  if (f) handlePdfFile(f);
+function handlePdfDrop(e){
+  e.preventDefault();document.getElementById('pdfDropZone').classList.remove('drag-over');
+  const f=e.dataTransfer.files[0];if(f)handlePdfFile(f);
 }
-
-function handlePdfFile(file) {
-  if (!file) return;
-  const allowed = ['application/pdf', 'text/plain'];
-  const isAllowed = allowed.includes(file.type) || file.name.endsWith('.txt') || file.name.endsWith('.pdf');
-  if (!isAllowed) { showToast('PDF বা TXT ফাইল সাপোর্ট করা হয়', 'error'); return; }
-  if (file.size > 10 * 1024 * 1024) { showToast('ফাইল সাইজ ১০MB এর কম হতে হবে', 'error'); return; }
-  pdfName = file.name;
-  const r = new FileReader();
-  if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
-    r.onload = e => { pdfText = e.target.result; showPdfLoaded(file); };
-    r.readAsText(file, 'UTF-8');
+function handlePdfFile(file){
+  if(!file)return;
+  const allowed=['application/pdf','text/plain'];
+  if(!allowed.includes(file.type)&&!file.name.endsWith('.txt')){showToast('PDF বা TXT ফাইল সাপোর্ট করা হয়','error');return;}
+  if(file.size>10*1024*1024){showToast('ফাইল সাইজ ১০MB এর কম হতে হবে','error');return;}
+  pdfName=file.name;
+  const r=new FileReader();
+  if(file.type==='text/plain'||file.name.endsWith('.txt')){
+    r.onload=e=>{pdfText=e.target.result;showPdfLoaded(file);}; r.readAsText(file,'UTF-8');
   } else {
-    r.onload = e => {
-      const arr = new Uint8Array(e.target.result);
-      let extracted = '';
-      try {
-        const str = new TextDecoder('utf-8', { fatal: false }).decode(arr);
-        const matches = str.match(/\(([^)]{2,200})\)/g) || [];
-        extracted = matches.map(m => m.slice(1, -1)).filter(s => /[a-zA-Z\u0980-\u09FF]/.test(s) && s.length > 2).join(' ');
-        if (extracted.length < 50) {
-          extracted = str.replace(/[^\x20-\x7E\u0980-\u09FF\n]/g, ' ').replace(/\s+/g, ' ').slice(0, 8000);
+    // PDF — read as text via FileReader (basic extraction)
+    r.onload=e=>{
+      const arr=new Uint8Array(e.target.result);
+      let extracted='';
+      try{
+        const str=new TextDecoder('utf-8',{fatal:false}).decode(arr);
+        // Extract text between BT/ET markers and raw strings
+        const matches=str.match(/\(([^)]{2,200})\)/g)||[];
+        extracted=matches.map(m=>m.slice(1,-1)).filter(s=>/[a-zA-Z\u0980-\u09FF]/.test(s)&&s.length>2).join(' ');
+        if(extracted.length<50){
+          // Simple fallback: grab all printable chars
+          extracted=str.replace(/[^\x20-\x7E\u0980-\u09FF\n]/g,' ').replace(/\s+/g,' ').slice(0,8000);
         }
-      } catch { extracted = 'টেক্সট এক্সট্র্যাক্ট করা যায়নি।'; }
-      pdfText = extracted.trim() || 'PDF থেকে টেক্সট পড়া যায়নি। এটি স্ক্যান করা বা এনক্রিপ্টেড PDF হতে পারে।';
+      }catch(e){extracted='টেক্সট এক্সট্র্যাক্ট করা যায়নি।';}
+      pdfText=extracted.trim()||'PDF থেকে টেক্সট পড়া যায়নি। এটি স্ক্যান করা বা এনক্রিপ্টেড PDF হতে পারে।';
       showPdfLoaded(file);
     };
     r.readAsArrayBuffer(file);
   }
 }
-
-function showPdfLoaded(file) {
-  document.getElementById('pdfDropZone').style.display = 'none';
-  const loaded = document.getElementById('pdfLoaded');
-  loaded.style.display = 'flex';
-  const preview = escapeHtml(pdfText.slice(0, 500) + (pdfText.length > 500 ? '...' : ''));
-  const wordCount = pdfText.split(' ').filter(w => w).length;
-  const pageEst = Math.ceil(wordCount / 250);
-
-  loaded.innerHTML = `
+function showPdfLoaded(file){
+  document.getElementById('pdfDropZone').style.display='none';
+  const loaded=document.getElementById('pdfLoaded');loaded.style.display='flex';
+  const preview=pdfText.slice(0,500)+(pdfText.length>500?'...':'');
+  loaded.innerHTML=`
     <div class="pdf-loaded-card">
-      <div class="pdf-icon-big"><i class="fa-solid fa-file-${file.type === 'text/plain' ? 'lines' : 'pdf'}"></i></div>
+      <div class="pdf-icon-big"><i class="fa-solid fa-file-${file.type==='text/plain'?'lines':'pdf'}"></i></div>
       <div class="pdf-info">
         <div class="pdf-name">${escapeHtml(pdfName)}</div>
-        <div class="pdf-size">${(file.size / 1024).toFixed(1)} KB · ${pdfText.length.toLocaleString()} অক্ষর</div>
+        <div class="pdf-size">${(file.size/1024).toFixed(1)} KB · ${pdfText.length.toLocaleString()} অক্ষর</div>
       </div>
       <button class="pdf-remove" onclick="resetPdf()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="pdf-stats">
-      <div class="pdf-stat"><i class="fa-solid fa-file-lines"></i> ${pageEst} পেজ (আনুমানিক)</div>
-      <div class="pdf-stat"><i class="fa-solid fa-font"></i> ${wordCount.toLocaleString()} শব্দ</div>
+      <div class="pdf-stat"><i class="fa-solid fa-file-lines"></i> ${Math.ceil(pdfText.split(' ').length/250)} পেজ (আনুমানিক)</div>
+      <div class="pdf-stat"><i class="fa-solid fa-font"></i> ${pdfText.split(' ').filter(w=>w).length.toLocaleString()} শব্দ</div>
     </div>
-    ${pdfText.length > 10 ? `<div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.8px">পূর্বরূপ</div>
-    <div class="pdf-content-box">${preview}</div>` : ''}
+    ${pdfText.length>10?`<div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.8px">পূর্বরূপ</div><div class="pdf-content-box">${escapeHtml(preview)}</div>`:''}
     <div class="pdf-ask-row">
       <input class="pdf-ask-input" id="pdfQuestion" placeholder="এই ফাইল সম্পর্কে প্রশ্ন করুন..." onkeydown="if(event.key==='Enter')askPdf()">
       <button class="pdf-ask-btn" onclick="askPdf()"><i class="fa-solid fa-paper-plane"></i> জিজ্ঞেস করুন</button>
@@ -1427,185 +1124,101 @@ function showPdfLoaded(file) {
       <span class="ig-tag" onclick="document.getElementById('pdfQuestion').value='মূল বিষয়গুলো কী কী?';askPdf()">🔑 মূল বিষয়</span>
       <span class="ig-tag" onclick="document.getElementById('pdfQuestion').value='এই ফাইল থেকে ৫টি গুরুত্বপূর্ণ তথ্য দাও';askPdf()">⭐ গুরুত্বপূর্ণ তথ্য</span>
     </div>`;
-  showToast(`"${pdfName}" লোড হয়েছে`, 'success');
+  showToast(`"${pdfName}" লোড হয়েছে`,'success');
 }
-
-function resetPdf() {
-  pdfText = ''; pdfName = '';
-  document.getElementById('pdfDropZone').style.display = '';
-  document.getElementById('pdfLoaded').style.display = 'none';
-  document.getElementById('pdfLoaded').innerHTML = '';
-  document.getElementById('pdfInput').value = '';
+function resetPdf(){
+  pdfText='';pdfName='';
+  document.getElementById('pdfDropZone').style.display='';
+  document.getElementById('pdfLoaded').style.display='none';
+  document.getElementById('pdfLoaded').innerHTML='';
+  document.getElementById('pdfInput').value='';
 }
+async function askPdf(){
+  const q=document.getElementById('pdfQuestion')?.value.trim();
+  if(!q){showToast('প্রশ্ন লিখুন','error');return;}
+  if(!pdfText){showToast('প্রথমে ফাইল আপলোড করুন','error');return;}
+  const ansEl=document.getElementById('pdfAnswer');
+  ansEl.innerHTML=`<div class="pdf-answer"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
 
-async function askPdf() {
-  const q = sanitizeInput(document.getElementById('pdfQuestion')?.value || '');
-  if (!q) { showToast('প্রশ্ন লিখুন', 'error'); return; }
-  if (!pdfText) { showToast('প্রথমে ফাইল আপলোড করুন', 'error'); return; }
-  const ansEl = document.getElementById('pdfAnswer');
-  ansEl.innerHTML = `<div class="pdf-answer"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
-
-  try {
-    const context = pdfText.slice(0, 6000);
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${OR_KEY}`,
-        "HTTP-Referer": "https://smart-ai.app"
-      },
-      body: JSON.stringify({
-        model: OR_MODEL,
-        messages: [
-          { role: "system", content: `তুমি একটি ডকুমেন্ট বিশ্লেষণকারী AI। নিচের ডকুমেন্টের তথ্য ব্যবহার করে বাংলায় উত্তর দাও।\n\nডকুমেন্ট:\n${context}` },
-          { role: "user", content: q }
-        ],
-        max_tokens: 1000
-      })
+  try{
+    const context=pdfText.slice(0,6000);
+    const res=await fetch("https://openrouter.ai/api/v1/chat/completions",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":`Bearer ${OR_KEY}`,"HTTP-Referer":"https://smart-ai.app"},
+      body:JSON.stringify({model:OR_MODEL,messages:[
+        {role:"system",content:`তুমি একটি ডকুমেন্ট বিশ্লেষণকারী AI। নিচের ডকুমেন্টের তথ্য ব্যবহার করে বাংলায় উত্তর দাও।\n\nডকুমেন্ট:\n${context}`},
+        {role:"user",content:q}
+      ],max_tokens:1000})
     });
-    const d = await res.json();
-    const reply = d?.choices?.[0]?.message?.content || 'উত্তর পাওয়া যায়নি।';
-    ansEl.innerHTML = `<div class="pdf-answer">${formatInline(reply)}</div>`;
-    document.getElementById('pdfQuestion').value = '';
-    showToast('উত্তর পাওয়া গেছে', 'success', 1500);
-  } catch {
-    ansEl.innerHTML = `<div class="pdf-answer" style="color:var(--danger)">⚠️ সমস্যা হয়েছে। আবার চেষ্টা করুন।</div>`;
-  }
+    const d=await res.json();
+    const reply=d?.choices?.[0]?.message?.content||'উত্তর পাওয়া যায়নি।';
+    ansEl.innerHTML=`<div class="pdf-answer">${formatInline(reply)}</div>`;
+    document.getElementById('pdfQuestion').value='';
+    showToast('উত্তর পাওয়া গেছে','success',1500);
+  }catch(e){ansEl.innerHTML=`<div class="pdf-answer" style="color:var(--danger)">⚠️ সমস্যা হয়েছে। আবার চেষ্টা করুন।</div>`;}
 }
 
-// ===== VOICE =====
-function toggleVoice() {
-  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-    showToast('ভয়েস সাপোর্ট নেই এই ব্রাউজারে', 'error');
-    return;
-  }
-  if (isListening) { stopVoice(); return; }
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SR();
-  recognition.lang = 'bn-BD';
-  recognition.interimResults = true;
-  recognition.continuous = false;
-  recognition.onstart = () => {
-    isListening = true;
-    voiceBtn.classList.add('active');
-    voiceIndicator.classList.add('show');
-  };
-  recognition.onresult = e => {
-    let t = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) t += e.results[i][0].transcript;
-    inputEl.value = t;
-    inputEl.style.height = 'auto';
-    inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
-  };
-  recognition.onend = () => { stopVoice(); if (inputEl.value.trim()) sendMessage(); };
-  recognition.onerror = () => stopVoice();
+// VOICE
+function toggleVoice(){
+  if(!('webkitSpeechRecognition'in window||'SpeechRecognition'in window)){showToast('ভয়েস সাপোর্ট নেই','error');return;}
+  if(isListening){stopVoice();return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  recognition=new SR();recognition.lang='bn-BD';recognition.interimResults=true;recognition.continuous=false;
+  recognition.onstart=()=>{isListening=true;voiceBtn.classList.add('active');voiceIndicator.classList.add('show');};
+  recognition.onresult=e=>{let t='';for(let i=e.resultIndex;i<e.results.length;i++)t+=e.results[i][0].transcript;inputEl.value=t;inputEl.style.height='auto';inputEl.style.height=Math.min(inputEl.scrollHeight,100)+'px';};
+  recognition.onend=()=>{stopVoice();if(inputEl.value.trim())sendMessage();};
+  recognition.onerror=()=>stopVoice();
   recognition.start();
 }
+function stopVoice(){isListening=false;voiceBtn.classList.remove('active');voiceIndicator.classList.remove('show');if(recognition){try{recognition.stop();}catch(e){}recognition=null;}}
 
-function stopVoice() {
-  isListening = false;
-  voiceBtn.classList.remove('active');
-  voiceIndicator.classList.remove('show');
-  if (recognition) { try { recognition.stop(); } catch {} recognition = null; }
-}
+// MODAL
+function showModal(){document.getElementById('proModal').classList.add('active');goTo(1);}
+document.getElementById('modalCloseBtn').addEventListener('click',()=>document.getElementById('proModal').classList.remove('active'));
+document.getElementById('proModal').addEventListener('click',e=>{if(e.target===document.getElementById('proModal'))document.getElementById('proModal').classList.remove('active');});
+document.getElementById('proCard').addEventListener('click',e=>e.stopPropagation());
 
-// ===== MODAL =====
-function showModal() { document.getElementById('proModal').classList.add('active'); goTo(1); }
-document.getElementById('modalCloseBtn').addEventListener('click', () => document.getElementById('proModal').classList.remove('active'));
-document.getElementById('proModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('proModal')) document.getElementById('proModal').classList.remove('active');
-});
-document.getElementById('proCard').addEventListener('click', e => e.stopPropagation());
-
-// Close viewer on ESC
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeViewer();
-    document.getElementById('proModal').classList.remove('active');
-  }
-});
-
-function goTo(step) {
-  currentStep = step;
-  const map = { 1: 'stepPlans', 2: 'stepMethods', 3: 'stepDeposit', 4: 'stepSuccess' };
-  Object.values(map).forEach(id => document.getElementById(id)?.classList.remove('active'));
+function goTo(step){
+  currentStep=step;
+  const map={1:'stepPlans',2:'stepMethods',3:'stepDeposit',4:'stepSuccess'};
+  Object.values(map).forEach(id=>document.getElementById(id)?.classList.remove('active'));
   document.getElementById(map[step])?.classList.add('active');
-  document.getElementById('sd1').className = 'step-dot ' + (step > 1 ? 'done' : 'active');
-  document.getElementById('sd2').className = 'step-dot ' + (step > 2 ? 'done' : step === 2 ? 'active' : '');
-  document.getElementById('sd3').className = 'step-dot ' + (step >= 3 ? 'active' : '');
+  document.getElementById('sd1').className='step-dot '+(step>1?'done':'active');
+  document.getElementById('sd2').className='step-dot '+(step>2?'done':step===2?'active':'');
+  document.getElementById('sd3').className='step-dot '+(step>=3?'active':'');
 }
-
-function selectPlan(name, priceBDT, priceUSD) {
-  selectedPlan = { name, priceBDT, priceUSD };
-  const grid = document.getElementById('methodGrid');
-  grid.innerHTML = '';
-  Object.keys(paymentSettings).forEach(k => {
-    const gw = paymentSettings[k];
-    const el = document.createElement('div');
-    el.className = 'method-item';
-    el.onclick = () => selectMethod(k, gw);
-    el.innerHTML = `<div class="method-left">
-      <div class="method-logo">
-        <img src="${escapeHtml(gw.logo)}" alt="${escapeHtml(k)}"
-          onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\\'fa-solid fa-wallet\\' style=\\'color:var(--accent);font-size:18px\\'></i>'">
-      </div>
-      <div>
-        <div class="method-name">${escapeHtml(k)}</div>
-        <div class="method-type">${escapeHtml(gw.type || 'Mobile Banking')}</div>
-      </div>
-    </div>
-    <i class="fa-solid fa-chevron-right" style="color:var(--muted);font-size:11px"></i>`;
+function selectPlan(name,priceBDT,priceUSD){
+  selectedPlan={name,priceBDT,priceUSD};
+  const grid=document.getElementById('methodGrid');grid.innerHTML='';
+  Object.keys(paymentSettings).forEach(k=>{
+    const gw=paymentSettings[k];const el=document.createElement('div');el.className='method-item';el.onclick=()=>selectMethod(k,gw);
+    el.innerHTML=`<div class="method-left"><div class="method-logo"><img src="${gw.logo}" alt="${k}" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\\'fa-solid fa-wallet\\' style=\\'color:var(--accent);font-size:18px\\'></i>'"></div><div><div class="method-name">${k}</div><div class="method-type">${gw.type||'Mobile Banking'}</div></div></div><i class="fa-solid fa-chevron-right" style="color:var(--muted);font-size:11px"></i>`;
     grid.appendChild(el);
   });
   goTo(2);
 }
-
-function selectMethod(name, gw) {
-  selectedMethod = { name, gw };
-  document.getElementById('depositPlanLabel').textContent = `${selectedPlan.name} — ৳${selectedPlan.priceBDT} / $${selectedPlan.priceUSD}`;
-  document.getElementById('depositMethodName').textContent = `${name} (${gw.type || ''})`;
-  document.getElementById('depositNumber').textContent = gw.number;
-  document.getElementById('copyBtn').className = 'copy-btn';
-  document.getElementById('copyBtn').innerHTML = '<i class="fa-regular fa-copy"></i> কপি';
-  document.getElementById('trxInput').value = '';
-  document.getElementById('trxInput').className = 'trx-field';
+function selectMethod(name,gw){
+  selectedMethod={name,gw};
+  document.getElementById('depositPlanLabel').textContent=`${selectedPlan.name} — ৳${selectedPlan.priceBDT} / $${selectedPlan.priceUSD}`;
+  document.getElementById('depositMethodName').textContent=`${name} (${gw.type||''})`;
+  document.getElementById('depositNumber').textContent=gw.number;
+  document.getElementById('copyBtn').className='copy-btn';document.getElementById('copyBtn').innerHTML='<i class="fa-regular fa-copy"></i> কপি';
+  document.getElementById('trxInput').value='';document.getElementById('trxInput').className='trx-field';
   goTo(3);
 }
-
-function copyNumber() {
-  const num = document.getElementById('depositNumber').textContent;
-  navigator.clipboard.writeText(num).then(() => {
-    const btn = document.getElementById('copyBtn');
-    btn.className = 'copy-btn copied';
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> হয়েছে';
-    setTimeout(() => { btn.className = 'copy-btn'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> কপি'; }, 2500);
-    showToast('নম্বর কপি হয়েছে', 'success', 1500);
-  }).catch(() => {
-    showToast('কপি করা যায়নি, ম্যানুয়ালি কপি করুন', 'error');
+function copyNumber(){
+  const num=document.getElementById('depositNumber').textContent;
+  navigator.clipboard.writeText(num).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.className='copy-btn copied';btn.innerHTML='<i class="fa-solid fa-check"></i> হয়েছে';
+    setTimeout(()=>{btn.className='copy-btn';btn.innerHTML='<i class="fa-regular fa-copy"></i> কপি';},2500);
+    showToast('নম্বর কপি হয়েছে','success',1500);
   });
 }
-
-function submitPayment() {
-  const f = document.getElementById('trxInput');
-  const trx = sanitizeInput(f.value);
-  if (!trx || trx.length < 4) {
-    f.className = 'trx-field error';
-    f.focus();
-    setTimeout(() => f.className = 'trx-field', 2000);
-    showToast('সঠিক TrxID লিখুন (কমপক্ষে ৪ অক্ষর)', 'error');
-    return;
-  }
-  try {
-    if (db) db.ref('payments').push({
-      plan: selectedPlan.name,
-      priceBDT: selectedPlan.priceBDT,
-      method: selectedMethod.name,
-      number: selectedMethod.gw?.number || '',
-      trxId: trx,
-      timestamp: Date.now(),
-      status: 'pending'
-    });
-  } catch (e) {}
+function submitPayment(){
+  const f=document.getElementById('trxInput'),trx=f.value.trim();
+  if(!trx||trx.length<4){f.className='trx-field error';f.focus();setTimeout(()=>f.className='trx-field',2000);showToast('সঠিক TrxID লিখুন','error');return;}
+  try{if(db)db.ref('payments').push({plan:selectedPlan.name,priceBDT:selectedPlan.priceBDT,method:selectedMethod.name,number:selectedMethod.gw?.number||'',trxId:trx,timestamp:Date.now(),status:'pending'});}catch(e){}
   goTo(4);
 }
 </script>
