@@ -1,1832 +1,1216 @@
 <!DOCTYPE html>
-<html lang="bn" data-theme="dark">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;">
-<title>M-AI Pro </title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" id="hljs-theme">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-[data-theme="dark"]{
-  --bg:#050810;--surface:#0a0f1a;--surface2:#0f1623;--surface3:#141d2e;--surface4:#1a2540;
-  --border:rgba(79,209,197,0.1);--border2:rgba(79,209,197,0.22);
-  --text:#e8f0fe;--text2:#a8bbd0;--muted:#4a6080;
-  --bubble-ai:#0c1420;--bubble-ai-border:rgba(79,209,197,0.13);
-  --input-bg:#0c1420;--header-bg:rgba(5,8,16,0.96);--shadow:rgba(0,0,0,0.5);
-}
-[data-theme="light"]{
-  --bg:#f0f5ff;--surface:#ffffff;--surface2:#f5f8ff;--surface3:#e8efff;--surface4:#dde7ff;
-  --border:rgba(99,102,241,0.15);--border2:rgba(99,102,241,0.3);
-  --text:#0f172a;--text2:#475569;--muted:#94a3b8;
-  --bubble-ai:#ffffff;--bubble-ai-border:rgba(99,102,241,0.15);
-  --input-bg:#ffffff;--header-bg:rgba(240,245,255,0.96);--shadow:rgba(99,102,241,0.1);
-}
-:root{
-  --accent:#4fd1c5;--accent2:#818cf8;--accent3:#34d399;--accent4:#f472b6;--accent5:#fb923c;
-  --user-bubble:linear-gradient(135deg,#3b82f6 0%,#6366f1 60%,#8b5cf6 100%);
-  --danger:#ef4444;--gold:#f59e0b;
-  --font-main:'Space Grotesk','Noto Sans Bengali',sans-serif;
-  --font-code:'JetBrains Mono',monospace;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{height:100%;height:-webkit-fill-available}
-
-/* =====================================================
-   BODY — ROOT FIX: use flex column, no fixed positioning
-   ===================================================== */
-body{
-  font-family:var(--font-main);
-  background:var(--bg);
-  color:var(--text);
-  display:flex;
-  flex-direction:column;
-  height:100vh;
-  height:-webkit-fill-available;
-  overflow:hidden;
-  transition:background .3s,color .3s;
-  width:100%;
-  /* REMOVED position:fixed — it breaks scrolling on mobile */
-}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 15% 20%,rgba(79,209,197,0.06) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(129,140,248,0.06) 0%,transparent 50%);pointer-events:none;z-index:0}
-
-/* HEADER */
-.header{position:relative;z-index:10;background:var(--header-bg);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:0 14px;height:54px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.brand{display:flex;align-items:center;gap:9px}
-.logo-wrap{width:34px;height:34px;flex-shrink:0;background:linear-gradient(135deg,#4fd1c5,#818cf8);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(79,209,197,0.35);position:relative;overflow:hidden}
-.logo-wrap::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,0.15) 50%,transparent 70%);animation:shimmer 3s ease-in-out infinite}
-@keyframes shimmer{0%{transform:translateX(-100%) translateY(-100%)}100%{transform:translateX(100%) translateY(100%)}}
-.logo-wrap i{font-size:14px;color:#fff;position:relative;z-index:1}
-.brand-text h1{font-size:13px;font-weight:700;letter-spacing:-.3px}
-.brand-text span{font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;display:block;margin-top:1px}
-.header-right{display:flex;align-items:center;gap:6px}
-.status-dot{width:7px;height:7px;background:var(--accent3);border-radius:50%;box-shadow:0 0 8px var(--accent3);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.limit-pill{background:var(--surface2);border:1px solid var(--border);padding:4px 9px;border-radius:30px;font-size:10px;font-weight:600;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:4px;transition:.2s}
-.limit-pill:hover{border-color:var(--border2)}
-.limit-pill.pro-mode{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(249,115,22,.1));border-color:rgba(245,158,11,.35);color:var(--gold)}
-.icon-btn{width:30px;height:30px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
-.icon-btn:hover{color:var(--accent);border-color:var(--border2)}
-.new-chat-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:5px 9px;border-radius:8px;font-size:10px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.2s;font-family:var(--font-main);font-weight:500}
-.new-chat-btn:hover{color:var(--accent);border-color:var(--border2)}
-
-/* MODE TABS */
-.mode-bar{position:relative;z-index:9;background:var(--header-bg);border-bottom:1px solid var(--border);padding:0 14px;display:flex;align-items:center;gap:5px;height:40px;flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.mode-bar::-webkit-scrollbar{display:none}
-.mode-tab{display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid transparent;transition:.2s;white-space:nowrap;color:var(--muted);background:none;font-family:var(--font-main);-webkit-tap-highlight-color:transparent}
-.mode-tab:hover{color:var(--text);background:var(--surface2);border-color:var(--border)}
-.mode-tab.active{color:#fff;border-color:transparent}
-.mode-tab[data-mode="chat"].active{background:linear-gradient(135deg,#3b82f6,#6366f1)}
-.mode-tab[data-mode="image"].active{background:linear-gradient(135deg,#f472b6,#fb923c)}
-.mode-tab[data-mode="search"].active{background:linear-gradient(135deg,#4fd1c5,#818cf8)}
-.mode-tab[data-mode="weather"].active{background:linear-gradient(135deg,#fb923c,#f59e0b)}
-.mode-tab[data-mode="pdf"].active{background:linear-gradient(135deg,#ef4444,#f97316)}
-.mode-tab i{font-size:10px}
-
-/* =====================================================
-   CHAT WRAP — CRITICAL LAYOUT FIX
-   ===================================================== */
-.chat-wrap{
-  flex:1;
-  overflow:hidden;
-  position:relative;
-  z-index:1;
-  display:flex;
-  flex-direction:column;
-  min-height:0;
-}
-#chatMode{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  min-height:0;
-  height:100%;
-  overflow:hidden;
-}
-.chat-container{
-  flex:1;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  padding:16px 12px 8px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  scroll-behavior:smooth;
-  overscroll-behavior-y:contain;
-  /* CRITICAL: allow content to scroll */
-  min-height:0;
-}
-.chat-container::-webkit-scrollbar{width:3px}
-.chat-container::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-
-/* MESSAGES */
-.msg-row{display:flex;gap:8px;align-items:flex-start;animation:fadeUp .28s cubic-bezier(.16,1,.3,1) forwards}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.msg-row.user{flex-direction:row-reverse}
-.avatar{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;margin-top:2px}
-.avatar.ai-av{background:linear-gradient(135deg,#4fd1c5,#818cf8);color:#fff;box-shadow:0 0 12px rgba(79,209,197,0.25)}
-.avatar.user-av{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff}
-.bubble-wrap{display:flex;flex-direction:column;gap:4px;max-width:calc(100% - 50px)}
-.bubble{padding:10px 13px;border-radius:14px;font-size:13px;line-height:1.8;word-break:break-word;overflow-wrap:break-word}
-.bubble.ai-bubble{background:var(--bubble-ai);border:1px solid var(--bubble-ai-border);border-top-left-radius:4px;color:var(--text);box-shadow:0 2px 10px rgba(0,0,0,0.12)}
-.bubble.user-bubble{background:var(--user-bubble);border-top-right-radius:4px;color:#fff;box-shadow:0 4px 16px rgba(59,130,246,0.28)}
-.bubble img.msg-img{max-width:100%;max-height:180px;border-radius:10px;margin-bottom:6px;display:block;object-fit:cover}
-.bubble .msg-text{white-space:pre-wrap}
-.bubble h1,.bubble h2,.bubble h3{font-weight:600;margin:10px 0 5px;color:var(--accent)}
-.bubble h1{font-size:15px}.bubble h2{font-size:14px}.bubble h3{font-size:13px}
-.bubble ul,.bubble ol{margin:5px 0 5px 18px}
-.bubble li{margin:3px 0}
-.bubble strong{font-weight:600}
-.bubble em{font-style:italic;color:var(--text2)}
-.bubble blockquote{border-left:3px solid var(--accent2);padding:6px 12px;margin:8px 0;background:rgba(129,140,248,0.06);border-radius:0 8px 8px 0;color:var(--text2)}
-.bubble table{width:100%;border-collapse:collapse;margin:10px 0;font-size:11px;display:block;overflow-x:auto}
-.bubble th,.bubble td{border:1px solid var(--border2);padding:6px 9px;text-align:left;white-space:nowrap}
-.bubble th{background:rgba(79,209,197,0.1);color:var(--accent);font-weight:600}
-
-/* CODE */
-.bubble pre{background:#060d1a;border:1px solid rgba(79,209,197,0.15);border-radius:10px;overflow:hidden;margin:9px 0}
-[data-theme="light"] .bubble pre{background:#1a2030}
-.code-header{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(79,209,197,0.1)}
-.code-lang{font-size:9px;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.8px;display:flex;align-items:center;gap:5px}
-.code-copy{background:none;border:1px solid rgba(79,209,197,0.2);color:var(--muted);padding:2px 8px;border-radius:5px;font-size:9px;cursor:pointer;transition:.2s;font-family:var(--font-main)}
-.code-copy:hover{border-color:var(--accent);color:var(--accent)}
-.code-copy.copied{border-color:var(--accent3);color:var(--accent3)}
-.bubble pre code{padding:12px!important;display:block;overflow-x:auto;font-size:11px;line-height:1.65;background:none!important;font-family:var(--font-code)}
-.bubble code:not(pre code){background:rgba(79,209,197,0.1);border:1px solid rgba(79,209,197,0.2);border-radius:4px;padding:1px 5px;font-family:var(--font-code);font-size:11px;color:var(--accent)}
-
-/* MSG ACTIONS */
-.msg-actions{display:flex;gap:4px;opacity:0;transition:.15s;flex-wrap:wrap}
-.msg-row.user .msg-actions{justify-content:flex-end}
-.msg-row:hover .msg-actions{opacity:1}
-.action-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:2px 8px;border-radius:6px;font-size:9px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:3px;font-family:var(--font-main)}
-.action-btn:hover{color:var(--accent);border-color:var(--border2)}
-.action-btn.done{color:var(--accent3);border-color:var(--accent3)}
-.msg-time{font-size:9px;color:var(--muted);padding:0 2px;align-self:center}
-
-/* TYPING */
-.typing-dots span{display:inline-block;width:5px;height:5px;background:var(--accent);border-radius:50%;margin:0 2px;animation:dot 1.3s infinite}
-.typing-dots span:nth-child(2){animation-delay:.2s}.typing-dots span:nth-child(3){animation-delay:.4s}
-@keyframes dot{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-6px);opacity:1}}
-.typing-label{font-size:10px;color:var(--muted);font-style:italic;margin-left:6px}
-
-/* WELCOME */
-.welcome-wrap{display:flex;justify-content:center;align-items:center;min-height:100%;padding:16px}
-.welcome-card{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:22px 18px;text-align:center;max-width:360px;width:100%;position:relative;overflow:hidden}
-.welcome-card::before{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(79,209,197,0.08) 0%,transparent 70%);pointer-events:none}
-.wc-icon-wrap{width:52px;height:52px;margin:0 auto 12px;background:linear-gradient(135deg,rgba(79,209,197,0.15),rgba(129,140,248,0.15));border:1px solid var(--border2);border-radius:15px;display:flex;align-items:center;justify-content:center}
-.wc-icon{font-size:23px;background:linear-gradient(135deg,#4fd1c5,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.welcome-card h2{font-size:16px;font-weight:700;margin-bottom:5px}
-.welcome-card p{font-size:11px;color:var(--text2);line-height:1.7}
-.welcome-card p strong{color:var(--accent)}
-.suggest-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px}
-.chip{background:var(--surface3);border:1px solid var(--border);padding:5px 11px;border-radius:30px;font-size:10px;color:var(--text2);cursor:pointer;transition:.2s;display:flex;align-items:center;gap:4px;-webkit-tap-highlight-color:transparent}
-.chip:hover,.chip:active{border-color:var(--border2);color:var(--accent);background:rgba(79,209,197,0.07);transform:translateY(-1px)}
-
-/* IMAGE GENERATION */
-.img-gen-panel{padding:14px;display:flex;flex-direction:column;gap:11px;height:100%;overflow-y:auto}
-.ig-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px}
-.ig-title i{color:var(--accent4)}
-.ig-prompt-wrap{display:flex;flex-direction:column;gap:7px}
-.ig-textarea{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:11px;color:var(--text);font-family:var(--font-main);font-size:13px;resize:none;outline:none;min-height:75px;transition:.2s;-webkit-appearance:none}
-.ig-textarea:focus{border-color:var(--border2)}
-.ig-textarea::placeholder{color:var(--muted)}
-.ig-controls{display:flex;gap:7px;flex-wrap:wrap}
-.ig-select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:var(--font-main);font-size:11px;outline:none;cursor:pointer;flex:1;min-width:90px;-webkit-appearance:none}
-.ig-btn{background:linear-gradient(135deg,#f472b6,#fb923c);color:#fff;border:none;border-radius:9px;padding:9px 16px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:.2s;font-family:var(--font-main);white-space:nowrap;-webkit-tap-highlight-color:transparent}
-.ig-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(244,114,182,0.35)}
-.ig-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.ig-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:9px;margin-top:4px}
-.ig-img-wrap{border-radius:11px;overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:1;cursor:pointer;transition:.2s}
-.ig-img-wrap:hover{transform:scale(1.02);border-color:var(--border2)}
-.ig-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
-.ig-img-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;gap:10px;opacity:0;transition:.2s}
-.ig-img-wrap:hover .ig-img-overlay{opacity:1}
-.ig-overlay-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:.2s}
-.ig-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px;color:var(--muted)}
-.ig-spinner{width:34px;height:34px;border:3px solid var(--border);border-top-color:var(--accent4);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.ig-prompt-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}
-.ig-tag{background:var(--surface3);border:1px solid var(--border);padding:3px 9px;border-radius:20px;font-size:9px;color:var(--text2);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
-.ig-tag:hover{border-color:var(--accent4);color:var(--accent4)}
-
-/* WEATHER */
-.weather-panel{padding:14px;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.weather-search-row{display:flex;gap:7px;margin-bottom:12px}
-.weather-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:var(--font-main);font-size:13px;outline:none;transition:.2s;-webkit-appearance:none}
-.weather-input:focus{border-color:var(--border2)}
-.weather-input::placeholder{color:var(--muted)}
-.weather-btn{background:linear-gradient(135deg,#fb923c,#f59e0b);color:#fff;border:none;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.2s;font-family:var(--font-main);white-space:nowrap;-webkit-tap-highlight-color:transparent}
-.weather-card{background:var(--surface2);border:1px solid var(--border);border-radius:15px;padding:16px;margin-bottom:11px;position:relative;overflow:hidden}
-.weather-card::before{content:'';position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(251,146,60,0.1),transparent 70%);pointer-events:none}
-.wc-city{font-size:19px;font-weight:700;margin-bottom:3px}
-.wc-country{font-size:11px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:5px}
-.wc-main{display:flex;align-items:center;gap:14px;margin-bottom:13px}
-.wc-temp{font-size:48px;font-weight:700;color:var(--accent5);line-height:1}
-.wc-icon-big{font-size:40px;line-height:1}
-.wc-desc{font-size:13px;color:var(--text2);margin-top:4px;font-weight:500}
-.wc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
-.wc-stat{background:var(--surface3);border:1px solid var(--border);border-radius:9px;padding:9px 11px}
-.wc-stat-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;display:flex;align-items:center;gap:4px}
-.wc-stat-val{font-size:15px;font-weight:600;color:var(--text)}
-.wc-forecast{margin-top:11px}
-.wc-forecast-title{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px}
-.wc-forecast-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
-.wc-forecast-row::-webkit-scrollbar{display:none}
-.wc-day{background:var(--surface3);border:1px solid var(--border);border-radius:9px;padding:9px 11px;text-align:center;min-width:60px;flex-shrink:0}
-.wc-day-name{font-size:9px;color:var(--muted);margin-bottom:5px}
-.wc-day-icon{font-size:18px;margin-bottom:4px}
-.wc-day-temp{font-size:11px;font-weight:600}
-.weather-empty{text-align:center;padding:40px 20px;color:var(--muted)}
-.weather-empty i{font-size:38px;opacity:.25;display:block;margin-bottom:12px}
-.weather-recent{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px}
-.weather-recent-tag{background:var(--surface2);border:1px solid var(--border);padding:4px 10px;border-radius:20px;font-size:10px;color:var(--text2);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
-.weather-recent-tag:hover{border-color:var(--accent5);color:var(--accent5)}
-
-/* WEB SEARCH */
-.search-panel{padding:14px;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.ws-search-row{display:flex;gap:7px;margin-bottom:13px}
-.ws-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:var(--font-main);font-size:13px;outline:none;transition:.2s;-webkit-appearance:none}
-.ws-input:focus{border-color:var(--border2)}
-.ws-input::placeholder{color:var(--muted)}
-.ws-btn{background:linear-gradient(135deg,#4fd1c5,#818cf8);color:#fff;border:none;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.2s;font-family:var(--font-main);white-space:nowrap;-webkit-tap-highlight-color:transparent}
-.ws-results{display:flex;flex-direction:column;gap:9px}
-.ws-result-card{background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:12px 14px;cursor:pointer;transition:.2s;text-decoration:none;display:block}
-.ws-result-card:hover{border-color:var(--border2);transform:translateY(-1px)}
-.ws-result-source{font-size:9px;color:var(--accent);margin-bottom:4px;display:flex;align-items:center;gap:5px}
-.ws-result-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:5px;line-height:1.4}
-.ws-result-desc{font-size:11px;color:var(--text2);line-height:1.6}
-.ws-ai-answer{background:rgba(79,209,197,0.06);border:1px solid rgba(79,209,197,0.2);border-radius:11px;padding:13px;margin-bottom:11px}
-.ws-ai-label{font-size:9px;color:var(--accent);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;display:flex;align-items:center;gap:5px}
-.ws-ai-text{font-size:12px;color:var(--text);line-height:1.7}
-.ws-empty{text-align:center;padding:40px 20px;color:var(--muted)}
-.ws-empty i{font-size:38px;opacity:.25;display:block;margin-bottom:12px}
-.ws-loading{display:flex;align-items:center;gap:10px;padding:14px;color:var(--muted);font-size:12px}
-.ws-spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
-
-/* PDF */
-.pdf-panel{padding:14px;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:11px}
-.pdf-drop-zone{border:2px dashed var(--border2);border-radius:13px;padding:28px;text-align:center;cursor:pointer;transition:.2s;background:var(--surface2)}
-.pdf-drop-zone:hover,.pdf-drop-zone.drag-over{border-color:var(--danger);background:rgba(239,68,68,0.05)}
-.pdf-drop-icon{font-size:34px;color:var(--danger);margin-bottom:10px;opacity:.7}
-.pdf-drop-title{font-size:14px;font-weight:600;margin-bottom:5px}
-.pdf-drop-sub{font-size:11px;color:var(--muted)}
-.pdf-file-label{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;border:none;border-radius:9px;padding:8px 16px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font-main);margin-top:10px;display:inline-block;transition:.2s}
-.pdf-loaded-card{background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:12px 14px;display:flex;align-items:center;gap:11px}
-.pdf-icon-big{width:40px;height:40px;background:rgba(239,68,68,0.12);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.pdf-icon-big i{color:var(--danger);font-size:17px}
-.pdf-info .pdf-name{font-size:12px;font-weight:600;color:var(--text)}
-.pdf-info .pdf-size{font-size:10px;color:var(--muted);margin-top:3px}
-.pdf-remove{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:var(--danger);width:26px;height:26px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;margin-left:auto;transition:.2s}
-.pdf-content-box{background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:13px;max-height:180px;overflow-y:auto;font-size:11px;line-height:1.7;color:var(--text2)}
-.pdf-ask-row{display:flex;gap:7px}
-.pdf-ask-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:var(--font-main);font-size:13px;outline:none;transition:.2s;-webkit-appearance:none}
-.pdf-ask-btn{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;border:none;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.2s;font-family:var(--font-main);white-space:nowrap;-webkit-tap-highlight-color:transparent}
-.pdf-answer{background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);border-radius:11px;padding:12px;font-size:12px;line-height:1.7;color:var(--text)}
-.pdf-stats{display:flex;gap:7px;flex-wrap:wrap}
-.pdf-stat{background:var(--surface3);border:1px solid var(--border);border-radius:8px;padding:6px 11px;font-size:10px;color:var(--text2);display:flex;align-items:center;gap:5px}
-.pdf-stat i{color:var(--danger);font-size:9px}
-
-/* TOAST */
-.toast-container{position:fixed;top:104px;right:12px;z-index:200;display:flex;flex-direction:column;gap:5px}
-.toast{background:var(--surface2);border:1px solid var(--border);padding:8px 12px;border-radius:9px;font-size:11px;color:var(--text);display:flex;align-items:center;gap:7px;box-shadow:0 4px 18px rgba(0,0,0,0.25);animation:toastIn .3s cubic-bezier(.16,1,.3,1);max-width:200px}
-.toast.success{border-color:rgba(52,211,153,.3)}.toast.error{border-color:rgba(239,68,68,.3)}.toast.info{border-color:rgba(79,209,197,.3)}
-@keyframes toastIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}
-
-/* VOICE */
-.voice-indicator{display:none;background:rgba(239,68,68,0.07);border-top:1px solid rgba(239,68,68,.2);padding:7px 13px;align-items:center;gap:9px;flex-shrink:0}
-.voice-indicator.show{display:flex}
-.voice-bars{display:flex;align-items:center;gap:2px}
-.vb{width:3px;background:var(--danger);border-radius:2px;animation:vbar .8s ease-in-out infinite alternate}
-.vb:nth-child(1){height:8px}.vb:nth-child(2){height:15px;animation-delay:.1s}.vb:nth-child(3){height:11px;animation-delay:.2s}.vb:nth-child(4){height:19px;animation-delay:.3s}.vb:nth-child(5){height:9px;animation-delay:.4s}
-@keyframes vbar{from{height:4px;opacity:.4}to{opacity:1}}
-.voice-indicator span{font-size:11px;color:var(--danger);flex:1}
-.voice-cancel{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:var(--danger);padding:4px 10px;border-radius:7px;font-size:10px;cursor:pointer;font-family:var(--font-main)}
-
-/* IMAGE PREVIEW */
-.preview-bar{display:none;background:var(--surface2);border-top:1px solid var(--border);padding:6px 12px;align-items:center;gap:8px;z-index:5;flex-shrink:0}
-.preview-bar.show{display:flex}
-.preview-thumb{width:36px;height:36px;border-radius:7px;object-fit:cover;border:2px solid var(--border2)}
-.preview-info .pi-name{font-size:11px;font-weight:500}.preview-info .pi-size{font-size:9px;color:var(--muted)}
-.remove-preview-btn{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:var(--danger);width:24px;height:24px;border-radius:7px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto}
-
-/* =====================================================
-   INPUT SHELL — CRITICAL FIX FOR VISIBILITY & LAYOUT
-   ===================================================== */
-.input-shell{
-  background:var(--header-bg);
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  border-top:1px solid var(--border);
-  padding:8px 10px;
-  padding-bottom:calc(8px + env(safe-area-inset-bottom, 0px));
-  z-index:10;
-  flex-shrink:0;
-  width:100%;
-  /* REMOVED display:none default — always show for chat */
-}
-.input-row{
-  display:flex;
-  align-items:flex-end;
-  gap:6px;
-  background:var(--input-bg);
-  border:1.5px solid var(--border);
-  border-radius:16px;
-  padding:6px 6px 6px 10px;
-  transition:.25s;
-  box-shadow:0 2px 10px rgba(0,0,0,0.1);
-}
-.input-row:focus-within{
-  border-color:rgba(79,209,197,.45);
-  box-shadow:0 0 0 3px rgba(79,209,197,.07),0 2px 10px rgba(0,0,0,.1);
-}
-.input-tool-btn{
-  background:none;
-  border:none;
-  color:var(--muted);
-  font-size:16px;
-  width:34px;
-  height:34px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  border-radius:8px;
-  transition:.2s;
-  flex-shrink:0;
-  -webkit-tap-highlight-color:transparent;
-  touch-action:manipulation;
-}
-.input-tool-btn:hover{color:var(--accent);background:rgba(79,209,197,.08)}
-.voice-btn:hover{color:var(--danger)!important;background:rgba(239,68,68,.08)!important}
-.voice-btn.active{color:var(--danger)!important;background:rgba(239,68,68,.1)!important}
-
-/* =====================================================
-   TEXTAREA — CRITICAL FIX: text must be visible
-   ===================================================== */
-#userInput{
-  flex:1;
-  background:transparent !important;
-  border:none !important;
-  outline:none !important;
-  /* CRITICAL: explicit color so text is always visible */
-  color:var(--text) !important;
-  -webkit-text-fill-color:var(--text) !important;
-  font-family:var(--font-main);
-  font-size:14px;
-  resize:none;
-  max-height:120px;
-  min-height:36px;
-  line-height:1.5;
-  padding:6px 0;
-  -webkit-text-size-adjust:100%;
-  align-self:center;
-  width:100%;
-  /* Remove any webkit autofill coloring */
-  caret-color:var(--accent);
-}
-#userInput::placeholder{
-  color:var(--muted) !important;
-  -webkit-text-fill-color:var(--muted) !important;
-  font-size:13px;
-  opacity:1;
-}
-/* iOS autofill fix */
-#userInput:-webkit-autofill,
-#userInput:-webkit-autofill:hover,
-#userInput:-webkit-autofill:focus{
-  -webkit-text-fill-color:var(--text) !important;
-  -webkit-box-shadow:0 0 0px 1000px var(--input-bg) inset !important;
-  caret-color:var(--accent);
-}
-@media (max-width: 768px) {
-  #userInput{font-size:16px} /* prevents iOS auto-zoom */
-}
-
-.send-btn{
-  width:36px;
-  height:36px;
-  border-radius:11px;
-  border:none;
-  background:linear-gradient(135deg,#4fd1c5,#6366f1);
-  color:#fff;
-  font-size:13px;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:.2s;
-  flex-shrink:0;
-  -webkit-tap-highlight-color:transparent;
-  touch-action:manipulation;
-}
-.send-btn:hover{transform:scale(1.06);box-shadow:0 4px 16px rgba(79,209,197,.4)}
-.send-btn:active{transform:scale(0.92)}
-.send-btn:disabled{opacity:.35;cursor:not-allowed;transform:none!important}
-.input-footer{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-top:5px;
-  font-size:9px;
-  color:var(--muted);
-  padding:0 2px;
-}
-.model-badge{display:flex;align-items:center;gap:4px;background:var(--surface2);border:1px solid var(--border);padding:2px 8px;border-radius:20px;font-size:9px;color:var(--muted)}
-.model-badge i{font-size:8px;color:var(--accent2)}
-
-/* SCROLL BTN */
-.scroll-btn{position:fixed;bottom:90px;right:13px;z-index:50;width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:12px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.2);transition:.2s;-webkit-tap-highlight-color:transparent}
-.scroll-btn.show{display:flex}
-.scroll-btn:hover{color:var(--accent);border-color:var(--border2)}
-
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(5,8,16,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;visibility:hidden;transition:.3s}
-.modal-overlay.active{opacity:1;visibility:visible}
-.pro-card{background:var(--surface);border:1px solid rgba(129,140,248,.3);border-radius:20px;width:94%;max-width:420px;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;box-shadow:0 0 60px rgba(99,102,241,.2);animation:slideUp .3s cubic-bezier(.16,1,.3,1)}
-.pro-card::-webkit-scrollbar{display:none}
-@keyframes slideUp{from{transform:translateY(28px);opacity:0}to{transform:translateY(0);opacity:1}}
-.modal-head{padding:20px 20px 0;text-align:center}
-.modal-crown{width:52px;height:52px;background:linear-gradient(135deg,rgba(245,158,11,.2),rgba(249,115,22,.15));border:2px solid rgba(245,158,11,.35);border-radius:15px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:23px}
-.modal-head h2{font-size:16px;font-weight:700;margin-bottom:5px}
-.modal-head p{font-size:11px;color:var(--text2);line-height:1.6}
-.modal-close{position:absolute;top:12px;right:12px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:8px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
-.modal-close:hover{color:var(--danger);border-color:var(--danger)}
-.modal-body{padding:14px 16px 20px}
-.step-bar{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:14px}
-.step-dot{width:7px;height:7px;border-radius:50%;background:var(--surface3);border:1px solid var(--border);transition:.3s}
-.step-dot.active{background:var(--accent2);border-color:var(--accent2);box-shadow:0 0 8px rgba(129,140,248,.5)}
-.step-dot.done{background:var(--accent3);border-color:var(--accent3)}
-.step-line{width:20px;height:1px;background:var(--border)}
-.step-section{display:none}.step-section.active{display:block}
-.plan-grid{display:flex;flex-direction:column;gap:8px}
-.plan-item{background:var(--surface2);border:1.5px solid var(--border);border-radius:11px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.2s;position:relative;-webkit-tap-highlight-color:transparent}
-.plan-item:hover{border-color:rgba(79,209,197,.4);transform:translateY(-1px)}
-.plan-item.popular{border-color:rgba(245,158,11,.3)}
-.plan-item.popular::after{content:'BEST VALUE';position:absolute;top:0;right:10px;background:linear-gradient(90deg,#f59e0b,#ef4444);color:#fff;font-size:7px;font-weight:700;padding:2px 6px;border-radius:0 0 5px 5px;letter-spacing:.8px}
-.plan-info .plan-name{font-size:13px;font-weight:600;margin-bottom:3px}
-.plan-info .plan-desc{font-size:10px;color:var(--text2)}
-.plan-price-wrap{text-align:right}
-.price{font-size:17px;font-weight:700;color:var(--accent)}
-.price-usd{font-size:9px;color:var(--muted);margin-top:2px}
-.method-grid{display:flex;flex-direction:column;gap:8px}
-.method-item{background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:11px 13px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.2s;-webkit-tap-highlight-color:transparent}
-.method-item:hover{border-color:rgba(79,209,197,.3);transform:translateY(-1px)}
-.method-left{display:flex;align-items:center;gap:10px}
-.method-logo{width:34px;height:34px;border-radius:8px;background:var(--surface3);display:flex;align-items:center;justify-content:center;overflow:hidden}
-.method-logo img{width:26px;height:26px;object-fit:contain}
-.method-name{font-size:13px;font-weight:600}
-.method-type{font-size:10px;color:var(--muted);margin-top:2px}
-.deposit-card{background:var(--surface2);border:1px solid var(--border2);border-radius:11px;padding:13px;margin-bottom:10px}
-.deposit-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px}
-.deposit-method-name{font-size:13px;font-weight:600;margin-bottom:10px}
-.deposit-divider{height:1px;background:var(--border);margin:10px 0}
-.send-to{font-size:10px;color:var(--muted);margin-bottom:7px}
-.number-box{display:flex;align-items:center;justify-content:space-between;background:var(--surface3);border:1px solid var(--border);border-radius:9px;padding:10px 12px}
-.number-val{font-size:16px;font-weight:700;color:var(--accent);letter-spacing:1.5px;font-family:var(--font-code)}
-.copy-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:6px;font-size:10px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:3px;font-family:var(--font-main)}
-.copy-btn:hover{border-color:var(--border2);color:var(--accent)}
-.copy-btn.copied{border-color:var(--accent3);color:var(--accent3)}
-.plan-summary{background:rgba(129,140,248,.08);border:1px solid rgba(129,140,248,.2);border-radius:9px;padding:8px 12px;font-size:10px;color:var(--accent2);display:flex;align-items:center;gap:7px;margin-bottom:10px}
-.trx-field{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-family:var(--font-main);font-size:12px;outline:none;transition:.2s;margin-bottom:8px;display:block;-webkit-appearance:none}
-.trx-field:focus{border-color:var(--accent2)}
-.trx-field.error{border-color:var(--danger)}
-.submit-btn{width:100%;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:10px;padding:11px;font-size:12px;font-weight:600;cursor:pointer;transition:.2s;font-family:var(--font-main);-webkit-tap-highlight-color:transparent}
-.submit-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(99,102,241,.4)}
-.back-link{display:flex;align-items:center;justify-content:center;gap:5px;background:none;border:none;color:var(--muted);font-size:10px;cursor:pointer;margin-top:8px;font-family:var(--font-main);transition:.2s;width:100%}
-.back-link:hover{color:var(--text)}
-.success-screen{text-align:center;padding:8px 0}
-.success-icon{font-size:44px;margin-bottom:11px;animation:bounceIn .5s cubic-bezier(.16,1,.3,1)}
-@keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
-.success-screen h3{font-size:15px;font-weight:700;margin-bottom:7px}
-.success-screen p{font-size:11px;color:var(--text2);line-height:1.7}
-
-/* Fullscreen image viewer */
-.img-viewer{position:fixed;inset:0;background:rgba(0,0,0,0.93);z-index:300;display:none;align-items:center;justify-content:center;cursor:zoom-out}
-.img-viewer.show{display:flex}
-.img-viewer img{max-width:92vw;max-height:88vh;border-radius:11px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-.img-viewer-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px}
-
-/* Streaming cursor */
-.stream-cursor{display:inline-block;width:2px;height:14px;background:var(--accent);margin-left:2px;animation:blink .6s infinite;vertical-align:middle}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-
-/* =====================================================
-   MOBILE-SPECIFIC OVERRIDES
-   ===================================================== */
-@media (max-width: 480px) {
-  .header{height:50px;padding:0 11px}
-  .brand-text span{display:none}
-  .mode-bar{padding:0 10px;gap:4px;height:38px}
-  .mode-tab{padding:4px 9px;font-size:9.5px}
-  .chat-container{padding:12px 10px 6px;gap:10px}
-  .bubble{padding:9px 11px;font-size:12.5px}
-  .input-shell{padding:7px 9px;padding-bottom:calc(7px + env(safe-area-inset-bottom, 0px))}
-  .input-row{padding:5px 5px 5px 9px;border-radius:14px;gap:5px}
-  .input-tool-btn{width:32px;height:32px;font-size:15px}
-  .send-btn{width:34px;height:34px;border-radius:10px}
-  #userInput{font-size:16px;min-height:32px;padding:4px 0}
-  .ig-gallery{grid-template-columns:repeat(2,1fr)}
-  .wc-temp{font-size:42px}
-  .scroll-btn{bottom:80px}
-  .toast-container{right:10px;top:98px}
-  .toast{max-width:180px;font-size:10px}
-}
-
-/* Safe area for notched phones */
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .input-shell {
-    padding-bottom: calc(8px + env(safe-area-inset-bottom));
-  }
-}
-</style>
-</head>
-<body>
-
-<!-- HEADER -->
-<div class="header">
-  <div class="brand">
-    <div class="logo-wrap"><i class="fa-solid fa-microchip"></i></div>
-    <div class="brand-text"><h1>M-AI Pro</h1><span>by Md. Mustkaim</span></div>
-  </div>
-  <div class="header-right">
-    <div class="status-dot"></div>
-    <div class="limit-pill" id="limitPill" onclick="showModal()">লোড...</div>
-    <button class="new-chat-btn" onclick="newChat()"><i class="fa-solid fa-plus"></i> নতুন</button>
-    <button class="icon-btn" id="themeBtn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
-  </div>
-</div>
-
-<!-- MODE TABS -->
-<div class="mode-bar">
-  <button class="mode-tab active" data-mode="chat" onclick="switchMode('chat')"><i class="fa-solid fa-message"></i> চ্যাট</button>
-  <button class="mode-tab" data-mode="image" onclick="switchMode('image')"><i class="fa-solid fa-image"></i> ছবি তৈরি</button>
-  <button class="mode-tab" data-mode="search" onclick="switchMode('search')"><i class="fa-solid fa-magnifying-glass"></i> ওয়েব সার্চ</button>
-  <button class="mode-tab" data-mode="weather" onclick="switchMode('weather')"><i class="fa-solid fa-cloud-sun"></i> আবহাওয়া</button>
-  <button class="mode-tab" data-mode="pdf" onclick="switchMode('pdf')"><i class="fa-solid fa-file-pdf"></i> PDF পড়া</button>
-</div>
-
-<!-- TOAST -->
-<div class="toast-container" id="toastContainer"></div>
-
-<!-- MAIN WRAP -->
-<div class="chat-wrap" id="mainWrap">
-
-  <!-- CHAT MODE -->
-  <div id="chatMode">
-    <div class="chat-container" id="chatContainer">
-      <div class="welcome-wrap" id="welcomeWrap">
-        <div class="welcome-card">
-          <div class="wc-icon-wrap"><i class="fa-solid fa-stars wc-icon"></i></div>
-          <h2>স্বাগতম M-AI Pro -তে!</h2>
-          <p>তৈরি করেছেন <strong>Md. Mustkaim</strong> — Full Stack Developer<br>কোডিং, ছবি, আবহাওয়া, ওয়েব সার্চ, PDF — সব এক জায়গায়!</p>
-          <div class="suggest-chips">
-            <div class="chip" onclick="quickSend('React.js দিয়ে todo app কোড লিখে দাও')"><i class="fa-brands fa-react"></i> React</div>
-            <div class="chip" onclick="quickSend('Python দিয়ে login system কোড লিখে দাও')"><i class="fa-brands fa-python"></i> Python</div>
-            <div class="chip" onclick="quickSend('Flutter দিয়ে একটি app কোড লিখে দাও')"><i class="fa-solid fa-mobile-screen"></i> Flutter</div>
-            <div class="chip" onclick="quickSend('একটি সুন্দর বাংলা কবিতা লিখে দাও')"><i class="fa-solid fa-pen-nib"></i> কবিতা</div>
-            <div class="chip" onclick="quickSend('তুমি কে এবং তোমাকে কে বানিয়েছে?')"><i class="fa-solid fa-robot"></i> AI সম্পর্কে</div>
-            <div class="chip" onclick="quickSend('MySQL database design করো ecommerce এর জন্য')"><i class="fa-solid fa-database"></i> Database</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- IMAGE MODE -->
-  <div id="imageMode" style="display:none;height:100%;overflow-y:auto">
-    <div class="img-gen-panel">
-      <div class="ig-title"><i class="fa-solid fa-wand-magic-sparkles"></i> AI ছবি তৈরি করুন</div>
-      <div class="ig-prompt-wrap">
-        <textarea class="ig-textarea" id="igPrompt" placeholder="ছবির বর্ণনা লিখুন... যেমন: A beautiful sunset over mountains with golden sky, photorealistic"></textarea>
-        <div style="font-size:10px;color:var(--muted);margin-top:-4px">💡 ইংরেজিতে লিখলে ভালো ফলাফল পাবেন</div>
-        <div class="ig-prompt-tags" id="igTags"></div>
-      </div>
-      <div class="ig-controls">
-        <select class="ig-select" id="igStyle">
-          <option value="">🎨 স্টাইল (ডিফল্ট)</option>
-          <option value="photorealistic">📷 Photorealistic</option>
-          <option value="anime style">🎌 Anime</option>
-          <option value="digital art">🖥️ Digital Art</option>
-          <option value="oil painting">🖼️ Oil Painting</option>
-          <option value="watercolor">💧 Watercolor</option>
-          <option value="pencil sketch">✏️ Pencil Sketch</option>
-          <option value="3d render">🧊 3D Render</option>
-          <option value="pixel art">👾 Pixel Art</option>
-        </select>
-        <select class="ig-select" id="igSize">
-          <option value="1024/1024">⬛ 1:1 Square</option>
-          <option value="1024/576">📱 16:9 Wide</option>
-          <option value="576/1024">📱 9:16 Portrait</option>
-        </select>
-        <select class="ig-select" id="igCount">
-          <option value="1">1টি</option>
-          <option value="2">2টি</option>
-          <option value="4" selected>4টি</option>
-        </select>
-        <button class="ig-btn" id="igBtn" onclick="generateImages()"><i class="fa-solid fa-wand-magic-sparkles"></i> তৈরি করুন</button>
-      </div>
-      <div id="igOutput"></div>
-    </div>
-  </div>
-
-  <!-- SEARCH MODE -->
-  <div id="searchMode" style="display:none;height:100%;overflow-y:auto">
-    <div class="search-panel">
-      <div class="ws-search-row">
-        <input class="ws-input" id="wsInput" placeholder="যা খুঁজতে চান লিখুন..." onkeydown="if(event.key==='Enter')doWebSearch()">
-        <button class="ws-btn" onclick="doWebSearch()"><i class="fa-solid fa-magnifying-glass"></i> সার্চ</button>
-      </div>
-      <div id="wsOutput"><div class="ws-empty"><i class="fa-solid fa-globe"></i><p>কিছু লিখে সার্চ করুন</p></div></div>
-    </div>
-  </div>
-
-  <!-- WEATHER MODE -->
-  <div id="weatherMode" style="display:none;height:100%;overflow-y:auto">
-    <div class="weather-panel">
-      <div class="weather-search-row">
-        <input class="weather-input" id="weatherInput" placeholder="শহরের নাম লিখুন... যেমন: Dhaka, Tokyo" onkeydown="if(event.key==='Enter')getWeather()">
-        <button class="weather-btn" onclick="getWeather()"><i class="fa-solid fa-location-dot"></i> দেখুন</button>
-      </div>
-      <div class="weather-recent" id="weatherRecent"></div>
-      <div id="weatherOutput"><div class="weather-empty"><i class="fa-solid fa-cloud-sun"></i><p>আবহাওয়া দেখতে শহরের নাম লিখুন</p></div></div>
-    </div>
-  </div>
-
-  <!-- PDF MODE -->
-  <div id="pdfMode" style="display:none;height:100%;overflow-y:auto">
-    <div class="pdf-panel">
-      <div id="pdfDropZone" class="pdf-drop-zone"
-        ondragover="event.preventDefault();this.classList.add('drag-over')"
-        ondragleave="this.classList.remove('drag-over')"
-        ondrop="handlePdfDrop(event)">
-        <div class="pdf-drop-icon"><i class="fa-solid fa-file-pdf"></i></div>
-        <div class="pdf-drop-title">PDF ফাইল ড্র্যাগ করুন</div>
-        <div class="pdf-drop-sub">অথবা নিচের বাটনে ক্লিক করুন</div>
-        <label class="pdf-file-label" for="pdfInput"><i class="fa-solid fa-upload"></i> ফাইল বেছে নিন</label>
-        <input type="file" id="pdfInput" accept=".pdf,.txt" style="display:none" onchange="handlePdfFile(this.files[0])">
-      </div>
-      <div id="pdfLoaded" style="display:none;flex-direction:column;gap:10px"></div>
-    </div>
-  </div>
-
-</div><!-- end chat-wrap -->
-
-<!-- VOICE INDICATOR -->
-<div class="voice-indicator" id="voiceIndicator">
-  <div class="voice-bars"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div>
-  <span>শুনছি... বাংলায় কথা বলুন</span>
-  <button class="voice-cancel" onclick="stopVoice()"><i class="fa-solid fa-stop"></i> বন্ধ</button>
-</div>
-
-<!-- IMAGE PREVIEW -->
-<div class="preview-bar" id="previewBar">
-  <img class="preview-thumb" id="previewThumb" src="" alt="">
-  <div class="preview-info"><div class="pi-name">ছবি সংযুক্ত</div><div class="pi-size" id="previewSize"></div></div>
-  <button class="remove-preview-btn" onclick="removeImage()"><i class="fa-solid fa-xmark"></i></button>
-</div>
-
-<!-- INPUT -->
-<div class="input-shell" id="inputShell">
-  <div class="input-row">
-    <label class="input-tool-btn" for="imgFileInput" title="ছবি"><i class="fa-solid fa-image"></i></label>
-    <input type="file" id="imgFileInput" accept="image/*" style="display:none">
-    <button class="input-tool-btn voice-btn" id="voiceBtn" onclick="toggleVoice()" title="ভয়েস"><i class="fa-solid fa-microphone"></i></button>
-    <textarea id="userInput" rows="1" placeholder="আপনার প্রশ্ন লিখুন..."></textarea>
-    <button class="send-btn" id="sendBtn"><i class="fa-solid fa-arrow-up"></i></button>
-  </div>
-  <div class="input-footer">
-    <div style="display:flex;align-items:center;gap:5px">
-      <i class="fa-solid fa-shield-halved" style="color:var(--accent3)"></i>
-      <span>M-AI Pro · Md. Mustkaim</span>
-      <div class="model-badge"><i class="fa-solid fa-circle-nodes"></i><span>Gemini 2.0 Flash</span></div>
-    </div>
-    <span id="tokenInfo" style="font-size:9px;color:var(--muted)"></span>
-  </div>
-</div>
-
-<button class="scroll-btn" id="scrollBtn" onclick="scrollDown()"><i class="fa-solid fa-chevron-down"></i></button>
-
-<!-- FULLSCREEN IMG VIEWER -->
-<div class="img-viewer" id="imgViewer" onclick="closeViewer()">
-  <img id="viewerImg" src="" alt="">
-  <button class="img-viewer-close" onclick="event.stopPropagation();closeViewer()"><i class="fa-solid fa-xmark"></i></button>
-</div>
-
-<!-- PRO MODAL -->
-<div class="modal-overlay" id="proModal">
-  <div class="pro-card" id="proCard">
-    <button class="modal-close" id="modalCloseBtn"><i class="fa-solid fa-xmark"></i></button>
-    <div class="modal-head">
-      <div class="modal-crown"><i class="fa-solid fa-crown" style="color:#f59e0b"></i></div>
-      <h2>AI PRO আনলক করুন</h2>
-      <p>৪০টি ফ্রি মেসেজের সীমা শেষ।<br>PRO হলে আনলিমিটেড চ্যাট + সব ফিচার!</p>
-    </div>
-    <div class="modal-body">
-      <div class="step-bar">
-        <div class="step-dot active" id="sd1"></div><div class="step-line"></div>
-        <div class="step-dot" id="sd2"></div><div class="step-line"></div>
-        <div class="step-dot" id="sd3"></div>
-      </div>
-      <div class="step-section active" id="stepPlans">
-        <div class="plan-grid">
-          <div class="plan-item" onclick="selectPlan('১ মাসের প্ল্যান','150','1.30')">
-            <div class="plan-info"><div class="plan-name">১ মাসের প্ল্যান</div><div class="plan-desc">আনলিমিটেড মেসেজ · ৩০ দিন</div></div>
-            <div class="plan-price-wrap"><div class="price">৳১৫০</div><div class="price-usd">≈ $1.30</div></div>
-          </div>
-          <div class="plan-item popular" onclick="selectPlan('৩ মাসের প্ল্যান','400','3.50')">
-            <div class="plan-info"><div class="plan-name">৩ মাসের প্ল্যান</div><div class="plan-desc">সর্বোচ্চ সঞ্চয় · ৯০ দিন</div></div>
-            <div class="plan-price-wrap"><div class="price">৳৪০০</div><div class="price-usd">≈ $3.50</div></div>
-          </div>
-          <div class="plan-item" onclick="selectPlan('১২ মাসের প্ল্যান','1200','10.50')">
-            <div class="plan-info"><div class="plan-name">১২ মাসের প্ল্যান</div><div class="plan-desc">সারা বছর আনলক · ৩৬৫ দিন</div></div>
-            <div class="plan-price-wrap"><div class="price">৳১২০০</div><div class="price-usd">≈ $10.50</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="step-section" id="stepMethods">
-        <div class="method-grid" id="methodGrid"></div>
-        <button class="back-link" onclick="goTo(1)"><i class="fa-solid fa-arrow-left"></i> প্ল্যান পরিবর্তন</button>
-      </div>
-      <div class="step-section" id="stepDeposit">
-        <div class="plan-summary"><i class="fa-solid fa-check-circle"></i><span id="depositPlanLabel">—</span></div>
-        <div class="deposit-card">
-          <div class="deposit-label">পেমেন্ট মেথড</div>
-          <div class="deposit-method-name" id="depositMethodName">—</div>
-          <div class="deposit-divider"></div>
-          <div class="send-to">নিচের নম্বরে পাঠান:</div>
-          <div class="number-box">
-            <span class="number-val" id="depositNumber">—</span>
-            <button class="copy-btn" id="copyBtn" onclick="copyNumber()"><i class="fa-regular fa-copy"></i> কপি</button>
-          </div>
-        </div>
-        <input class="trx-field" id="trxInput" placeholder="TrxID / Transaction ID লিখুন...">
-        <button class="submit-btn" onclick="submitPayment()"><i class="fa-solid fa-shield-check"></i> পেমেন্ট ভেরিফাই করুন</button>
-        <button class="back-link" onclick="goTo(2)"><i class="fa-solid fa-arrow-left"></i> মেথড পরিবর্তন</button>
-      </div>
-      <div class="step-section" id="stepSuccess">
-        <div class="success-screen">
-          <div class="success-icon">🎉</div>
-          <h3>অনুরোধ পাঠানো হয়েছে!</h3>
-          <p>TrxID যাচাই হলে ১–২৪ ঘণ্টার মধ্যে PRO সক্রিয় হবে।<br>ধন্যবাদ M-AI Pro ব্যবহার করার জন্য!</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-
-<script>
-// ===== SECURITY =====
-function sanitizeInput(str) {
-  if (typeof str !== 'string') return '';
-  return str.trim().slice(0, 4000);
-}
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#x27;');
-}
-function safeUrl(url) {
-  try {
-    const u = new URL(url);
-    return (u.protocol === 'http:' || u.protocol === 'https:') ? url : '#';
-  } catch { return '#'; }
-}
-
-// ===== CONFIG =====
-const OR_KEY   = "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";
-const OR_MODEL = "google/gemini-2.0-flash-001";
-const MAX_FREE = 40;
-
-const SYSTEM_PROMPT = `You are 'M-AI Pro', an advanced AI assistant created by Md. Mustkaim, a talented Bangladeshi Full Stack Developer.
-
-When asked who made you or who created you:
-- Answer: তোমাকে তৈরি করেছেন Md. Mustkaim
-- He is a skilled Full Stack Developer from Bangladesh
-- Skills: HTML, CSS, JavaScript, React.js, Next.js, Node.js, PHP, Python, Android, AI Development, Firebase, MongoDB, MySQL, UI/UX
-- M-AI Pro is his flagship AI project
-- You were NOT made by Google, OpenAI, Anthropic, or any other company
-- You are M-AI Pro — always
-
-When asked about your capabilities:
-- You can chat, write code, analyze images, generate images, do web search, check weather, read PDFs
-- You are powered by advanced AI
-
-Coding guidelines:
-- Always provide COMPLETE, working, well-commented code
-- Use proper markdown code blocks with language specified
-- Include all necessary imports and setup
-- Add explanatory comments in Bengali when helpful
-- For large projects write the full complete code in one file or multiple files as needed
-- Never truncate or shorten code — always write 100% complete working code
-
-Language: Respond in Bengali (বাংলা) unless user writes in another language.
-Formatting: Use markdown properly (headers, lists, bold, tables, code blocks).
-Tone: Friendly, helpful, professional. Never say you are limited or cannot do something without trying.`;
-
-// ===== FIREBASE =====
-let db = null;
-try {
-  firebase.initializeApp({
-    apiKey:"AIzaSyBM-DWuwF3f_JAJh8VGc41MzcOLKDRIjWc",
-    authDomain:"ai-app-called.firebaseapp.com",
-    databaseURL:"https://ai-app-called-default-rtdb.firebaseio.com",
-    projectId:"ai-app-called",
-    storageBucket:"ai-app-called.firebasestorage.app",
-    messagingSenderId:"789598221700",
-    appId:"1:789598221700:web:de5f523bce2392707799d1"
-  });
-  db = firebase.database();
-} catch(e) { console.warn('Firebase init failed:', e); }
-
-// ===== STATE =====
-let used = parseInt(localStorage.getItem('smart_ai_used') || '0');
-let isProUser = localStorage.getItem('smart_ai_pro') === 'true';
-let paymentSettings = {
-  "বিকাশ":  { number:"01700000000", logo:"https://getlogo.net/wp-content/uploads/2020/03/bkash-logo-vector.png",  type:"Personal" },
-  "নগদ":    { number:"01800000000", logo:"https://download.logo.wine/logo/Nagad/Nagad-Logo.wine.png",           type:"Personal" },
-  "Rocket": { number:"01900000000", logo:"https://upload.wikimedia.org/wikipedia/en/4/40/Dutch-Bangla_Bank_logo.svg", type:"Personal" }
-};
-let selectedPlan = {}, selectedMethod = {}, selectedImg = null;
-let isSending = false, welcomeRemoved = false, currentStep = 1;
-let conversationHistory = [], recognition = null, isListening = false;
-let isDark = localStorage.getItem('smart_ai_theme') !== 'light';
-let currentMode = 'chat';
-let pdfText = '', pdfName = '';
-let recentCitiesArr = JSON.parse(localStorage.getItem('smart_ai_cities') || '[]');
-
-if (db) {
-  db.ref('paymentSettings').on('value', s => {
-    if (s.exists()) paymentSettings = s.val();
-  }, () => {});
-}
-
-// DOM refs
-const chatEl        = document.getElementById('chatContainer');
-const inputEl       = document.getElementById('userInput');
-const sendEl        = document.getElementById('sendBtn');
-const limitEl       = document.getElementById('limitPill');
-const imgInput      = document.getElementById('imgFileInput');
-const previewBar    = document.getElementById('previewBar');
-const scrollBtn     = document.getElementById('scrollBtn');
-const voiceBtn      = document.getElementById('voiceBtn');
-const voiceIndicator= document.getElementById('voiceIndicator');
-const tokenInfoEl   = document.getElementById('tokenInfo');
-
-// ===== MOBILE: handle virtual keyboard =====
-// Use visualViewport API to handle keyboard open/close
-if (window.visualViewport) {
-  let lastHeight = window.visualViewport.height;
-  window.visualViewport.addEventListener('resize', () => {
-    const newHeight = window.visualViewport.height;
-    if (newHeight < lastHeight) {
-      // Keyboard opened — scroll to bottom
-      setTimeout(scrollDown, 150);
-    }
-    lastHeight = newHeight;
-  });
-}
-
-// ===== THEME =====
-function applyTheme() {
-  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-  document.getElementById('themeBtn').innerHTML = isDark
-    ? '<i class="fa-solid fa-moon"></i>'
-    : '<i class="fa-solid fa-sun"></i>';
-  document.getElementById('hljs-theme').href = isDark
-    ? 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css'
-    : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
-}
-function toggleTheme() {
-  isDark = !isDark;
-  localStorage.setItem('smart_ai_theme', isDark ? 'dark' : 'light');
-  applyTheme();
-}
-applyTheme();
-
-// ===== LIMIT =====
-function updateLimit() {
-  if (isProUser) { limitEl.textContent = "✦ PRO"; limitEl.className = "limit-pill pro-mode"; return; }
-  const left = Math.max(0, MAX_FREE - used);
-  limitEl.textContent = `${left}/${MAX_FREE}`;
-  limitEl.className = "limit-pill";
-  limitEl.style.color = left <= 5 ? 'var(--danger)' : 'var(--accent)';
-}
-updateLimit();
-
-// Daily reset
-(function() {
-  const today = new Date().toDateString();
-  if (localStorage.getItem('smart_ai_day') !== today) {
-    used = 0;
-    localStorage.setItem('smart_ai_used', '0');
-    localStorage.setItem('smart_ai_day', today);
-    updateLimit();
-  }
-})();
-
-// ===== TOAST =====
-function showToast(msg, type = 'info', dur = 2800) {
-  const tc = document.getElementById('toastContainer');
-  const t = document.createElement('div');
-  t.className = `toast ${type}`;
-  const ic = { success:'fa-check-circle', error:'fa-circle-xmark', info:'fa-circle-info' };
-  const cl = { success:'var(--accent3)', error:'var(--danger)', info:'var(--accent)' };
-  t.innerHTML = `<i class="fa-solid ${ic[type]||ic.info}" style="color:${cl[type]||cl.info}"></i><span>${escapeHtml(String(msg))}</span>`;
-  tc.appendChild(t);
-  setTimeout(() => {
-    t.style.opacity = '0'; t.style.transform = 'translateX(18px)'; t.style.transition = '.3s';
-    setTimeout(() => t.remove(), 300);
-  }, dur);
-}
-
-// ===== MODE SWITCH =====
-function switchMode(mode) {
-  currentMode = mode;
-  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
-  ['chat','image','search','weather','pdf'].forEach(m => {
-    const el = document.getElementById(m + 'Mode');
-    if (el) el.style.display = 'none';
-  });
-  const activeEl = document.getElementById(mode + 'Mode');
-  if (activeEl) activeEl.style.display = mode === 'chat' ? 'flex' : 'block';
-  // Show/hide input shell
-  document.getElementById('inputShell').style.display = mode === 'chat' ? 'block' : 'none';
-  previewBar.classList.remove('show');
-  if (mode === 'chat') {
-    setTimeout(scrollDown, 100);
-    setTimeout(() => inputEl.focus(), 200);
-  }
-}
-
-// ===== IMAGE PREVIEW =====
-imgInput.addEventListener('change', e => {
-  const f = e.target.files[0];
-  if (!f) return;
-  if (f.size > 5 * 1024 * 1024) { showToast('ছবির সাইজ ৫MB এর কম হতে হবে', 'error'); return; }
-  const r = new FileReader();
-  r.onload = ev => {
-    selectedImg = ev.target.result.split(',')[1];
-    document.getElementById('previewThumb').src = ev.target.result;
-    document.getElementById('previewSize').textContent = (f.size / 1024).toFixed(1) + ' KB';
-    previewBar.classList.add('show');
-    showToast('ছবি যোগ হয়েছে', 'success', 1500);
-  };
-  r.readAsDataURL(f);
-});
-function removeImage() { selectedImg = null; imgInput.value = ''; previewBar.classList.remove('show'); }
-
-// ===== SCROLL =====
-chatEl.addEventListener('scroll', () => {
-  const near = chatEl.scrollHeight - chatEl.scrollTop - chatEl.clientHeight < 140;
-  scrollBtn.classList.toggle('show', !near && chatEl.scrollHeight > chatEl.clientHeight + 300);
-});
-function scrollDown() {
-  chatEl.scrollTo({ top: chatEl.scrollHeight, behavior: 'smooth' });
-}
-
-// ===== INPUT AUTO-RESIZE =====
-inputEl.addEventListener('input', () => {
-  inputEl.style.height = 'auto';
-  inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
-});
-inputEl.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-});
-sendEl.addEventListener('click', sendMessage);
-
-// Focus → scroll chat down (mobile keyboard pushes content)
-inputEl.addEventListener('focus', () => {
-  setTimeout(scrollDown, 350);
-});
-
-function clearWelcome() {
-  if (!welcomeRemoved) {
-    const w = document.getElementById('welcomeWrap');
-    if (w) w.remove();
-    welcomeRemoved = true;
-  }
-}
-
-function newChat() {
-  if (isSending) return;
-  conversationHistory = [];
-  welcomeRemoved = false;
-  chatEl.innerHTML = `<div class="welcome-wrap" id="welcomeWrap"><div class="welcome-card">
-    <div class="wc-icon-wrap"><i class="fa-solid fa-rotate-right wc-icon"></i></div>
-    <h2>নতুন চ্যাট শুরু!</h2><p>তৈরি করেছেন <strong>Md. Mustkaim</strong></p>
-    <div class="suggest-chips">
-      <div class="chip" onclick="quickSend('React.js todo app কোড লিখে দাও')"><i class="fa-brands fa-react"></i> React</div>
-      <div class="chip" onclick="quickSend('Python login system কোড')"><i class="fa-brands fa-python"></i> Python</div>
-      <div class="chip" onclick="quickSend('তুমি কে?')"><i class="fa-solid fa-robot"></i> AI</div>
-    </div></div></div>`;
-  tokenInfoEl.textContent = '';
-  showToast('নতুন চ্যাট', 'success', 1500);
-}
-
-// ===== SEND MESSAGE =====
-async function sendMessage() {
-  const raw = inputEl.value.trim();
-  const txt = sanitizeInput(raw);
-  if ((!txt && !selectedImg) || isSending) return;
-  if (!isProUser && used >= MAX_FREE) { showModal(); return; }
-
-  clearWelcome();
-  isSending = true;
-  sendEl.disabled = true;
-
-  // User bubble
-  const row = document.createElement('div');
-  row.className = 'msg-row user';
-  let content = '';
-  if (selectedImg) content += `<img class="msg-img" src="data:image/jpeg;base64,${selectedImg}" alt="ছবি">`;
-  if (txt) content += `<div class="msg-text">${escapeHtml(txt)}</div>`;
-  const time = new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
-  row.innerHTML = `<div class="bubble-wrap"><div class="bubble user-bubble">${content}</div>
-    <div class="msg-actions"><span class="msg-time">${time}</span></div></div>
-    <div class="avatar user-av">আপনি</div>`;
-  chatEl.appendChild(row);
-  scrollDown();
-
-  const imgData = selectedImg;
-  const msgText = txt;
-  inputEl.value = '';
-  inputEl.style.height = 'auto';
-  selectedImg = null;
-  imgInput.value = '';
-  previewBar.classList.remove('show');
-
-  if (!isProUser) { used++; localStorage.setItem('smart_ai_used', used); updateLimit(); }
-
-  const uc = [];
-  if (imgData) uc.push({ type: "image_url", image_url: { url: `data:image/jpeg;base64,${imgData}` } });
-  uc.push({ type: "text", text: msgText || "এই ছবিটি বিশ্লেষণ করো।" });
-  conversationHistory.push({ role: "user", content: uc });
-  if (conversationHistory.length > 28) conversationHistory = conversationHistory.slice(-26);
-
-  await fetchAI();
-  isSending = false;
-  sendEl.disabled = false;
-  inputEl.focus();
-}
-
-// ===== FETCH AI (Streaming) =====
-async function fetchAI() {
-  const typRow = document.createElement('div');
-  typRow.className = 'msg-row';
-  typRow.id = 'typingRow';
-  typRow.innerHTML = `<div class="avatar ai-av"><i class="fa-solid fa-microchip"></i></div>
-    <div class="bubble ai-bubble">
-      <div class="typing-dots"><span></span><span></span><span></span></div>
-      <span class="typing-label">M-AI ভাবছে...</span>
-    </div>`;
-  chatEl.appendChild(typRow);
-  scrollDown();
-  const start = Date.now();
-
-  try {
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${OR_KEY}`,
-        "HTTP-Referer": location.origin || "https://mustkaim.github.io",
-        "X-Title": "M-AI Pro"
-      },
-      body: JSON.stringify({
-        model: OR_MODEL,
-        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...conversationHistory],
-        max_tokens: 8000,
-        temperature: 0.85,
-        stream: true
-      })
-    });
-
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      removeTyping();
-      addAIMsg(`⚠️ সমস্যা হয়েছে (${res.status}): ${errData?.error?.message || 'অজানা সমস্যা'}। কিছুক্ষণ পর আবার চেষ্টা করুন।`);
-      return;
-    }
-
-    removeTyping();
-
-    const mid = 'm' + Date.now() + Math.random().toString(36).slice(2, 5);
-    const time2 = new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
-    const streamRow = document.createElement('div');
-    streamRow.className = 'msg-row';
-    streamRow.innerHTML = `<div class="avatar ai-av"><i class="fa-solid fa-microchip"></i></div>
-      <div class="bubble-wrap">
-        <div class="bubble ai-bubble" id="${mid}"><span class="stream-text"></span><span class="stream-cursor"></span></div>
-        <div class="msg-actions">
-          <span class="msg-time">${time2}</span>
-          <button class="action-btn" onclick="copyMsg('${mid}',this)"><i class="fa-regular fa-copy"></i> কপি</button>
-          <button class="action-btn" onclick="speakMsg('${mid}')"><i class="fa-solid fa-volume-high"></i> পড়ুন</button>
-        </div>
-      </div>`;
-    chatEl.appendChild(streamRow);
-    scrollDown();
-
-    const bubbleEl   = document.getElementById(mid);
-    const streamText = bubbleEl.querySelector('.stream-text');
-    const cursorEl   = bubbleEl.querySelector('.stream-cursor');
-    const reader     = res.body.getReader();
-    const decoder    = new TextDecoder();
-    let fullText = '';
-    let buffer   = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop();
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
-        const data = line.slice(6).trim();
-        if (data === '[DONE]') break;
-        try {
-          const parsed = JSON.parse(data);
-          const delta = parsed?.choices?.[0]?.delta?.content || '';
-          if (delta) {
-            fullText += delta;
-            streamText.innerHTML = formatMessage(fullText);
-            scrollDown();
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Aily Deals Task</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#EFF6FF', 100:'#DBEAFE', 500:'#3B82F6', 600:'#2563EB', 700:'#1D4ED8' }
           }
-        } catch {}
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <style>
+    html, body { -webkit-tap-highlight-color: transparent; }
+    button, .nav-btn { min-height: 44px; }
+    #sidebar { transition: transform 0.25s ease; }
+    @media (max-width: 1023px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar:not(.hidden) { transform: translateX(0); }
+    }
+    .offer-iframe { width: 100%; min-height: 700px; border: none; border-radius: 12px; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-40 bg-white border-b shadow-sm">
+    <div class="max-w-7xl mx-auto px-3 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <button onclick="toggleSidebar()" class="p-2 rounded-xl hover:bg-slate-100 lg:hidden">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-brand-600 text-white font-black flex items-center justify-center">A</div>
+          <span class="font-extrabold text-base">AilyDeals <span class="text-brand-600">Task</span></span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 px-2.5 py-1.5 rounded-xl">
+          <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+          <div class="text-right">
+            <div class="text-[9px] font-bold text-emerald-700 uppercase leading-none">Balance</div>
+            <div id="user-balance" class="text-xs font-black text-emerald-800">$0.00</div>
+          </div>
+        </div>
+        <div id="auth-out" class="flex gap-1">
+          <button onclick="openAuth('login')" class="text-xs font-semibold px-2.5 py-2 rounded-lg hover:bg-slate-100">Log In</button>
+          <button onclick="openAuth('register')" class="text-xs font-bold px-3 py-2 rounded-lg bg-brand-600 text-white">Register</button>
+        </div>
+        <div id="auth-in" class="hidden flex items-center gap-2">
+          <div id="avatar" class="w-8 h-8 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-xs">U</div>
+          <button onclick="logout()" class="text-xs font-bold px-2.5 py-1.5 rounded-lg bg-rose-50 text-rose-600">Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-3 py-4 flex-1 flex gap-4 w-full relative">
+    <div id="backdrop" onclick="closeSidebar()" class="hidden fixed inset-0 z-40 bg-black/50 lg:hidden"></div>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white p-4 overflow-y-auto hidden lg:block lg:static lg:w-64 shadow-xl lg:shadow-none">
+      <div class="bg-white rounded-2xl border p-4 sticky top-20">
+        <div class="flex justify-between lg:hidden mb-3">
+          <span class="font-bold text-sm">Menu</span>
+          <button onclick="closeSidebar()"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <div class="mb-5">
+          <div class="text-[11px] font-black uppercase text-slate-400 px-2 mb-2">Earn</div>
+          <nav class="space-y-1 text-xs font-semibold">
+            <button onclick="tab('tasks')" class="nav-btn active w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-brand-50 text-brand-700" data-tab="tasks">
+              <i data-lucide="layout-grid" class="w-4 h-4"></i> Tasks
+              <span id="task-count" class="ml-auto bg-brand-200 text-brand-800 px-1.5 rounded-full text-[10px]">0</span>
+            </button>
+            <button onclick="tab('surveys')" class="nav-btn w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100" data-tab="surveys">
+              <i data-lucide="clipboard-list" class="w-4 h-4"></i> OfferWalls
+            </button>
+            <button onclick="tab('submissions')" class="nav-btn w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100" data-tab="submissions">
+              <i data-lucide="file-check-2" class="w-4 h-4"></i> My Submissions
+            </button>
+            <button onclick="tab('bonus')" class="nav-btn w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100" data-tab="bonus">
+              <i data-lucide="mouse-pointer-click" class="w-4 h-4"></i> Bonus Clicks
+            </button>
+            <button onclick="tab('referral')" class="nav-btn w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100" data-tab="referral">
+              <i data-lucide="users" class="w-4 h-4"></i> Referral
+            </button>
+          </nav>
+        </div>
+
+        <div class="mb-5">
+          <div class="text-[11px] font-black uppercase text-slate-400 px-2 mb-2">Account</div>
+          <nav class="space-y-1 text-xs font-semibold">
+            <button onclick="tab('history')" class="nav-btn w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100" data-tab="history">
+              <i data-lucide="badge-dollar-sign" class="w-4 h-4"></i> Redeem History
+            </button>
+            <button onclick="tab('support')" class="nav-btn w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100" data-tab="support">
+              <i data-lucide="life-buoy" class="w-4 h-4"></i> Support
+            </button>
+            <button onclick="tab('withdraw')" class="nav-btn w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-emerald-50 text-emerald-700 font-bold" data-tab="withdraw">
+              <i data-lucide="wallet" class="w-4 h-4"></i> Withdraw
+              <span class="ml-auto text-[10px]">Min $5</span>
+            </button>
+          </nav>
+        </div>
+
+        <div>
+          <div class="text-[11px] font-black uppercase text-slate-400 px-2 mb-2">Legal</div>
+          <nav class="space-y-1 text-xs font-semibold">
+            <button onclick="tab('privacy')" class="nav-btn w-full px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100" data-tab="privacy">Privacy Policy</button>
+            <button onclick="tab('terms')" class="nav-btn w-full px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100" data-tab="terms">Terms & Conditions</button>
+            <button onclick="tab('contact')" class="nav-btn w-full px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100" data-tab="contact">Contact Us</button>
+            <button onclick="tab('proof')" class="nav-btn w-full px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100" data-tab="proof">Payment Proof</button>
+          </nav>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 min-w-0 space-y-4">
+
+      <!-- TASKS -->
+      <div id="pane-tasks" class="pane space-y-4">
+        <div class="bg-white p-4 rounded-2xl border shadow-sm">
+          <h2 class="text-sm font-black mb-3">How it Works</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div class="p-3 bg-brand-50 rounded-xl flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-brand-600 text-white font-black flex items-center justify-center shrink-0">1</div>
+              <div><p class="font-bold">Choose Task</p><p class="text-slate-500">Select any available offer</p></div>
+            </div>
+            <div class="p-3 bg-emerald-50 rounded-xl flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-emerald-600 text-white font-black flex items-center justify-center shrink-0">2</div>
+              <div><p class="font-bold">Visit & Complete</p><p class="text-slate-500">Open the link and finish the task</p></div>
+            </div>
+            <div class="p-3 bg-amber-50 rounded-xl flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-amber-600 text-white font-black flex items-center justify-center shrink-0">3</div>
+              <div><p class="font-bold">Submit Proof</p><p class="text-slate-500">Upload proof and get paid</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-3 rounded-2xl border shadow-sm flex flex-col sm:flex-row gap-2">
+          <input id="search" onkeyup="filterTasks()" placeholder="Search tasks..." class="flex-1 px-3 py-2 text-xs border rounded-xl">
+          <select id="sort" onchange="filterTasks()" class="px-3 py-2 text-xs border rounded-xl">
+            <option value="reward_desc">Highest Reward</option>
+            <option value="reward_asc">Lowest Reward</option>
+            <option value="quickest">Quickest</option>
+          </select>
+        </div>
+
+        <div id="tasks-box" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+          <div class="col-span-full py-12 text-center text-slate-400">Loading tasks...</div>
+        </div>
+      </div>
+
+      <!-- OFFERWALLS -->
+      <div id="pane-surveys" class="pane hidden">
+        <div class="bg-white p-5 rounded-2xl border shadow-sm space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h2 class="text-base font-black">OfferWalls & Surveys</h2>
+              <p class="text-xs text-slate-500">Complete offers from our partners. Rewards credited automatically after approval.</p>
+            </div>
+            <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">High Paying</span>
+          </div>
+
+          <!-- Wall Selector Tabs -->
+          <div id="wall-tabs" class="flex flex-wrap gap-2"></div>
+
+          <!-- Wall Content -->
+          <div id="offerwalls" class="min-h-[200px]">
+            <div class="text-center py-12 text-slate-400 text-xs">
+              <p class="font-bold mb-1">Loading OfferWalls...</p>
+              <p>Please login to see available walls</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBMISSIONS -->
+      <div id="pane-submissions" class="pane hidden">
+        <div class="bg-white p-4 rounded-2xl border shadow-sm overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-50 text-[11px] font-bold text-slate-400 uppercase">
+              <tr>
+                <th class="py-2.5 px-3">Task</th>
+                <th class="py-2.5 px-3">Reward</th>
+                <th class="py-2.5 px-3">Status</th>
+                <th class="py-2.5 px-3">Date</th>
+              </tr>
+            </thead>
+            <tbody id="subs-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BONUS -->
+      <div id="pane-bonus" class="pane hidden">
+        <div class="bg-white p-5 rounded-2xl border shadow-sm space-y-4">
+          <h2 class="text-base font-black">Bonus Clicks</h2>
+          <p class="text-xs text-slate-500">Stay 15 seconds on the page to claim reward</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-3 border rounded-xl flex justify-between items-center">
+              <div>
+                <div class="text-xs font-bold">Sponsored Deal #1</div>
+                <div class="text-[10px] text-emerald-600 font-black">+$0.01</div>
+                <div id="t0" class="text-[10px] text-slate-500 hidden">Wait <span class="font-bold text-purple-600">15</span>s</div>
+              </div>
+              <button id="b0" onclick="startTimer(0,0.01)" class="px-3 py-2 bg-purple-600 text-white text-xs font-bold rounded-lg">Claim</button>
+            </div>
+            <div class="p-3 border rounded-xl flex justify-between items-center">
+              <div>
+                <div class="text-xs font-bold">Sponsored Deal #2</div>
+                <div class="text-[10px] text-emerald-600 font-black">+$0.01</div>
+                <div id="t1" class="text-[10px] text-slate-500 hidden">Wait <span class="font-bold text-purple-600">15</span>s</div>
+              </div>
+              <button id="b1" onclick="startTimer(1,0.01)" class="px-3 py-2 bg-purple-600 text-white text-xs font-bold rounded-lg">Claim</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REFERRAL -->
+      <div id="pane-referral" class="pane hidden">
+        <div class="bg-white p-5 rounded-2xl border shadow-sm space-y-4">
+          <h2 class="text-base font-black">Referral Program</h2>
+          <p class="text-xs text-slate-500">Share your link. Earn $0.10 when a friend registers.</p>
+          <div class="p-4 bg-brand-50 rounded-xl">
+            <div class="text-[11px] font-bold text-slate-500 mb-1">Your Referral Link</div>
+            <div class="flex gap-2">
+              <input id="ref-link" readonly class="flex-1 px-3 py-2 text-xs border rounded-lg bg-white">
+              <button onclick="copyRef()" class="px-4 py-2 bg-brand-600 text-white text-xs font-bold rounded-lg">Copy</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-4 bg-slate-50 rounded-xl text-center">
+              <div class="text-2xl font-black text-brand-600" id="ref-count">0</div>
+              <div class="text-[11px] text-slate-500">Total Referrals</div>
+            </div>
+            <div class="p-4 bg-emerald-50 rounded-xl text-center">
+              <div class="text-2xl font-black text-emerald-600" id="ref-earn">$0.00</div>
+              <div class="text-[11px] text-slate-500">Earnings</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HISTORY -->
+      <div id="pane-history" class="pane hidden">
+        <div class="bg-white p-4 rounded-2xl border shadow-sm overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-50 text-[11px] font-bold text-slate-400 uppercase">
+              <tr>
+                <th class="py-2.5 px-3">Method</th>
+                <th class="py-2.5 px-3">Account</th>
+                <th class="py-2.5 px-3">Amount</th>
+                <th class="py-2.5 px-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="redeem-table"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SUPPORT -->
+      <div id="pane-support" class="pane hidden">
+        <div class="bg-white p-5 rounded-2xl border shadow-sm max-w-md mx-auto">
+          <h2 class="text-sm font-black mb-3">Support</h2>
+          <form onsubmit="alert('Support ticket submitted. We will reply within 12 hours.'); this.reset(); return false;" class="space-y-3">
+            <input required placeholder="Subject" class="w-full px-3 py-2.5 text-xs border rounded-xl">
+            <textarea required rows="4" placeholder="Describe your issue..." class="w-full px-3 py-2.5 text-xs border rounded-xl"></textarea>
+            <button class="w-full py-3 bg-brand-600 text-white font-bold rounded-xl">Submit Ticket</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- WITHDRAW -->
+      <div id="pane-withdraw" class="pane hidden">
+        <div class="bg-white p-5 rounded-2xl border shadow-sm max-w-md mx-auto space-y-4">
+          <div class="flex justify-between items-center">
+            <h2 class="text-base font-black">Withdraw</h2>
+            <div class="text-right">
+              <div class="text-[10px] text-slate-400">Available</div>
+              <div id="wd-bal" class="text-lg font-black text-emerald-600">$0.00</div>
+            </div>
+          </div>
+          <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800">
+            Minimum withdrawal $5.00. Processed within 24-48 hours. 5% fee applies.
+          </div>
+          <div id="min-msg" class="hidden p-3 bg-rose-50 text-rose-700 text-xs font-bold rounded-xl">Minimum $5 required</div>
+          <form onsubmit="doWithdraw(event)" class="space-y-3">
+            <select id="wd-method" class="w-full px-3 py-2.5 text-xs border rounded-xl">
+              <option value="PayPal">PayPal (USD)</option>
+              <option value="bKash">bKash (BDT)</option>
+              <option value="Nagad">Nagad (BDT)</option>
+            </select>
+            <input id="wd-acc" required placeholder="Account number or email" class="w-full px-3 py-2.5 text-xs border rounded-xl">
+            <input id="wd-amt" type="number" min="5" step="0.5" required placeholder="Amount in USD" class="w-full px-3 py-2.5 text-xs border rounded-xl">
+            <button id="wd-btn" class="w-full py-3 bg-emerald-600 text-white font-bold rounded-xl">Submit Request</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- LEGAL -->
+      <div id="pane-privacy" class="pane hidden">
+        <div class="bg-white p-5 rounded-2xl border shadow-sm text-xs space-y-3 leading-relaxed">
+          <h2 class="text-base font-black">Privacy Policy</h2>
+          <p>AilyDeals Task respects your privacy. We collect your email address for account creation and payment processing. We also collect IP address, device ID and browser information to prevent fraud and multiple accounts.</p>
+          <p>We use Firebase Authentication and Firestore to store data securely. We integrate third-party offerwalls including Adscend Media, BitLabs, CPX Research and others for surveys and offers. We do not sell or share your personal information with third parties except as required for payment processing and fraud prevention.</p>
+          <p>You may request account deletion by contacting support@ailydeals.com. This policy was last updated in September 2026.</p>
+        </div>
+      </div>
+
+      <div id="pane-terms" class="pane hidden">
+        <div class="bg-white p-5 rounded-2xl border shadow-sm text-xs space-y-3 leading-relaxed">
+          <h2 class="text-base font-black">Terms & Conditions</h2>
+          <p>By using AilyDeals Task you agree to these terms:</p>
+          <p>1. Minimum withdrawal is $5.00 USD. Withdrawals are processed within 24 to 48 hours.</p>
+          <p>2. Only one account per person, device and IP address is allowed. Multiple accounts will result in permanent ban.</p>
+          <p>3. Any form of fraud, fake proofs, bots or abuse will lead to immediate account termination and forfeiture of balance.</p>
+          <p>4. A 5% processing fee applies to all withdrawals.</p>
+          <p>5. We reserve the right to modify these terms at any time.</p>
+        </div>
+      </div>
+
+      <div id="pane-contact" class="pane hidden">
+        <div class="bg-white p-5 rounded-2xl border shadow-sm max-w-md mx-auto text-center space-y-4">
+          <h2 class="text-base font-black">Contact Us</h2>
+          <p class="text-xs text-slate-500">We usually reply within 12 hours.</p>
+          <div class="space-y-3 text-left">
+            <div class="p-3 bg-slate-50 rounded-xl">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Email</div>
+              <a href="mailto:support@ailydeals.com" class="text-sm font-bold text-brand-600">support@ailydeals.com</a>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Telegram</div>
+              <a href="https://t.me/ailydeals" target="_blank" class="text-sm font-bold text-brand-600">t.me/ailydeals</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="pane-proof" class="pane hidden">
+        <div class="bg-white p-4 rounded-2xl border shadow-sm overflow-x-auto">
+          <h2 class="text-sm font-black mb-3">Payment Proof</h2>
+          <p class="text-xs text-slate-500 mb-3">Latest successful withdrawals for transparency</p>
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-50 text-[11px] font-bold text-slate-400 uppercase">
+              <tr>
+                <th class="py-2.5 px-3">Date</th>
+                <th class="py-2.5 px-3">Method</th>
+                <th class="py-2.5 px-3">Amount</th>
+                <th class="py-2.5 px-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="proof-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t mt-auto">
+    <div class="max-w-7xl mx-auto px-3 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="font-bold">AilyDeals Task</div>
+      <div class="flex flex-wrap gap-4 font-semibold text-slate-600">
+        <button onclick="tab('privacy')">Privacy Policy</button>
+        <button onclick="tab('terms')">Terms</button>
+        <button onclick="tab('contact')">Contact</button>
+        <button onclick="tab('proof')">Payment Proof</button>
+      </div>
+      <div class="text-slate-400">&copy; 2026 AilyDeals. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- AUTH MODAL -->
+  <div id="auth-modal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3">
+    <div class="fixed inset-0 bg-black/60" onclick="closeAuth()"></div>
+    <div class="relative bg-white rounded-2xl max-w-md w-full p-5 shadow-xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 id="auth-title" class="text-lg font-black">Sign In</h3>
+        <button onclick="closeAuth()"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form onsubmit="doAuth(event)" class="space-y-3">
+        <div id="name-box" class="hidden">
+          <input id="a-name" type="text" placeholder="Full Name" class="w-full px-3 py-2.5 text-sm border rounded-xl">
+        </div>
+        <input id="a-email" type="email" required placeholder="Email" class="w-full px-3 py-2.5 text-sm border rounded-xl">
+        <input id="a-pass" type="password" required minlength="6" placeholder="Password" class="w-full px-3 py-2.5 text-sm border rounded-xl">
+        <button id="a-btn" class="w-full py-3 bg-brand-600 text-white font-bold rounded-xl">Sign In</button>
+      </form>
+      <p class="mt-3 text-center text-xs">
+        <span id="sw-text">Don't have an account?</span>
+        <button type="button" onclick="switchAuth()" id="sw-btn" class="font-bold text-brand-600 ml-1">Register</button>
+      </p>
+    </div>
+  </div>
+
+  <!-- TASK DETAIL MODAL -->
+  <div id="task-modal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3">
+    <div class="fixed inset-0 bg-black/60" onclick="closeTask()"></div>
+    <div class="relative bg-white rounded-2xl max-w-lg w-full p-5 shadow-xl max-h-[92vh] overflow-y-auto space-y-4">
+      <div class="flex justify-between items-start">
+        <div>
+          <h3 id="tm-title" class="font-black text-base"></h3>
+          <p id="tm-reward" class="text-sm font-bold text-emerald-600"></p>
+        </div>
+        <button onclick="closeTask()"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="bg-slate-50 rounded-xl p-3 text-xs grid grid-cols-2 gap-2">
+        <div><span class="text-slate-500">Est. Time</span><div id="tm-time" class="font-bold"></div></div>
+        <div><span class="text-slate-500">Review</span><div id="tm-type" class="font-bold"></div></div>
+      </div>
+
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs">
+        <p class="font-bold text-amber-800 mb-1">Instructions from Advertiser</p>
+        <p id="tm-inst" class="text-amber-700 whitespace-pre-wrap"></p>
+      </div>
+
+      <a id="tm-link" href="#" target="_blank" rel="noopener" 
+         class="flex items-center justify-center gap-2 w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-sm">
+        <i data-lucide="external-link" class="w-4 h-4"></i>
+        Visit Offer Link
+      </a>
+
+      <div class="border-t pt-4">
+        <p class="text-xs font-bold text-slate-700 mb-2">After finishing the task, submit your proof below:</p>
+        <form onsubmit="submitProof(event)" class="space-y-3">
+          <input type="hidden" id="tm-id">
+          <textarea id="tm-proof" required rows="3" placeholder="Enter proof details, username, order ID etc." class="w-full px-3 py-2.5 text-xs border rounded-xl"></textarea>
+          <input type="file" id="tm-file" accept="image/*" class="w-full text-xs">
+          <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl">Submit Proof for Review</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ================== FIREBASE ==================
+    const firebaseConfig = {
+      apiKey: "AIzaSyBoTCzjuZ4Z8O76m7FaoeiEUQSlh73HAnU",
+      authDomain: "ed-net-too.firebaseapp.com",
+      projectId: "ed-net-too",
+      storageBucket: "ed-net-too.firebasestorage.app",
+      messagingSenderId: "1015865016543",
+      appId: "1:1015865016543:web:45f3186980e43f57bae96a"
+    };
+
+    let live = false, auth, db, storage;
+    let user = null, profile = { balance: 0 }, tasks = [], offerwallConfig = {};
+
+    try {
+      firebase.initializeApp(firebaseConfig);
+      auth = firebase.auth();
+      db = firebase.firestore();
+      storage = firebase.storage();
+      live = true;
+    } catch (e) {}
+
+    const K = "ailydeals_";
+    const get = (k, d) => { try { const v = localStorage.getItem(K + k); return v ? JSON.parse(v) : d; } catch { return d; } };
+    const set = (k, v) => localStorage.setItem(K + k, JSON.stringify(v));
+
+    // Default demo tasks
+    if (!localStorage.getItem(K + "tasks")) {
+      set("tasks", [
+        {
+          id: "t1", title: "Follow & Retweet on X", reward: 0.25, takes: 90, frequency: "Once",
+          description: "Follow the account and retweet the pinned post",
+          advInst: "1. Click the Visit Offer Link button\n2. Follow the account\n3. Like and Retweet the pinned post",
+          proofInst: "Submit your X username", creditType: "Instant Review", active: true,
+          link: "https://x.com", image: "https://images.unsplash.com/photo-1611605698335-8b1569810432?w=120"
+        },
+        {
+          id: "t2", title: "Join Telegram Channel", reward: 0.15, takes: 45, frequency: "Once",
+          description: "Join our official Telegram channel",
+          advInst: "Click the link and join the channel. Stay for at least 24 hours.",
+          proofInst: "Submit your Telegram username", creditType: "Instant Review", active: true,
+          link: "https://t.me/ailydeals", image: "https://images.unsplash.com/photo-1577563908411-5077b6dc7624?w=120"
+        }
+      ]);
+    }
+
+    function deviceId() {
+      let id = localStorage.getItem(K + "did");
+      if (!id) { id = "dev_" + Date.now().toString(36); localStorage.setItem(K + "did", id); }
+      return id;
+    }
+
+    async function getIP() {
+      try { return (await (await fetch("https://api.ipify.org?format=json")).json()).ip; } catch { return "unknown"; }
+    }
+
+    // ================== AUTH ==================
+    function initAuth() {
+      if (live) {
+        auth.onAuthStateChanged(u => {
+          if (u) { user = u; loadProfile(u.uid, u.email, u.displayName); }
+          else { user = null; updateUI(null); }
+        });
+      } else {
+        const s = get("session", null);
+        if (s) { user = s; loadProfile(s.uid, s.email, s.name); }
+        else updateUI(null);
       }
     }
 
-    cursorEl.remove();
-    streamText.innerHTML = formatMessage(fullText);
-    conversationHistory.push({ role: "assistant", content: fullText });
-    const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-    tokenInfoEl.textContent = `${fullText.length} chars · ${elapsed}s`;
-    scrollDown();
-
-  } catch (err) {
-    removeTyping();
-    addAIMsg("⚠️ ইন্টারনেট সংযোগ চেক করুন। আবার চেষ্টা করুন।");
-    console.error(err);
-  }
-}
-
-function removeTyping() { document.getElementById('typingRow')?.remove(); }
-
-// ===== FORMAT =====
-function formatMessage(raw) {
-  let result = '';
-  const re = /```(\w*)\n?([\s\S]*?)```/g;
-  let last = 0, m;
-  while ((m = re.exec(raw)) !== null) {
-    result += formatInline(raw.slice(last, m.index));
-    const lang = m[1] || 'plaintext';
-    const code = m[2].trim();
-    let hi;
-    try { hi = hljs.highlight(code, { language: lang, ignoreIllegals: true }).value; }
-    catch { hi = hljs.highlightAuto(code).value; }
-    const uid = 'c' + Math.random().toString(36).slice(2, 8);
-    result += `<pre><div class="code-header">
-      <span class="code-lang"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:4px"></span>${escapeHtml(lang)}</span>
-      <button class="code-copy" onclick="copyCode('${uid}',this)"><i class="fa-regular fa-copy"></i> Copy</button>
-    </div><code id="${uid}" class="hljs">${hi}</code></pre>`;
-    last = m.index + m[0].length;
-  }
-  result += formatInline(raw.slice(last));
-  return result;
-}
-
-function formatInline(t) {
-  return escapeHtml(t)
-    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^## (.+)$/gm,  '<h2>$1</h2>')
-    .replace(/^# (.+)$/gm,   '<h1>$1</h1>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g,     '<em>$1</em>')
-    .replace(/`([^`\n]+)`/g,   '<code>$1</code>')
-    .replace(/^> (.+)$/gm,     '<blockquote>$1</blockquote>')
-    .replace(/^- (.+)$/gm,     '<li style="margin-left:16px">$1</li>')
-    .replace(/^\d+\. (.+)$/gm, '<li style="margin-left:16px">$1</li>')
-    .replace(/\[(.+?)\]\((https?:\/\/[^)]+)\)/g,
-      (_, text, url) => `<a href="${safeUrl(url)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">${text}</a>`)
-    .replace(/\n/g, '<br>');
-}
-
-function addAIMsg(txt) {
-  const row = document.createElement('div');
-  row.className = 'msg-row';
-  const mid = 'm' + Date.now() + Math.random().toString(36).slice(2, 5);
-  const time = new Date().toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
-  row.innerHTML = `<div class="avatar ai-av"><i class="fa-solid fa-microchip"></i></div>
-    <div class="bubble-wrap">
-      <div class="bubble ai-bubble" id="${mid}"><div class="msg-text">${formatMessage(txt)}</div></div>
-      <div class="msg-actions">
-        <span class="msg-time">${time}</span>
-        <button class="action-btn" onclick="copyMsg('${mid}',this)"><i class="fa-regular fa-copy"></i> কপি</button>
-        <button class="action-btn" onclick="speakMsg('${mid}')"><i class="fa-solid fa-volume-high"></i> পড়ুন</button>
-      </div>
-    </div>`;
-  chatEl.appendChild(row);
-  scrollDown();
-}
-
-// ===== COPY / SPEAK =====
-function copyCode(id, btn) {
-  const text = document.getElementById(id)?.innerText || '';
-  const fallback = () => {
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
-    document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); } catch {}
-    document.body.removeChild(ta);
-    btn.className = 'code-copy copied';
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-    setTimeout(() => { btn.className = 'code-copy'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy'; }, 2500);
-    showToast('কোড কপি হয়েছে', 'success', 1500);
-  };
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => {
-      btn.className = 'code-copy copied';
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-      setTimeout(() => { btn.className = 'code-copy'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy'; }, 2500);
-      showToast('কোড কপি হয়েছে', 'success', 1500);
-    }).catch(fallback);
-  } else { fallback(); }
-}
-
-function copyMsg(id, btn) {
-  const text = document.getElementById(id)?.innerText || '';
-  const fallback = () => {
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
-    document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); } catch {}
-    document.body.removeChild(ta);
-    btn.className = 'action-btn done';
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> হয়েছে';
-    setTimeout(() => { btn.className = 'action-btn'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> কপি'; }, 2000);
-    showToast('কপি হয়েছে', 'success', 1500);
-  };
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => {
-      btn.className = 'action-btn done';
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> হয়েছে';
-      setTimeout(() => { btn.className = 'action-btn'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> কপি'; }, 2000);
-      showToast('কপি হয়েছে', 'success', 1500);
-    }).catch(fallback);
-  } else { fallback(); }
-}
-
-function speakMsg(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(el.innerText);
-    u.lang = 'bn-BD'; u.rate = 0.9;
-    window.speechSynthesis.speak(u);
-    showToast('পড়া শুরু 🔊', 'info', 1500);
-  } else {
-    showToast('TTS সাপোর্ট নেই', 'error');
-  }
-}
-
-function quickSend(txt) {
-  clearWelcome();
-  inputEl.value = txt;
-  inputEl.style.height = 'auto';
-  inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
-  sendMessage();
-}
-
-// ===== IMAGE GENERATION =====
-const igStyleTags = ['photorealistic','anime style','digital art','cinematic','fantasy','dark fantasy','cyberpunk','minimalist'];
-const igTagsEl = document.getElementById('igTags');
-igStyleTags.forEach(tag => {
-  const el = document.createElement('span');
-  el.className = 'ig-tag';
-  el.textContent = tag;
-  el.onclick = () => {
-    const ta = document.getElementById('igPrompt');
-    if (!ta.value.includes(tag)) ta.value += (ta.value ? ', ' : '') + tag;
-  };
-  igTagsEl.appendChild(el);
-});
-
-async function generateImages() {
-  const prompt = sanitizeInput(document.getElementById('igPrompt').value);
-  if (!prompt) { showToast('প্রথমে ছবির বর্ণনা লিখুন', 'error'); return; }
-  const style   = document.getElementById('igStyle').value;
-  const sizeVal = document.getElementById('igSize').value;
-  const count   = parseInt(document.getElementById('igCount').value) || 4;
-  const [w, h]  = sizeVal.split('/');
-  const fullPrompt = prompt + (style ? `, ${style}` : '');
-  const btn = document.getElementById('igBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> তৈরি হচ্ছে...';
-  document.getElementById('igOutput').innerHTML = `<div class="ig-loading"><div class="ig-spinner"></div><span>${count}টি ছবি তৈরি হচ্ছে...</span></div>`;
-
-  try {
-    const seeds = Array.from({ length: count }, () => Math.floor(Math.random() * 999999));
-    const urls  = seeds.map(seed =>
-      `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=${w}&height=${h}&seed=${seed}&nologo=true`
-    );
-    let html = `<div style="margin-bottom:7px;font-size:10px;color:var(--muted)">প্রম্পট: <em style="color:var(--text2)">${escapeHtml(fullPrompt)}</em></div>`;
-    html += `<div class="ig-gallery">${urls.map((url, i) => {
-      const safeU = safeUrl(url);
-      return `<div class="ig-img-wrap">
-        <img src="${safeU}" alt="AI Image ${i+1}" loading="lazy"
-          onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;color:var(--muted);font-size:11px><i class=fa-solid fa-triangle-exclamation></i><br>লোড হয়নি</div>'"
-          onclick="openViewer('${safeU}')">
-        <div class="ig-img-overlay">
-          <button class="ig-overlay-btn" onclick="event.stopPropagation();downloadImg('${safeU}','img${i+1}')" title="ডাউনলোড"><i class="fa-solid fa-download"></i></button>
-          <button class="ig-overlay-btn" onclick="event.stopPropagation();openViewer('${safeU}')" title="বড় করুন"><i class="fa-solid fa-expand"></i></button>
-        </div>
-      </div>`;
-    }).join('')}</div>`;
-    document.getElementById('igOutput').innerHTML = html;
-    showToast(`${count}টি ছবি তৈরি হচ্ছে!`, 'success');
-  } catch (e) {
-    document.getElementById('igOutput').innerHTML = '<div style="color:var(--danger);font-size:12px;padding:12px">⚠️ ছবি তৈরিতে সমস্যা। আবার চেষ্টা করুন।</div>';
-    showToast('সমস্যা হয়েছে', 'error');
-  }
-  btn.disabled = false;
-  btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> তৈরি করুন';
-}
-
-function openViewer(src) {
-  const safe = safeUrl(src);
-  if (safe === '#') return;
-  document.getElementById('viewerImg').src = safe;
-  document.getElementById('imgViewer').classList.add('show');
-}
-function closeViewer() { document.getElementById('imgViewer').classList.remove('show'); }
-
-async function downloadImg(url, name) {
-  try {
-    const r = await fetch(url);
-    const b = await r.blob();
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(b);
-    a.download = `m-ai-${name}.jpg`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-    showToast('ডাউনলোড শুরু হয়েছে', 'success', 1500);
-  } catch {
-    window.open(url, '_blank');
-    showToast('ছবি নতুন ট্যাবে খুলছে', 'info');
-  }
-}
-
-// ===== WEB SEARCH =====
-async function doWebSearch() {
-  const q = sanitizeInput(document.getElementById('wsInput').value);
-  if (!q) { showToast('কিছু লিখুন', 'error'); return; }
-  const out = document.getElementById('wsOutput');
-  out.innerHTML = `<div class="ws-loading"><div class="ws-spinner"></div><span>সার্চ করছি...</span></div>`;
-
-  try {
-    const apiUrl = 'https://api.duckduckgo.com/?q=' + encodeURIComponent(q) + '&format=json&no_html=1&skip_disambig=1';
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
-    const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(9000) });
-    const data = await res.json();
-    const json = JSON.parse(data.contents);
-
-    let resultsHtml = '';
-    if (json.AbstractText) {
-      resultsHtml += `<div class="ws-ai-answer">
-        <div class="ws-ai-label"><i class="fa-solid fa-circle-nodes"></i> সংক্ষেপ</div>
-        <div class="ws-ai-text">${escapeHtml(json.AbstractText)}</div>
-        ${json.AbstractURL ? `<div style="margin-top:8px;font-size:10px"><a href="${safeUrl(json.AbstractURL)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">${escapeHtml(json.AbstractURL)}</a></div>` : ''}
-      </div>`;
-    }
-
-    const topics = (json.RelatedTopics || []).filter(t => t.FirstURL && t.Text).slice(0, 6);
-    topics.forEach(t => {
-      const source = escapeHtml(t.FirstURL.replace('https://','').split('/')[0]);
-      const title  = escapeHtml((t.Text.split(' - ')[0] || '').slice(0, 80));
-      const desc   = escapeHtml(t.Text.slice(0, 140));
-      resultsHtml += `<a class="ws-result-card" href="${safeUrl(t.FirstURL)}" target="_blank" rel="noopener noreferrer">
-        <div class="ws-result-source"><i class="fa-solid fa-link"></i>${source}</div>
-        <div class="ws-result-title">${title}</div>
-        <div class="ws-result-desc">${desc}...</div>
-      </a>`;
-    });
-
-    if (!json.AbstractText) {
-      resultsHtml = `<div class="ws-ai-answer">
-        <div class="ws-ai-label"><i class="fa-solid fa-robot"></i> AI উত্তর</div>
-        <div class="ws-ai-text" id="wsAiText"><div class="typing-dots"><span></span><span></span><span></span></div></div>
-      </div>` + resultsHtml;
-      out.innerHTML = resultsHtml;
-      await askAiForSearch(q);
-      return;
-    }
-    out.innerHTML = resultsHtml || `<div class="ws-empty"><i class="fa-solid fa-face-frown"></i><p>কোনো ফলাফল পাওয়া যায়নি</p></div>`;
-    showToast('সার্চ সম্পন্ন', 'success', 1500);
-  } catch (err) {
-    out.innerHTML = `<div class="ws-ai-answer">
-      <div class="ws-ai-label"><i class="fa-solid fa-robot"></i> AI উত্তর</div>
-      <div class="ws-ai-text" id="wsAiText"><div class="typing-dots"><span></span><span></span><span></span></div></div>
-    </div>`;
-    await askAiForSearch(q);
-  }
-}
-
-async function askAiForSearch(q) {
-  try {
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${OR_KEY}`,
-        "HTTP-Referer": location.origin || "https://mustkaim.github.io"
-      },
-      body: JSON.stringify({
-        model: OR_MODEL,
-        messages: [{ role: "user", content: `"${q}" সম্পর্কে বাংলায় সংক্ষিপ্ত ও তথ্যসমৃদ্ধ উত্তর দাও।` }],
-        max_tokens: 800
-      })
-    });
-    const d = await res.json();
-    const reply = d?.choices?.[0]?.message?.content || 'তথ্য পাওয়া যায়নি।';
-    const el = document.getElementById('wsAiText');
-    if (el) el.innerHTML = formatInline(reply);
-    showToast('সার্চ সম্পন্ন', 'success', 1500);
-  } catch {
-    const el = document.getElementById('wsAiText');
-    if (el) el.textContent = 'তথ্য লোড করতে সমস্যা হয়েছে।';
-  }
-}
-
-// ===== WEATHER =====
-function renderRecentCities() {
-  const el = document.getElementById('weatherRecent');
-  if (!recentCitiesArr.length) { el.innerHTML = ''; return; }
-  el.innerHTML = recentCitiesArr.slice(0, 5).map(c =>
-    `<span class="weather-recent-tag" onclick="document.getElementById('weatherInput').value='${escapeHtml(c)}';getWeather()">${escapeHtml(c)}</span>`
-  ).join('');
-}
-renderRecentCities();
-
-async function getWeather() {
-  const city = sanitizeInput(document.getElementById('weatherInput').value);
-  if (!city) { showToast('শহরের নাম লিখুন', 'error'); return; }
-  const out = document.getElementById('weatherOutput');
-  out.innerHTML = `<div class="ig-loading"><div class="ig-spinner" style="border-top-color:var(--accent5)"></div><span>আবহাওয়া লোড হচ্ছে...</span></div>`;
-
-  try {
-    const geoRes = await fetch(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`,
-      { signal: AbortSignal.timeout(9000) }
-    );
-    const geoData = await geoRes.json();
-    if (!geoData.results?.length) {
-      out.innerHTML = `<div class="weather-empty"><i class="fa-solid fa-location-xmark"></i><p>"${escapeHtml(city)}" খুঁজে পাওয়া যায়নি। সঠিক ইংরেজি নাম লিখুন।</p></div>`;
-      return;
-    }
-
-    const loc = geoData.results[0];
-    const { latitude: lat, longitude: lon, name, country, timezone } = loc;
-
-    const wRes = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code,apparent_temperature,precipitation,pressure_msl&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum&timezone=${encodeURIComponent(timezone || 'auto')}&forecast_days=7`,
-      { signal: AbortSignal.timeout(9000) }
-    );
-    const wData = await wRes.json();
-    const cur = wData.current;
-    const daily = wData.daily;
-
-    function wCode(code) {
-      if (code <= 1)  return { icon:'☀️', desc:'পরিষ্কার আকাশ' };
-      if (code <= 3)  return { icon:'⛅', desc:'আংশিক মেঘলা' };
-      if (code <= 48) return { icon:'🌫️', desc:'কুয়াশাচ্ছন্ন' };
-      if (code <= 57) return { icon:'🌧️', desc:'গুঁড়িগুঁড়ি বৃষ্টি' };
-      if (code <= 67) return { icon:'🌧️', desc:'বৃষ্টি' };
-      if (code <= 77) return { icon:'❄️', desc:'তুষারপাত' };
-      if (code <= 82) return { icon:'🌦️', desc:'বৃষ্টি' };
-      if (code <= 86) return { icon:'🌨️', desc:'তুষার ঝড়' };
-      if (code <= 99) return { icon:'⛈️', desc:'বজ্রঝড়' };
-      return { icon:'🌡️', desc:'অজানা' };
-    }
-
-    const w = wCode(cur.weather_code);
-    const days = ['রবি','সোম','মঙ্গল','বুধ','বৃহস্প','শুক্র','শনি'];
-
-    const forecastHtml = daily.time.slice(1,7).map((date, i) => {
-      const d = new Date(date);
-      const fw = wCode(daily.weather_code[i+1]);
-      return `<div class="wc-day">
-        <div class="wc-day-name">${days[d.getDay()]}</div>
-        <div class="wc-day-icon">${fw.icon}</div>
-        <div class="wc-day-temp">${Math.round(daily.temperature_2m_max[i+1])}°/<span style="color:var(--muted)">${Math.round(daily.temperature_2m_min[i+1])}°</span></div>
-      </div>`;
-    }).join('');
-
-    out.innerHTML = `<div class="weather-card">
-      <div class="wc-city">${escapeHtml(name)}</div>
-      <div class="wc-country"><i class="fa-solid fa-location-dot" style="color:var(--accent5)"></i>${escapeHtml(country)} · ${escapeHtml(timezone||'')}</div>
-      <div class="wc-main">
-        <div class="wc-icon-big">${w.icon}</div>
-        <div>
-          <div class="wc-temp">${Math.round(cur.temperature_2m)}°C</div>
-          <div class="wc-desc">${w.desc}</div>
-        </div>
-      </div>
-      <div class="wc-grid">
-        <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-temperature-half"></i> অনুভূত</div><div class="wc-stat-val">${Math.round(cur.apparent_temperature)}°C</div></div>
-        <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-droplet"></i> আর্দ্রতা</div><div class="wc-stat-val">${cur.relative_humidity_2m}%</div></div>
-        <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-wind"></i> বায়ুবেগ</div><div class="wc-stat-val">${cur.wind_speed_10m} km/h</div></div>
-        <div class="wc-stat"><div class="wc-stat-label"><i class="fa-solid fa-cloud-rain"></i> বৃষ্টি</div><div class="wc-stat-val">${cur.precipitation} mm</div></div>
-      </div>
-      <div class="wc-forecast">
-        <div class="wc-forecast-title"><i class="fa-solid fa-calendar-days"></i> আগামী ৬ দিনের পূর্বাভাস</div>
-        <div class="wc-forecast-row">${forecastHtml}</div>
-      </div>
-    </div>`;
-
-    if (!recentCitiesArr.includes(name)) {
-      recentCitiesArr.unshift(name);
-      recentCitiesArr = recentCitiesArr.slice(0, 5);
-      localStorage.setItem('smart_ai_cities', JSON.stringify(recentCitiesArr));
-      renderRecentCities();
-    }
-    showToast(`${name} এর আবহাওয়া লোড হয়েছে`, 'success');
-  } catch (err) {
-    out.innerHTML = `<div class="weather-empty"><i class="fa-solid fa-triangle-exclamation"></i><p>আবহাওয়া লোড করতে সমস্যা। ইন্টারনেট সংযোগ চেক করুন।</p></div>`;
-    showToast('সমস্যা হয়েছে', 'error');
-  }
-}
-
-// ===== PDF =====
-function handlePdfDrop(e) {
-  e.preventDefault();
-  document.getElementById('pdfDropZone').classList.remove('drag-over');
-  const f = e.dataTransfer.files[0];
-  if (f) handlePdfFile(f);
-}
-
-function handlePdfFile(file) {
-  if (!file) return;
-  const isAllowed = file.type === 'application/pdf' || file.type === 'text/plain' || file.name.endsWith('.txt') || file.name.endsWith('.pdf');
-  if (!isAllowed) { showToast('PDF বা TXT ফাইল সাপোর্ট করা হয়', 'error'); return; }
-  if (file.size > 10 * 1024 * 1024) { showToast('ফাইল সাইজ ১০MB এর কম হতে হবে', 'error'); return; }
-  pdfName = file.name;
-  const r = new FileReader();
-  if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
-    r.onload = e => { pdfText = e.target.result; showPdfLoaded(file); };
-    r.readAsText(file, 'UTF-8');
-  } else {
-    r.onload = e => {
-      const arr = new Uint8Array(e.target.result);
-      let extracted = '';
-      try {
-        const str = new TextDecoder('utf-8', { fatal: false }).decode(arr);
-        const matches = str.match(/\(([^)]{2,200})\)/g) || [];
-        extracted = matches.map(m => m.slice(1,-1)).filter(s => /[a-zA-Z\u0980-\u09FF]/.test(s) && s.length > 2).join(' ');
-        if (extracted.length < 50) {
-          extracted = str.replace(/[^\x20-\x7E\u0980-\u09FF\n]/g,' ').replace(/\s+/g,' ').slice(0, 8000);
+    function loadProfile(uid, email, name) {
+      if (live) {
+        db.collection("users").doc(uid).onSnapshot(doc => {
+          if (doc.exists) {
+            profile = doc.data();
+            if (profile.banned) { alert("Your account has been banned."); auth.signOut(); return; }
+            updateUI({ uid, email, name: profile.name || name });
+            updateReferral();
+          } else {
+            const refCode = new URLSearchParams(location.search).get("ref");
+            db.collection("users").doc(uid).set({
+              uid, email, name: name || "User", balance: 0, banned: false,
+              referralCode: uid.slice(0, 8), referredBy: refCode || null,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }
+        });
+      } else {
+        const users = get("users", {});
+        if (!users[uid]) {
+          const refCode = new URLSearchParams(location.search).get("ref");
+          users[uid] = {
+            uid, email, name: name || "Demo User", balance: 1.25, banned: false,
+            referralCode: uid.slice(0, 8), referredBy: refCode || null
+          };
+          set("users", users);
+          if (refCode) creditReferrer(refCode);
         }
-      } catch { extracted = 'টেক্সট এক্সট্র্যাক্ট করা যায়নি।'; }
-      pdfText = extracted.trim() || 'PDF থেকে টেক্সট পড়া যায়নি। স্ক্যান বা এনক্রিপ্টেড PDF হতে পারে।';
-      showPdfLoaded(file);
+        profile = users[uid];
+        updateUI({ uid, email, name: profile.name });
+        updateReferral();
+      }
+    }
+
+    function updateUI(u) {
+      const out = document.getElementById("auth-out");
+      const inn = document.getElementById("auth-in");
+      const bal = document.getElementById("user-balance");
+      const wbal = document.getElementById("wd-bal");
+      if (u) {
+        out.classList.add("hidden"); inn.classList.remove("hidden");
+        document.getElementById("avatar").textContent = (u.name || u.email || "U")[0].toUpperCase();
+        const b = "$" + Number(profile.balance || 0).toFixed(2);
+        bal.textContent = b; wbal.textContent = b;
+        loadSubs(); loadRedeem(); loadProof();
+      } else {
+        out.classList.remove("hidden"); inn.classList.add("hidden");
+        bal.textContent = "$0.00"; wbal.textContent = "$0.00";
+      }
+      updateWithdrawBtn();
+    }
+
+    function updateWithdrawBtn() {
+      const btn = document.getElementById("wd-btn");
+      const msg = document.getElementById("min-msg");
+      const bal = Number(profile.balance || 0);
+      if (bal < 5) {
+        btn.disabled = true; btn.classList.add("opacity-50");
+        btn.textContent = "Minimum $5 required";
+        msg.classList.remove("hidden");
+      } else {
+        btn.disabled = false; btn.classList.remove("opacity-50");
+        btn.textContent = "Submit Request";
+        msg.classList.add("hidden");
+      }
+    }
+
+    let authMode = "login";
+    function openAuth(m) {
+      authMode = m;
+      document.getElementById("auth-title").textContent = m === "register" ? "Create Account" : "Sign In";
+      document.getElementById("name-box").classList.toggle("hidden", m !== "register");
+      document.getElementById("a-btn").textContent = m === "register" ? "Register & Start" : "Sign In";
+      document.getElementById("sw-text").textContent = m === "register" ? "Already have an account?" : "Don't have an account?";
+      document.getElementById("sw-btn").textContent = m === "register" ? "Sign In" : "Register";
+      document.getElementById("auth-modal").classList.remove("hidden");
+    }
+    function closeAuth() { document.getElementById("auth-modal").classList.add("hidden"); }
+    function switchAuth() { openAuth(authMode === "login" ? "register" : "login"); }
+
+    async function doAuth(e) {
+      e.preventDefault();
+      const email = document.getElementById("a-email").value.trim();
+      const pass = document.getElementById("a-pass").value;
+      const name = document.getElementById("a-name").value.trim() || "User";
+      const btn = document.getElementById("a-btn");
+      btn.disabled = true; btn.textContent = "Please wait...";
+
+      try {
+        const ip = await getIP();
+        const did = deviceId();
+        const refCode = new URLSearchParams(location.search).get("ref");
+
+        if (live) {
+          if (authMode === "register") {
+            const res = await auth.createUserWithEmailAndPassword(email, pass);
+            await res.user.updateProfile({ displayName: name });
+            await db.collection("users").doc(res.user.uid).set({
+              uid: res.user.uid, name, email, balance: 0, banned: false,
+              referralCode: res.user.uid.slice(0, 8), referredBy: refCode || null,
+              ipAddress: ip, deviceId: did,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            if (refCode) creditReferrer(refCode);
+          } else {
+            await auth.signInWithEmailAndPassword(email, pass);
+            const u = auth.currentUser;
+            if (u) await db.collection("users").doc(u.uid).update({ ipAddress: ip, deviceId: did });
+          }
+        } else {
+          const uid = "u" + btoa(email).replace(/=/g, "").slice(0, 8);
+          const users = get("users", {});
+          if (authMode === "register" || !users[uid]) {
+            users[uid] = {
+              uid, email, name, balance: authMode === "register" ? 0.50 : 1.25, banned: false,
+              referralCode: uid.slice(0, 8), referredBy: refCode || null, ipAddress: ip, deviceId: did
+            };
+            set("users", users);
+            if (refCode) creditReferrer(refCode);
+          }
+          set("session", { uid, email, name: users[uid].name });
+          user = { uid, email, name: users[uid].name };
+          loadProfile(uid, email, users[uid].name);
+        }
+        closeAuth();
+      } catch (err) {
+        alert("Error: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = authMode === "register" ? "Register & Start" : "Sign In";
+      }
+    }
+
+    async function logout() {
+      if (live) await auth.signOut();
+      else localStorage.removeItem(K + "session");
+      user = null; profile = { balance: 0 };
+      updateUI(null);
+    }
+
+    // ================== REFERRAL ==================
+    function updateReferral() {
+      if (!user) return;
+      const code = profile.referralCode || (user.uid || "").slice(0, 8);
+      document.getElementById("ref-link").value = location.origin + location.pathname + "?ref=" + code;
+      document.getElementById("ref-count").textContent = profile.referralCount || 0;
+      document.getElementById("ref-earn").textContent = "$" + Number(profile.referralEarn || 0).toFixed(2);
+    }
+
+    function copyRef() {
+      const input = document.getElementById("ref-link");
+      input.select();
+      document.execCommand("copy");
+      alert("Referral link copied!");
+    }
+
+    async function creditReferrer(code) {
+      if (!code) return;
+      if (live) {
+        const snap = await db.collection("users").where("referralCode", "==", code).limit(1).get();
+        if (!snap.empty) {
+          const refUid = snap.docs[0].id;
+          await db.collection("users").doc(refUid).update({
+            balance: firebase.firestore.FieldValue.increment(0.10),
+            referralCount: firebase.firestore.FieldValue.increment(1),
+            referralEarn: firebase.firestore.FieldValue.increment(0.10)
+          });
+        }
+      }
+    }
+
+    // ================== TABS ==================
+    function tab(id) {
+      document.querySelectorAll(".pane").forEach(p => p.classList.add("hidden"));
+      document.getElementById("pane-" + id).classList.remove("hidden");
+      document.querySelectorAll(".nav-btn").forEach(b => {
+        const active = b.getAttribute("data-tab") === id;
+        b.classList.toggle("bg-brand-50", active);
+        b.classList.toggle("text-brand-700", active);
+        b.classList.toggle("text-slate-600", !active);
+      });
+      if (window.innerWidth < 1024) closeSidebar();
+      if (id === "surveys") loadOfferwalls();
+      if (id === "referral") updateReferral();
+      if (id === "history") loadRedeem();
+      if (id === "proof") loadProof();
+      if (id === "withdraw") updateWithdrawBtn();
+      lucide.createIcons();
+    }
+
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("hidden");
+      document.getElementById("backdrop").classList.toggle("hidden");
+    }
+    function closeSidebar() {
+      document.getElementById("sidebar").classList.add("hidden");
+      document.getElementById("backdrop").classList.add("hidden");
+    }
+
+    // ================== TASKS ==================
+    function loadTasks() {
+      if (live) {
+        db.collection("tasks").where("active", "==", true).onSnapshot(snap => {
+          tasks = [];
+          snap.forEach(d => tasks.push({ id: d.id, ...d.data() }));
+          renderTasks(tasks);
+        });
+      } else {
+        tasks = get("tasks", []);
+        renderTasks(tasks);
+      }
+    }
+
+    function renderTasks(list) {
+      const box = document.getElementById("tasks-box");
+      document.getElementById("task-count").textContent = list.length;
+      if (!list.length) {
+        box.innerHTML = '<div class="col-span-full py-12 text-center text-slate-400">No active tasks right now</div>';
+        return;
+      }
+      box.innerHTML = list.map(t => `
+        <div class="bg-white rounded-2xl border p-4 shadow-sm flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex gap-3">
+              <img src="${t.image || 'https://images.unsplash.com/photo-1611605698335-8b1569810432?w=120'}" class="w-12 h-12 rounded-xl object-cover" alt="">
+              <div class="min-w-0">
+                <div class="text-[10px] font-bold text-slate-400">${t.frequency || 'Once'}</div>
+                <div class="text-xs font-bold line-clamp-1">${t.title}</div>
+                <div class="text-[11px] text-slate-500 line-clamp-2">${t.description || ''}</div>
+              </div>
+            </div>
+            <div class="flex justify-between text-xs bg-slate-50 rounded-xl p-2">
+              <div><div class="text-[10px] text-slate-400">Reward</div><div class="font-black text-emerald-600">$${Number(t.reward || 0).toFixed(2)}</div></div>
+              <div><div class="text-[10px] text-slate-400">Time</div><div class="font-semibold">${t.takes || 120}s</div></div>
+            </div>
+          </div>
+          <button onclick="openTask('${t.id}')" class="mt-3 w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl">Start Task</button>
+        </div>
+      `).join("");
+    }
+
+    function filterTasks() {
+      const q = (document.getElementById("search").value || "").toLowerCase();
+      const s = document.getElementById("sort").value;
+      let f = tasks.filter(t => (t.title + " " + (t.description || "")).toLowerCase().includes(q));
+      if (s === "reward_desc") f.sort((a, b) => (b.reward || 0) - (a.reward || 0));
+      else if (s === "reward_asc") f.sort((a, b) => (a.reward || 0) - (b.reward || 0));
+      else f.sort((a, b) => (a.takes || 0) - (b.takes || 0));
+      renderTasks(f);
+    }
+
+    function openTask(id) {
+      if (!user) return openAuth("login");
+      const t = tasks.find(x => x.id === id);
+      if (!t) return;
+
+      document.getElementById("tm-id").value = t.id;
+      document.getElementById("tm-title").textContent = t.title;
+      document.getElementById("tm-reward").textContent = "Reward: $" + Number(t.reward || 0).toFixed(2);
+      document.getElementById("tm-time").textContent = (t.takes || 120) + " seconds";
+      document.getElementById("tm-type").textContent = t.creditType || "Manual Review";
+      document.getElementById("tm-inst").textContent = t.advInst || t.description || "Follow the instructions carefully.";
+
+      const linkBtn = document.getElementById("tm-link");
+      if (t.link && t.link.startsWith("http")) {
+        linkBtn.href = t.link;
+        linkBtn.classList.remove("opacity-50", "pointer-events-none");
+        linkBtn.innerHTML = '<i data-lucide="external-link" class="w-4 h-4"></i> Visit Offer Link';
+      } else {
+        linkBtn.href = "#";
+        linkBtn.classList.add("opacity-50", "pointer-events-none");
+        linkBtn.innerHTML = "Link not available";
+      }
+
+      document.getElementById("task-modal").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeTask() {
+      document.getElementById("task-modal").classList.add("hidden");
+      document.getElementById("tm-proof").value = "";
+      document.getElementById("tm-file").value = "";
+    }
+
+    async function submitProof(e) {
+      e.preventDefault();
+      if (!user) return;
+      const id = document.getElementById("tm-id").value;
+      const proof = document.getElementById("tm-proof").value.trim();
+      const file = document.getElementById("tm-file").files[0];
+      const t = tasks.find(x => x.id === id) || { title: "Task", reward: 0.25 };
+
+      let imgUrl = "";
+      if (file && live && storage) {
+        try {
+          const ref = storage.ref("proofs/" + user.uid + "_" + Date.now());
+          const snap = await ref.put(file);
+          imgUrl = await snap.ref.getDownloadURL();
+        } catch (err) {}
+      }
+
+      const sub = {
+        id: "sub_" + Date.now(),
+        userId: user.uid,
+        userEmail: user.email || "",
+        taskId: t.id,
+        taskTitle: t.title,
+        reward: t.reward || 0.25,
+        proof,
+        proofImageURL: imgUrl,
+        status: "pending",
+        submittedAt: new Date().toISOString()
+      };
+
+      if (live) {
+        await db.collection("submissions").doc(sub.id).set({
+          ...sub,
+          submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      } else {
+        const list = get("submissions", []);
+        list.unshift(sub);
+        set("submissions", list);
+      }
+
+      alert("Proof submitted successfully! Please wait for review (usually 12-24 hours).");
+      closeTask();
+      loadSubs();
+    }
+
+    function loadSubs() {
+      if (!user) return;
+      const tb = document.getElementById("subs-table");
+      if (live) {
+        db.collection("submissions").where("userId", "==", user.uid).onSnapshot(snap => {
+          const list = [];
+          snap.forEach(d => list.push(d.data()));
+          renderSubs(list);
+        });
+      } else {
+        renderSubs(get("submissions", []).filter(s => s.userId === user.uid));
+      }
+    }
+
+    function renderSubs(list) {
+      const tb = document.getElementById("subs-table");
+      if (!list.length) {
+        tb.innerHTML = '<tr><td colspan="4" class="py-8 text-center text-slate-400">No submissions yet</td></tr>';
+        return;
+      }
+      tb.innerHTML = list.map(s => {
+        const cls = s.status === "approved" ? "bg-emerald-100 text-emerald-800" :
+                    s.status === "rejected" ? "bg-rose-100 text-rose-800" : "bg-amber-100 text-amber-800";
+        return `<tr>
+          <td class="py-2.5 px-3 font-semibold">${s.taskTitle || s.taskId}</td>
+          <td class="py-2.5 px-3 font-bold text-emerald-600">$${Number(s.reward || 0).toFixed(2)}</td>
+          <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${cls}">${s.status}</span></td>
+          <td class="py-2.5 px-3 text-slate-400 text-[11px]">${s.submittedAt ? new Date(s.submittedAt).toLocaleDateString() : "-"}</td>
+        </tr>`;
+      }).join("");
+    }
+
+    // ================== OFFERWALL (UPDATED & FIXED) ==================
+    async function loadOfferwalls() {
+      const box = document.getElementById("offerwalls");
+      const tabs = document.getElementById("wall-tabs");
+
+      if (!user) {
+        box.innerHTML = `<div class="text-center py-12 text-slate-400 text-xs">
+          <p class="font-bold mb-2">Please login to access OfferWalls</p>
+          <button onclick="openAuth('login')" class="px-4 py-2 bg-brand-600 text-white rounded-lg font-bold">Login Now</button>
+        </div>`;
+        if (tabs) tabs.innerHTML = "";
+        return;
+      }
+
+      // Load config
+      offerwallConfig = {};
+      if (live) {
+        try {
+          const doc = await db.collection("settings").doc("general").get();
+          if (doc.exists && doc.data().offerwall) {
+            offerwallConfig = doc.data().offerwall;
+          }
+        } catch (e) {
+          console.error("Error loading offerwall config:", e);
+        }
+      } else {
+        offerwallConfig = get("offerwall", {}) || {};
+      }
+
+      const networks = [
+        { key: "adscend",   name: "Adscend Media" },
+        { key: "bitlabs",   name: "BitLabs" },
+        { key: "cpx",       name: "CPX Research" },
+        { key: "offertoro", name: "OfferToro" },
+        { key: "adgate",    name: "AdGate Media" },
+        { key: "monlix",    name: "Monlix" },
+        { key: "cpagrip",   name: "CPAGrip" }
+      ];
+
+      // Enable filtering: show if enabled or config present
+      const available = networks.filter(n => {
+        const cfg = offerwallConfig[n.key];
+        if (!cfg) return false;
+        return cfg.enabled !== false;
+      });
+
+      if (available.length === 0) {
+        box.innerHTML = `<div class="text-center py-12 text-slate-400 text-xs">
+          <p class="font-bold mb-1">No OfferWall enabled yet</p>
+          <p>Admin can enable networks from Admin Panel → OfferWall Settings</p>
+        </div>`;
+        if (tabs) tabs.innerHTML = "";
+        return;
+      }
+
+      // Build tabs
+      if (tabs) {
+        tabs.innerHTML = available.map((n, i) => `
+          <button onclick="showWall('${n.key}')" id="tab-${n.key}"
+            class="wall-tab px-3 py-1.5 rounded-lg text-xs font-bold ${i === 0 ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-600'}">
+            ${n.name}
+          </button>
+        `).join("");
+      }
+
+      // Show first wall
+      showWall(available[0].key);
+    }
+
+            function showWall(key) {
+      document.querySelectorAll(".wall-tab").forEach(b => {
+        b.classList.remove("bg-brand-600", "text-white");
+        b.classList.add("bg-slate-100", "text-slate-600");
+      });
+      const activeTab = document.getElementById("tab-" + key);
+      if (activeTab) {
+        activeTab.classList.remove("bg-slate-100", "text-slate-600");
+        activeTab.classList.add("bg-brand-600", "text-white");
+      }
+
+      const box = document.getElementById("offerwalls");
+      const cfg = offerwallConfig[key] || {};
+      const uid = user ? user.uid : "guest";
+
+      let finalUrl = "";
+
+      // 1. Custom URL
+      if (cfg.customUrl && cfg.customUrl.trim().startsWith("http")) {
+        finalUrl = cfg.customUrl
+          .replace(/{USER_ID}/g, uid)
+          .replace(/{UID}/g, uid)
+          .replace(/{user_id}/g, uid)
+          .replace(/{tracking_id}/g, uid);
+      } 
+      // 2. CPAGrip Special Logic
+      else if (key === "cpagrip") {
+        const inputVal = cfg.pubId || cfg.appId || "";
+        if (inputVal.startsWith("http")) {
+          finalUrl = inputVal + (inputVal.includes("?") ? "&" : "?") + "tracking_id=" + uid;
+        } else if (inputVal) {
+          finalUrl = `https://www.cpagrip.com/show.php?l=0&u=${inputVal}&id=1912566&tracking_id=${uid}`;
+        }
+      }
+      // 3. Other Networks
+      else if (key === "adscend") {
+        finalUrl = `https://adscendmedia.com/adwall/publisher/${cfg.pubId || ''}/profile/${cfg.profileId || '1'}?subid1=${uid}`;
+      } 
+      else if (key === "bitlabs") {
+        finalUrl = `https://web.bitlabs.ai/?token=${cfg.token || cfg.pubId || ''}&uid=${uid}`;
+      } 
+      else if (key === "cpx") {
+        finalUrl = `https://offers.cpx-research.com/index.php?app_id=${cfg.pubId || cfg.appId || ''}&ext_user_id=${uid}`;
+      } 
+      else if (key === "offertoro") {
+        finalUrl = `https://www.offertoro.com/ifr/show/${cfg.pubId || ''}/${uid}/0`;
+      } 
+      else if (key === "adgate") {
+        finalUrl = `https://wall.adgaterewards.com/${cfg.pubId || cfg.wallCode || ''}/${uid}`;
+      } 
+      else if (key === "monlix") {
+        finalUrl = `https://offers.monlix.com/?appid=${cfg.appId || cfg.pubId || ''}&userid=${uid}`;
+      }
+
+      // Check if URL available
+      if (!finalUrl && !cfg.pubId && !cfg.appId && !cfg.customUrl) {
+        box.innerHTML = `<div class="text-center py-10 text-slate-400 text-xs">
+          <p class="font-bold text-slate-600 mb-1">${key.toUpperCase()} Is Active</p>
+          <p>Please configure the OfferWall URL/ID in the Admin Panel.</p>
+        </div>`;
+        return;
+      }
+
+      // CPAGrip & Restricted Networks: Open via Button Card (Prevents "File not found" / Blank Screen)
+      if (key === "cpagrip" || cfg.openExternal) {
+        box.innerHTML = `
+          <div class="bg-white border rounded-2xl p-6 text-center space-y-4 max-w-md mx-auto my-6 shadow-sm">
+            <div class="w-12 h-12 bg-blue-50 text-brand-600 rounded-full flex items-center justify-center mx-auto text-xl font-bold">
+              <i data-lucide="external-link" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h3 class="font-black text-base text-slate-800">${key.toUpperCase()} Offers</h3>
+              <p class="text-xs text-slate-500 mt-1">Complete offers directly on the partner portal to get credited.</p>
+            </div>
+            <a href="${finalUrl}" target="_blank" rel="noopener noreferrer" 
+               class="inline-flex items-center justify-center gap-2 w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs shadow-md transition-all">
+              <span>Open ${key.toUpperCase()} Offers</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      // Default iFrame Rendering
+      box.innerHTML = `
+        <div class="bg-slate-50 border border-dashed border-slate-300 rounded-xl p-2 mb-3 text-[11px] text-slate-500 text-center">
+          Offers loaded from partner network. Complete offers to earn. Credits may take a few minutes.
+        </div>
+        <iframe class="offer-iframe" src="${finalUrl}" allowfullscreen loading="lazy" style="width:100%; min-height:700px; border:none; border-radius:12px;"></iframe>
+      `;
+    }
+
+
+
+    // ================== BONUS TIMER ==================
+    function startTimer(idx, amount) {
+      if (!user) return alert("Please log in first");
+      const btn = document.getElementById("b" + idx);
+      const timer = document.getElementById("t" + idx);
+      if (btn.disabled) return;
+
+      btn.disabled = true;
+      btn.textContent = "Waiting...";
+      timer.classList.remove("hidden");
+
+      const start = Date.now();
+      const interval = setInterval(() => {
+        const left = Math.ceil((15000 - (Date.now() - start)) / 1000);
+        if (left > 0) {
+          timer.innerHTML = `Wait <span class="font-bold text-purple-600">${left}</span>s`;
+        } else {
+          clearInterval(interval);
+          creditUser(user.uid, amount);
+          btn.textContent = "Claimed!";
+          timer.classList.add("hidden");
+        }
+      }, 250);
+    }
+
+    window.creditUser = async function(uid, amount) {
+      if (!uid) return;
+      profile.balance = Number(profile.balance || 0) + Number(amount);
+      updateUI(user);
+      if (live) {
+        await db.collection("users").doc(uid).update({
+          balance: firebase.firestore.FieldValue.increment(Number(amount))
+        });
+      } else {
+        const users = get("users", {});
+        if (users[uid]) {
+          users[uid].balance = profile.balance;
+          set("users", users);
+        }
+      }
+      alert("+$" + Number(amount).toFixed(2) + " credited to your balance!");
     };
-    r.readAsArrayBuffer(file);
-  }
-}
 
-function showPdfLoaded(file) {
-  document.getElementById('pdfDropZone').style.display = 'none';
-  const loaded = document.getElementById('pdfLoaded');
-  loaded.style.display = 'flex';
-  const preview   = escapeHtml(pdfText.slice(0, 500) + (pdfText.length > 500 ? '...' : ''));
-  const wordCount = pdfText.split(' ').filter(w => w).length;
-  const pageEst   = Math.ceil(wordCount / 250);
+    // ================== WITHDRAW ==================
+    async function doWithdraw(e) {
+      e.preventDefault();
+      if (!user) return alert("Please log in first");
 
-  loaded.innerHTML = `
-    <div class="pdf-loaded-card">
-      <div class="pdf-icon-big"><i class="fa-solid fa-file-${file.type === 'text/plain' ? 'lines' : 'pdf'}"></i></div>
-      <div class="pdf-info">
-        <div class="pdf-name">${escapeHtml(pdfName)}</div>
-        <div class="pdf-size">${(file.size/1024).toFixed(1)} KB · ${pdfText.length.toLocaleString()} অক্ষর</div>
-      </div>
-      <button class="pdf-remove" onclick="resetPdf()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div class="pdf-stats">
-      <div class="pdf-stat"><i class="fa-solid fa-file-lines"></i> ${pageEst} পেজ (আনুমানিক)</div>
-      <div class="pdf-stat"><i class="fa-solid fa-font"></i> ${wordCount.toLocaleString()} শব্দ</div>
-    </div>
-    ${pdfText.length > 10 ? `<div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.8px">পূর্বরূপ</div>
-    <div class="pdf-content-box">${preview}</div>` : ''}
-    <div class="pdf-ask-row">
-      <input class="pdf-ask-input" id="pdfQuestion" placeholder="এই ফাইল সম্পর্কে প্রশ্ন করুন..." onkeydown="if(event.key==='Enter')askPdf()">
-      <button class="pdf-ask-btn" onclick="askPdf()"><i class="fa-solid fa-paper-plane"></i> জিজ্ঞেস করুন</button>
-    </div>
-    <div id="pdfAnswer"></div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap">
-      <span class="ig-tag" onclick="document.getElementById('pdfQuestion').value='এই ফাইলটি সারসংক্ষেপ করো';askPdf()">📋 সারসংক্ষেপ</span>
-      <span class="ig-tag" onclick="document.getElementById('pdfQuestion').value='মূল বিষয়গুলো কী কী?';askPdf()">🔑 মূল বিষয়</span>
-      <span class="ig-tag" onclick="document.getElementById('pdfQuestion').value='এই ফাইল থেকে ৫টি গুরুত্বপূর্ণ তথ্য দাও';askPdf()">⭐ গুরুত্বপূর্ণ তথ্য</span>
-    </div>`;
-  showToast(`"${pdfName}" লোড হয়েছে`, 'success');
-}
+      const method = document.getElementById("wd-method").value;
+      const account = document.getElementById("wd-acc").value.trim();
+      const amount = parseFloat(document.getElementById("wd-amt").value);
+      const bal = Number(profile.balance || 0);
 
-function resetPdf() {
-  pdfText = ''; pdfName = '';
-  document.getElementById('pdfDropZone').style.display = '';
-  document.getElementById('pdfLoaded').style.display = 'none';
-  document.getElementById('pdfLoaded').innerHTML = '';
-  document.getElementById('pdfInput').value = '';
-}
+      if (amount < 5) return alert("Minimum withdrawal is $5.00");
+      if (amount > bal) return alert("Insufficient balance");
 
-async function askPdf() {
-  const q = sanitizeInput(document.getElementById('pdfQuestion')?.value || '');
-  if (!q) { showToast('প্রশ্ন লিখুন', 'error'); return; }
-  if (!pdfText) { showToast('প্রথমে ফাইল আপলোড করুন', 'error'); return; }
-  const ansEl = document.getElementById('pdfAnswer');
-  ansEl.innerHTML = `<div class="pdf-answer"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+      const rec = {
+        id: "wd_" + Date.now(),
+        userId: user.uid,
+        userEmail: user.email || "",
+        method,
+        account,
+        amount,
+        status: "pending",
+        createdAt: new Date().toISOString()
+      };
 
-  try {
-    const context = pdfText.slice(0, 6000);
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${OR_KEY}`,
-        "HTTP-Referer": location.origin || "https://mustkaim.github.io"
-      },
-      body: JSON.stringify({
-        model: OR_MODEL,
-        messages: [
-          { role: "system", content: `তুমি একটি ডকুমেন্ট বিশ্লেষণকারী AI। নিচের ডকুমেন্টের তথ্য ব্যবহার করে বাংলায় উত্তর দাও।\n\nডকুমেন্ট:\n${context}` },
-          { role: "user", content: q }
-        ],
-        max_tokens: 1000
-      })
+      if (live) {
+        await db.collection("withdraws").doc(rec.id).set({
+          ...rec,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        await db.collection("users").doc(user.uid).update({
+          balance: firebase.firestore.FieldValue.increment(-amount)
+        });
+      } else {
+        const list = get("withdraws", []);
+        list.unshift(rec);
+        set("withdraws", list);
+        profile.balance -= amount;
+        const users = get("users", {});
+        if (users[user.uid]) users[user.uid].balance = profile.balance;
+        set("users", users);
+        updateUI(user);
+      }
+
+      alert("Withdrawal request submitted successfully!");
+      e.target.reset();
+      loadRedeem();
+      updateWithdrawBtn();
+    }
+
+    function loadRedeem() {
+      if (!user) return;
+      const tb = document.getElementById("redeem-table");
+      if (live) {
+        db.collection("withdraws").where("userId", "==", user.uid).get().then(snap => {
+          const list = [];
+          snap.forEach(d => list.push(d.data()));
+          renderRedeem(list);
+        });
+      } else {
+        renderRedeem(get("withdraws", []).filter(w => w.userId === user.uid));
+      }
+    }
+
+    function renderRedeem(list) {
+      const tb = document.getElementById("redeem-table");
+      if (!list.length) {
+        tb.innerHTML = '<tr><td colspan="4" class="py-6 text-center text-slate-400">No withdrawal records</td></tr>';
+        return;
+      }
+      tb.innerHTML = list.map(w => {
+        const cls = (w.status === "approved" || w.status === "paid") ? "bg-emerald-100 text-emerald-800" :
+                    w.status === "rejected" ? "bg-rose-100 text-rose-800" : "bg-amber-100 text-amber-800";
+        return `<tr>
+          <td class="py-2.5 px-3">${w.method}</td>
+          <td class="py-2.5 px-3 truncate max-w-[120px]">${w.account}</td>
+          <td class="py-2.5 px-3 font-bold text-emerald-600">$${Number(w.amount || 0).toFixed(2)}</td>
+          <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${cls}">${w.status}</span></td>
+        </tr>`;
+      }).join("");
+    }
+
+    function loadProof() {
+      const tb = document.getElementById("proof-table");
+      if (live) {
+        db.collection("withdraws").limit(20).get().then(snap => {
+          const list = [];
+          snap.forEach(d => list.push(d.data()));
+          renderProof(list.slice(0, 10));
+        });
+      } else {
+        renderProof(get("withdraws", []).slice(0, 10));
+      }
+    }
+
+    function renderProof(list) {
+      const tb = document.getElementById("proof-table");
+      if (!list.length) {
+        tb.innerHTML = '<tr><td colspan="4" class="py-6 text-center text-slate-400">No public records yet</td></tr>';
+        return;
+      }
+      tb.innerHTML = list.map(w => {
+        let date = "Recent";
+        if (w.createdAt) {
+          date = w.createdAt.seconds
+            ? new Date(w.createdAt.seconds * 1000).toLocaleDateString()
+            : new Date(w.createdAt).toLocaleDateString();
+        }
+        const status = (w.status === "pending") ? "Pending" : "Paid";
+        return `<tr>
+          <td class="py-2.5 px-3 text-slate-500">${date}</td>
+          <td class="py-2.5 px-3">${w.method || "-"}</td>
+          <td class="py-2.5 px-3 font-bold text-emerald-600">$${Number(w.amount || 0).toFixed(2)}</td>
+          <td class="py-2.5 px-3"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-[10px] font-bold">${status}</span></td>
+        </tr>`;
+      }).join("");
+    }
+
+    // ================== INIT ==================
+    document.addEventListener("DOMContentLoaded", () => {
+      initAuth();
+      loadTasks();
+      lucide.createIcons();
     });
-    const d = await res.json();
-    const reply = d?.choices?.[0]?.message?.content || 'উত্তর পাওয়া যায়নি।';
-    ansEl.innerHTML = `<div class="pdf-answer">${formatInline(reply)}</div>`;
-    document.getElementById('pdfQuestion').value = '';
-    showToast('উত্তর পাওয়া গেছে', 'success', 1500);
-  } catch {
-    ansEl.innerHTML = `<div class="pdf-answer" style="color:var(--danger)">⚠️ সমস্যা হয়েছে। আবার চেষ্টা করুন।</div>`;
-  }
-}
-
-// ===== VOICE =====
-function toggleVoice() {
-  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-    showToast('ভয়েস সাপোর্ট নেই এই ব্রাউজারে', 'error');
-    return;
-  }
-  if (isListening) { stopVoice(); return; }
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SR();
-  recognition.lang = 'bn-BD';
-  recognition.interimResults = true;
-  recognition.continuous = false;
-  recognition.onstart = () => {
-    isListening = true;
-    voiceBtn.classList.add('active');
-    voiceIndicator.classList.add('show');
-  };
-  recognition.onresult = e => {
-    let t = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) t += e.results[i][0].transcript;
-    inputEl.value = t;
-    inputEl.style.height = 'auto';
-    inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
-  };
-  recognition.onend = () => { stopVoice(); if (inputEl.value.trim()) sendMessage(); };
-  recognition.onerror = () => stopVoice();
-  recognition.start();
-}
-
-function stopVoice() {
-  isListening = false;
-  voiceBtn.classList.remove('active');
-  voiceIndicator.classList.remove('show');
-  if (recognition) { try { recognition.stop(); } catch {} recognition = null; }
-}
-
-// ===== MODAL =====
-function showModal() { document.getElementById('proModal').classList.add('active'); goTo(1); }
-document.getElementById('modalCloseBtn').addEventListener('click', () => document.getElementById('proModal').classList.remove('active'));
-document.getElementById('proModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('proModal')) document.getElementById('proModal').classList.remove('active');
-});
-document.getElementById('proCard').addEventListener('click', e => e.stopPropagation());
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeViewer();
-    document.getElementById('proModal').classList.remove('active');
-  }
-});
-
-function goTo(step) {
-  currentStep = step;
-  const map = { 1:'stepPlans', 2:'stepMethods', 3:'stepDeposit', 4:'stepSuccess' };
-  Object.values(map).forEach(id => document.getElementById(id)?.classList.remove('active'));
-  document.getElementById(map[step])?.classList.add('active');
-  document.getElementById('sd1').className = 'step-dot ' + (step > 1 ? 'done' : 'active');
-  document.getElementById('sd2').className = 'step-dot ' + (step > 2 ? 'done' : step === 2 ? 'active' : '');
-  document.getElementById('sd3').className = 'step-dot ' + (step >= 3 ? 'active' : '');
-}
-
-function selectPlan(name, priceBDT, priceUSD) {
-  selectedPlan = { name, priceBDT, priceUSD };
-  const grid = document.getElementById('methodGrid');
-  grid.innerHTML = '';
-  Object.keys(paymentSettings).forEach(k => {
-    const gw = paymentSettings[k];
-    const el = document.createElement('div');
-    el.className = 'method-item';
-    el.onclick = () => selectMethod(k, gw);
-    el.innerHTML = `<div class="method-left">
-      <div class="method-logo">
-        <img src="${escapeHtml(gw.logo)}" alt="${escapeHtml(k)}"
-          onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\\'fa-solid fa-wallet\\' style=\\'color:var(--accent);font-size:18px\\'></i>'">
-      </div>
-      <div>
-        <div class="method-name">${escapeHtml(k)}</div>
-        <div class="method-type">${escapeHtml(gw.type || 'Mobile Banking')}</div>
-      </div>
-    </div>
-    <i class="fa-solid fa-chevron-right" style="color:var(--muted);font-size:11px"></i>`;
-    grid.appendChild(el);
-  });
-  goTo(2);
-}
-
-function selectMethod(name, gw) {
-  selectedMethod = { name, gw };
-  document.getElementById('depositPlanLabel').textContent = `${selectedPlan.name} — ৳${selectedPlan.priceBDT} / $${selectedPlan.priceUSD}`;
-  document.getElementById('depositMethodName').textContent = `${name} (${gw.type||''})`;
-  document.getElementById('depositNumber').textContent = gw.number;
-  document.getElementById('copyBtn').className = 'copy-btn';
-  document.getElementById('copyBtn').innerHTML = '<i class="fa-regular fa-copy"></i> কপি';
-  document.getElementById('trxInput').value = '';
-  document.getElementById('trxInput').className = 'trx-field';
-  goTo(3);
-}
-
-function copyNumber() {
-  const num = document.getElementById('depositNumber').textContent;
-  const fallback = () => {
-    const ta = document.createElement('textarea');
-    ta.value = num; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
-    document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); } catch {}
-    document.body.removeChild(ta);
-    showToast('নম্বর কপি হয়েছে', 'success', 1500);
-  };
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(num).then(() => {
-      const btn = document.getElementById('copyBtn');
-      btn.className = 'copy-btn copied';
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> হয়েছে';
-      setTimeout(() => { btn.className = 'copy-btn'; btn.innerHTML = '<i class="fa-regular fa-copy"></i> কপি'; }, 2500);
-      showToast('নম্বর কপি হয়েছে', 'success', 1500);
-    }).catch(fallback);
-  } else { fallback(); }
-}
-
-function submitPayment() {
-  const f   = document.getElementById('trxInput');
-  const trx = sanitizeInput(f.value);
-  if (!trx || trx.length < 4) {
-    f.className = 'trx-field error';
-    f.focus();
-    setTimeout(() => f.className = 'trx-field', 2000);
-    showToast('সঠিক TrxID লিখুন (কমপক্ষে ৪ অক্ষর)', 'error');
-    return;
-  }
-  try {
-    if (db) db.ref('payments').push({
-      plan: selectedPlan.name,
-      priceBDT: selectedPlan.priceBDT,
-      method: selectedMethod.name,
-      number: selectedMethod.gw?.number || '',
-      trxId: trx,
-      timestamp: Date.now(),
-      status: 'pending'
-    });
-  } catch (e) { console.warn('Firebase write failed:', e); }
-  goTo(4);
-}
-</script>
+  </script>
 </body>
 </html>
